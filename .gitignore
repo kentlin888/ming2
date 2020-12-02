@@ -1,0 +1,24 @@
+# 檔案名稱 .gitignore
+
+# 忽略 secret.yml 檔案
+# secret.yml
+
+# 忽略 config 目錄下的 database.yml 檔案
+# config/database.yml
+
+# 忽略所有 db 目錄下附檔名是 .sqlite3 的檔案
+# /db/*.sqlite3
+
+# 忽略所有附檔名是 .tmp 的檔案
+# *.tmp
+
+# ./src/lib/ming1-d8ff5-firebase-adminsdk-tp6g4-c53a13e404.json
+adminKeys/*
+dist/*
+docs/*
+node_modules/*
+src/js/firebase/Firebase.js
+
+
+# 該如何清除忽略的檔案？
+# $ git clean -fX 

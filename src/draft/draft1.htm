@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        .bd1 {
+            border: 2px solid red;
+            margin: 10px;
+        }
+
+        .bd2 {
+            border: 2px solid yellow;
+            margin: 10px;
+        }
+
+        .bd3 {
+            border: 2px solid lime;
+            margin: 10px;
+        }
+
+        .bd4 {
+            border: 2px solid blueviolet;
+            margin: 10px;
+        }
+
+        .bd5 {
+            border: 2px solid orange;
+            margin: 10px;
+        }
+
+        .height800 {
+            height: 800px;
+        }
+
+        .productCard {
+            width: 100px;
+            height: 100px;
+        }
+
+        .boxCategory {
+            display: flex;
+
+        }
+
+        .boxViewProducts {
+            width: 400px;
+        }
+        .boxAll{
+            position: relative;
+        }
+        .boxShopcart{
+            position:fixed;
+            right: 10px;
+            width: 240px;
+            height: 400px;
+        }
+    </style>
+    <link rel="stylesheet" href="./draft1.css">
+</head>
+
+<body>
+    <div class="boxAll">
+        <div class="bd5 boxShopcart">shopcart
+            
+            <div class="bd2">
+                <div>
+                    牛肉麵
+                </div>
+                
+                <div>單價:$50</div>
+                <div>金額小計:$150</div>
+                <button>-</button>
+                <span>採購數量:3</span>
+                <button>+</button>
+            </div>
+
+            <div class="bd2">
+                <div>
+                    牛肉麵
+                </div>
+                <div>採購數量:3</div>
+                <div>單價:$50</div>
+                <div>金額小計:$150</div>
+            </div>
+
+            <div class="bd2">
+                <div>
+                    牛肉麵
+                </div>
+                <div>採購數量:3</div>
+                <div>單價:$50</div>
+                <div>金額小計:$150</div>
+            </div>
+
+            <div>
+                訂單總計金額:$27000                
+            </div>
+            <div>
+                <button>結帳</button>
+            </div>
+        </div>
+        <div class="bd4 height800 boxViewProducts">
+            <div class="bd1">
+                address area
+            </div>
+            <div class="bd2">
+                category buttons
+            </div>
+
+            <div>
+                catgory card -- 牛肉類
+                <div class="bd3 boxCategory">
+
+                    <div class="bd4 productCard">
+                        牛肉乾
+                        <button> + </button>
+                        <div>price:$50</div>
+                        <div>img...</div>
+                    </div>
+                    <div class="bd4 productCard">
+                        牛肉麵
+                        
+                    </div>
+                    <div class="bd4 productCard">
+                        牛肉餅
+                        
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                catgory card -- 牛肉類
+                <div class="bd3 boxCategory">
+
+                    <div class="bd4 productCard">
+                        牛肉乾
+                    </div>
+                    <div class="bd4 productCard">
+                        牛肉麵
+                    </div>
+                    <div class="bd4 productCard">
+                        牛肉餅
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+    <script src="./draft1.js"></script>
+</body>
+
+</html>
