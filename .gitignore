@@ -14,8 +14,10 @@
 
 # ./src/lib/ming1-d8ff5-firebase-adminsdk-tp6g4-c53a13e404.json
 adminKeys/*
+adminTools/*
 dist/*
 docs/*
+jsdoc/*
 node_modules/*
 src/js/firebase/Firebase.js
 

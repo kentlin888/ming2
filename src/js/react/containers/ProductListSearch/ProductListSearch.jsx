@@ -269,8 +269,8 @@ export class App extends Component {
         // console.log("LOG:: App -> render -> this.groupedProducts5555", this.state.groupedProducts)
         const { productList } = this.props
         let userAddress = '';
-        if (window.app.userData && window.app.userData.doc && window.app.userData.doc.userProfile)
-            userAddress = window.app.userData.doc.userProfile.address
+        if (window.app.userData && window.app.userData && window.app.userData.userProfile)
+            userAddress = window.app.userData.userProfile.address
         // console.log("LOG: ~ file: ProductListSearch.jsx ~ line 273 ~ App ~ render ~ window.app.userData.userProfile", window.app.userData.userProfile)
 
 

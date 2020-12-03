@@ -306,9 +306,36 @@ export class UserData{
     /**@prop {string} */
     photoURL= ""
     /**@prop {string} */
-    providerId= ""
+    //providerId= ""
+    get providerId() {
+        if(this.listProviderId.length === 0)
+            return null;
+        //find google providerId
+        let findGoogle = this.listProviderId.find((item) => {
+            if(item === 'google.com')
+                return true // return 'google.com'
+        })
+        if(findGoogle)// type string
+            return 'google.com'
+        else//undefined
+            return 'password'
+    }
     /**@prop {string} */
     email= ""
+    /**
+     * @function
+     * @param {Array} AuthUserProviderData 
+     */
+    static getListProviderId_ByAuthUserProviderData(AuthUserProviderData){
+        let arrayData = AuthUserProviderData;
+        let listProviderId = arrayData.map((item) => {
+            return item.providerId;
+        })
+        return listProviderId;
+    }
+    /**@prop {string[]} */
+    listProviderId = []
+    
 }
 /**
  * @class

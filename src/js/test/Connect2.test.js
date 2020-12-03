@@ -1,3 +1,4 @@
+
 describe('Connect2.test.js', () => {
 
     it('plain object vs class object', () => {
@@ -35,99 +36,7 @@ describe('Connect2.test.js', () => {
 
         }
     })
-    it('recursively convert to plain object', () => {
-        let ktjs3 = require('../../../../ktjs3.js')
-        console.log("LOG: ~ file: Connect2.test.js ~ line 45 ~ it ~ ktjs3", ktjs3.TypeOf)
-
-        class AA {
-            name = "John"
-            age = 25
-            aFunc = function () {
-                let ii = 55
-            }
-        }
-        class BB {
-            aa = new AA()
-            address = 'XXXXX'
-            obj1 = {}
-        }
-        class CC {
-            bb = new BB()
-            school = "XSXSXS"
-            obj2 = {}
-            arry1 = [{
-                    yt: 5,
-                    func1: function () {
-                        let ccd = 2
-                    }
-                },
-                new AA(),
-                //function func3(){}
-            ]
-        }
-        let cc = new CC()
-
-        function recursiveLeafNode(leafNode) {
-            //search object props
-            //let keys = Object.getOwnPropertyNames(leafNode)// leafNode prop names [Array]
-            for (let keyName in leafNode) {
-                let value = leafNode[keyName]
-                if (ktjs3.TypeOf(value) == ktjs3.ENUM_TypeOf.objectClass |
-                    ktjs3.TypeOf(value) == ktjs3.ENUM_TypeOf.objectPlain) {
-                    recursiveLeafNode(value)
-                    if(ktjs3.TypeOf(value) == ktjs3.ENUM_TypeOf.objectClass)
-                        leafNode[keyName] = Object.assign({},value)
-                } else if (ktjs3.TypeOf(value) == ktjs3.ENUM_TypeOf.array) {
-
-                    for(let i = 0;i<value.length;i++){
-                        let item = value[i]
-                        if (ktjs3.TypeOf(item) == ktjs3.ENUM_TypeOf.objectClass |
-                            ktjs3.TypeOf(item) == ktjs3.ENUM_TypeOf.objectPlain) {
-                            recursiveLeafNode(item)
-                            if(ktjs3.TypeOf(item) == ktjs3.ENUM_TypeOf.objectClass)
-                                value[i] = Object.assign({},item)
-                        }
-                    }
-                    // value.forEach((item) => {
-                        
-                    //     // else if (ktjs3.TypeOf(item) == ktjs3.ENUM_TypeOf.function) {
-                    //     //     delete leafNode[keyName]
-                    //     // }
-                    //     //recursiveLeafNode(item)
-                    // })
-                } else if (ktjs3.TypeOf(value) == ktjs3.ENUM_TypeOf.function) {
-                    delete leafNode[keyName]
-                }
-            }
-            //done leafNode tasks
-            // leafNode.HH = 555
-        }
-        recursiveLeafNode(cc)
-        cc = Object.assign({},cc)
-        //console.log(JSON.stringify(cc,null,4))
-        console.dir(cc)
-        // console.log('ccccc---'+ktjs3.TypeOf(cc))
-        // console.log('aaaaa---'+ktjs3.TypeOf(aa))
-        // console.log(ktjs3.ENUM_TypeOf.RegExp)
-        function removeFuncProp(obj) {
-            for (let propName in obj) {
-                if (typeof obj[propName] === 'function')
-                    delete obj[propName]
-                //if(${typeof arry1[0][keyName]} == )
-            }
-        }
-
-        // let plainObj = getPlainObject(cc);
-        // console.log(JSON.stringify(result, null, 4))
-        // console.log(result.bb.aa.constructor)
-        // console.log(result.bb.constructor)
-        // console.log(result.constructor)
-        function getPlainObject(rootObject) {
-            //process children first => {}
-
-            //then process self => {}
-        }
-    })
+    
     it('lodash.cloneDeepWith', () => {
         let _ = require('lodash')
         class AA {

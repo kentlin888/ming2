@@ -42,7 +42,7 @@ export default class ViewOrders extends PureComponent {
             //window2.app
             
             let uid = testData.userId
-            uid = window2.app.userData.doc.uid
+            uid = window2.app.userData.uid
             uid = window2.firebase.auth().currentUser.uid
             if(uid){
                 window2.Firebase.getOrderInfo(uid, element_orderStatus)//'canceled'

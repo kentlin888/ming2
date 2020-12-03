@@ -6,15 +6,15 @@ import 'bootstrap'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 //import indexEsm from './index.esm.js'
-import {
+import FirebaseMJS, {
     //syncEmailVerified_ToDB,
-    Email_ResendPassword
+    Email_ResendPassword,
+    FIRESTORE_COLLECTION
 } from '../../js/firebase/FirebaseMJS.js'
 
 // import firebase from "firebase/app";
 // import "firebase/auth"
 // import 'firebase/firestore'
-
 
 //import fontawesome from "@fortawesome/fontawesome";
 // import {
@@ -23,65 +23,38 @@ import {
 // } from "@fortawesome/fontawesome-free-solid";
 // import index_css from './index.css'
 import {
-    UserProfile,
     UserData
 } from '../../js/dataDefine/index.js'
 import {
     useComponent
 } from '../../js/others/useComponent3.js'
-// import {
-//     useComponent as useComponent2
-// } from '../../js/others/useComponent2.js'
+
 import cusModalLogin from '../../webcomponents/cusModalLogin3/cusModalLogin.js'
 import cusModalUserProfile from '../../webcomponents/cusModalUserProfile3/cusModalUserProfile.js'
 import cusFullPageScroll from '../../webcomponents/cusFullPageScroll/fullPageScroll.js'
 
 import '../../webcomponents/cusModalUserProfile3/cusModalUserProfile.css'
 import '../../webcomponents/cusModalLogin3/cusModalLogin.css'
-require('@babel/polyfill')
-//let aa = require('./bg1.png')
-// import * as firebase from 'firebase/app'
-// import 'firebase/firestore'
-// import 'firebase/storage'
-// import 'firebase/auth'
-//console.log(faUser)
+require('@babel/polyfill') //for async await syntax
 
-const Swal = require('sweetalert2')
-//import Swal from 'sweetalert2'
+//const Swal = require('sweetalert2')
+import Swal from 'sweetalert2'
+
 //fontawesome.library.add([faUser,faShoppingCart]);
 
 //require("html-loader!./webpack_html/img_html.html");
 window.Swal = Swal;
 window.$ = $
+
+
 // kick off the polyfill!
 smoothscroll.polyfill();
 
-// let aa = document.querySelector('#aa')
-// let bb = $('#aa')
-// bb.text('bbbb');
-
-// let body = document.querySelector('body')
-// body.classList.add('GeneralSetting');
-
-//aa.innerHTML = 'aaaa'
 let firebaseConfig = require('../../projectConfig/firebaseProj.config.json')
 let firebase = require('firebase/app');
-// require('firebase/functions')
-// require('firebase/storage')
 require('firebase/auth')
 require('firebase/firestore')
 firebase.initializeApp(firebaseConfig);
-
-//const firebase = require('firebase/app');
-//require('firebase/firestore')
-// require('firebase/functions')
-// require('firebase/storage')
-//require('firebase/auth')
-
-//firebase.initializeApp(firebaseConfig);
-
-
-// firebase.initializeApp(firebaseConfig);
 
 // To apply the default browser preference instead of explicitly setting it.
 firebase.auth().useDeviceLanguage();
@@ -94,63 +67,33 @@ let aLogout = document.querySelector('#aLogout');
 let spanDisplayEmail = document.querySelector('#spanDisplayEmail');
 let aOpenModalShopcart = document.querySelector('#aOpenModalShopcart');
 
-//that's not adding a prop to the type Window itself but instead creating a new type that inherits from it, 
-//then casting the reference to window to this type
-//https://www.reddit.com/r/javascript/comments/a4nf0l/jsdoc_how_to_declare_property_on_window/
-// GlobalFlag / ExtendedWindow is self-named variable
-// /**  
-//  * @typedef {{__forceFlag__: [boolean]}} GlobalFlag  
-//  * @typedef {Window & GlobalFlag} ExtendedWindow
-//  */
-/**
-//  * @typedef {Object} GlobalFlag
-//  * @prop {boolean} [__myFlag__]
-//  * @prop {firebase} [firebase]
-//  * @prop {object} [app]
-//  * @typedef {Window & GlobalFlag} ExtendedWindow
-//  */
-let window2 = /** @type {import('./dataDefine/index.js').ExtendedWindow} */ (window);
-window2.firebase = firebase
-window2.__myFlag__ = false
+window.firebase = firebase
 
-//window.firebase = firebase
-
-var proxyMainPageUI;
+var proxyMainPageUI
 /**
  * @callback pushUrlFunc
  * @param {string} url - ...
  */
-window2.app = {
-
-    /**@property {pushUrlFunc} */
+window.app = {
     pushUrl: (url) => {
         /* history.push(?) */
     },
-    /**@function
-     * @returns {('xl'|'lg'|'md'|'sm'|'xs')}
-     */
     viewSize: function () {
         return $('#sizer').find('div:visible').data('size');
     },
-    /**@function set Main NavBar proxyMainPageUI.shopItemCount 
-     * @param {number} itemCount
-     */
     setShopItemCount: function (itemCount) {
         proxyMainPageUI.shopItemCount = itemCount;
     },
-    /**@property {HTMLElement} */
     navbar1: document.querySelector('#navbar1'),
-    /**@function - open modal shopcart */
     openModalShopCart: null,
-    /**
-     * @property {object} - userData from firestore(get by onAuthChange)
-     */
     userData: null,
 }
 //-------------Proxy
 //---pure data
-var proxyUserMenuDropdown = {
+let proxyUserMenuDropdown = {
+    /** user dropdown menu, display login button / user dropdown menu */
     isLogin: false,
+    /** user dropdown menu, display email account name */
     loginName: "",
 }
 //mvvm observeble pattern
@@ -181,6 +124,7 @@ proxyUserMenuDropdown = new Proxy(proxyUserMenuDropdown, {
         return true;
     }
 })
+
 //test mvvm data binding
 let aTestLogin = document.querySelector('#aTestLogin');
 let aTestLogout = document.querySelector('#aTestLogout');
@@ -192,67 +136,6 @@ aTestLogout.addEventListener('click', (e) => {
     proxyUserMenuDropdown.isLogin = false;
 })
 
-let aTemp = document.querySelector('#aTemp');
-aTemp.addEventListener('click', (e) => {
-    window.clickda.push();
-});
-
-
-/**
- * @param {firebase.User} authUser 
- * @returns {Promise} newUser = true/ oldUser = false
- */
-function checkDBUser_SaveIfNotExist(authUser) {
-    function getUserInfo(authUser) {
-        let dispalyName = null;
-        if (authUser.dispalyName === undefined)
-            dispalyName = null;
-        else
-            dispalyName = authUser.dispalyName;
-
-        let arrayFindGoogleProvider = authUser.providerData.filter((item) => {
-            return item.providerId!=='phone' //'google.com':'password'
-        })
-        let info = {
-            dispalyName: dispalyName,
-            email: authUser.email,
-            emailVerified: authUser.emailVerified,
-            phoneNumber: authUser.phoneNumber,
-            photoURL: authUser.photoURL,
-            uid: authUser.uid,
-            providerId: arrayFindGoogleProvider[0].providerId,//authUser.providerData[0].providerId,
-            // providerId:u.user.photoURL,
-            // providerId:u.user.photoURL,
-
-        }
-
-        return info
-    }
-
-    function getDbUser(uid) {
-        return this.db.collection('Users').doc(uid).get()
-            .then((querySnapshot) => {
-                let user = {
-                    exists: querySnapshot.exists,
-                    doc: querySnapshot.data()
-                }
-                return user
-            })
-    }
-    let self = this;
-    let userInfo = getUserInfo(authUser);
-    //check if user exists
-    return getDbUser(userInfo.uid)
-        .then((dbUser) => {
-            if (dbUser.exists === false) {
-                self.SetUserData(userInfo)
-                return true //new user
-            } else {
-                return false //old user
-            }
-        })
-}
-
 //------------firebase onAuthChanged
 // tset case 1: no authUser (not signin)
 // tset case 2: has authUser -- UI display name change
@@ -263,27 +146,32 @@ function checkDBUser_SaveIfNotExist(authUser) {
 firebase.auth().onAuthStateChanged(function (authUser) {
     let db = firebase.firestore();
     //functions....
+    /**
+     * save partial fields of UserInfo to firestore.collection('Users')
+     * @param {any} userInfo 
+     */
     function SetUserData(userInfo) {
-        return db.collection('Users').doc(userInfo.uid).set(userInfo, {
-                merge: true
-            })
+        // let type = 
+        return db.collection(FIRESTORE_COLLECTION.Users).doc(userInfo.uid).set(userInfo, {
+            merge: true
+        })
     }
+    /**
+     * save UserInfo.emailVerified to firestore.collection('Users')
+     * @param {boolean} emailVerified_FromAuth auth-user's emailVerified prop value
+     * @param {string} uid auth-user's uid
+     */
     function syncEmailVerified_ToDB(emailVerified_FromAuth, uid) {
         let userInfo = {
-            uid:uid,
-            emailVerified:emailVerified_FromAuth
+            uid: uid,
+            emailVerified: emailVerified_FromAuth
         }
-        // new UserData();
-        // userInfo.uid = uid;
-        // userInfo.emailVerified = emailVerified_FromAuth;
         return SetUserData(userInfo)
-        // return firestore.collection('Users').doc(uid).set({
-        //     emailVerified: emailVerified_FromAuth
-        // }, {
-        //     merge: true
-        // })
     }
+    //-----------------
     if (authUser) {
+        // User is signed in.
+
         proxyUserMenuDropdown.isLogin = true;
         proxyUserMenuDropdown.loginName = authUser.email
 
@@ -291,18 +179,14 @@ firebase.auth().onAuthStateChanged(function (authUser) {
             uid,
             emailVerified: emailVerified_auth
         } = authUser
-        console.log("LOG:: user", authUser)
+        console.log("LOG:: authUser", authUser)
         console.log("LOG:: uid", uid)
-        console.log("LOG:: emailVerified_auth", emailVerified_auth)
 
-        // User is signed in.
-        //providerData.providerId
-        
         //----window.app.userData exist
         if (window.app.userData) {
             let {
                 emailVerified: emailVerified_db
-            } = window.app.userData.doc
+            } = window.app.userData
             //sync auth emailVerified to DB
             if (emailVerified_auth != emailVerified_db)
                 syncEmailVerified_ToDB(emailVerified_auth, uid)
@@ -310,63 +194,67 @@ firebase.auth().onAuthStateChanged(function (authUser) {
         //----window.app.userData not exist!
         if (!window.app.userData) {
             console.log('load user data from firestore...')
+
             function getDbUser(uid) {
-                return db.collection('Users').doc(uid).get()
+                return db.collection(FIRESTORE_COLLECTION.Users).doc(uid).get()
                     .then((querySnapshot) => {
-                        let dbUser = {
-                            exists: querySnapshot.exists,
-                            doc: querySnapshot.data()
-                        }
-                        return dbUser
+                        if (querySnapshot.exists === false)
+                            return null;
+                        else
+                            return querySnapshot.data();
+
+                        // let dbUser = {
+                        //     exists: querySnapshot.exists,
+                        //     doc: querySnapshot.data()
+                        // }
+                        // return dbUser
                     })
             }
+
             function getUserInfo(authUser) {
-                let dispalyName = null;
-                if (authUser.dispalyName === undefined)
-                    dispalyName = null;
-                else
-                    dispalyName = authUser.dispalyName;
-        
-                let userInfo = {
-                    dispalyName: dispalyName,
-                    email: authUser.email,
-                    emailVerified: authUser.emailVerified,
-                    phoneNumber: authUser.phoneNumber,
-                    photoURL: authUser.photoURL,
-                    uid: authUser.uid,
-                    providerId: authUser.providerData[0].providerId,
-                    // providerId:u.user.photoURL,
-                    // providerId:u.user.photoURL,
-        
-                }
-        
+                let userInfo = new UserData();
+                // let dispalyName = null;
+                // if (authUser.dispalyName === undefined)
+                //     dispalyName = null;
+                // else
+                //     dispalyName = authUser.dispalyName;
+                // }
+                userInfo.dispalyName =(authUser.dispalyName)?authUser.dispalyName:null
+                userInfo.email = authUser.email;
+                userInfo.emailVerified = authUser.emailVerified;
+                userInfo.phoneNumber = authUser.phoneNumber;
+                userInfo.photoURL = authUser.photoURL;
+                userInfo.uid = authUser.uid;
+                userInfo.listProviderId = UserData.getListProviderId_ByAuthUserProviderData(authUser.providerData);
+                //providerId: auto get by self. //authUser.providerData[0].providerId,   
+
                 return userInfo
             }
             // start load db user info --> ready to set window.app.userData
             getDbUser(uid)
-            .then((dbUser) => {
-                // db user exist
-                if(dbUser.exists === true){
-                    window.app.userData = dbUser;
-                    let emailVerified_db = dbUser.doc.emailVerified
-                    //sync auth emailVerified to DB
-                    if (emailVerified_auth != emailVerified_db)
-                        syncEmailVerified_ToDB(emailVerified_auth, uid)
-                }//not exist
-                else{
-                    //get info from authUser
-                    let userInfo = getUserInfo(authUser);
-                    window.app.userData = userInfo;
-                    //save info to db (First time)
-                    SetUserData(userInfo);
-                    // return true //new user
-                } 
-                
-            })
-            .catch((err) => {
-                console.error('onAuthStateChanged, get userData failed. ', err.code,err.message)
-            })
-            
+                .then((dbUser) => {
+                    // db user exist
+                    if (dbUser) {
+                        window.app.userData = Object.assign(new UserData(), dbUser);
+                        let emailVerified_db = dbUser.emailVerified
+                        //sync auth emailVerified to DB
+                        if (emailVerified_auth != emailVerified_db)
+                            syncEmailVerified_ToDB(emailVerified_auth, uid)
+                    } //not exist
+                    else {
+                        //get info from authUser
+                        let userInfo = getUserInfo(authUser);
+                        window.app.userData = userInfo;
+                        //save info to db (First time)
+                        SetUserData(userInfo);
+                        // return true //new user
+                    }
+
+                })
+                .catch((err) => {
+                    console.error('onAuthStateChanged, get userData failed. ', err.code, err.message)
+                })
+
         }
 
     } else {
@@ -415,8 +303,11 @@ proxyMainPageUI = {
     reactSwitchPage: ENUM_reactSwitchPage.ProductListSearch,
     /**@type {number} */
     shopItemCount: 0,
+    /**@type {cusFullPageScroll}} */
     cusFullPageScroll: null,
+    /**@type {cusModalLogin}} */
     cusModalLogin: null,
+    /**@type {cusModalUserProfile}} */
     cusModalUserProfile: null,
 }
 
@@ -424,8 +315,8 @@ proxyMainPageUI = {
 
 let pageStatic = $('#page-static')
 let pageReact = $('#page-react')
-let navbar1 = document.querySelector('#navbar1');
-let navbar_height = navbar1.offsetHeight + 5
+//let navbar1 = document.querySelector('#navbar1');
+//let navbar_height = window.app.navbar1.offsetHeight + 5
 proxyMainPageUI = new Proxy(proxyMainPageUI, {
     get: function (target, prop) {
         return target[prop];
@@ -442,17 +333,7 @@ proxyMainPageUI = new Proxy(proxyMainPageUI, {
                 }
                 break;
             case "scrollToHrefId":
-                // target.cusModalLogin.scrollToElem('#history')
-                //console.log(target.cusFullPageScroll)
                 target.cusFullPageScroll.scrollToElem('#' + value)
-                // function scrollToId(divId) {
-                //     $('html, body').animate({
-                //         scrollTop: $(`#${divId}`).offset().top - navbar_height
-                //     }, 500);
-                // }
-                // /**@type {ENUM_static_scroll_href_Id} */
-                // let targetDivId = value;
-                // scrollToId(targetDivId);
                 break;
             case "shopItemCount":
                 //$('.fa-shopping-cart').attr("data-count", value)
@@ -464,23 +345,23 @@ proxyMainPageUI = new Proxy(proxyMainPageUI, {
             case "reactSwitchPage":
                 switch (value) {
                     case ENUM_reactSwitchPage.ProductListSearch:
-                        window2.app.pushUrl('/ProductListSearch'); //ProductListSearch
+                        window.app.pushUrl('/ProductListSearch'); //ProductListSearch
                         setTimeout(() => {
                             window.scrollTo({
                                 top: 0,
                                 left: 0,
-                                behavior: 'instant' //'smooth'
+                                behavior: 'auto' //'smooth'
                             });
                         }, 10); //0的話有可能無法滑到最頂端，看運氣
 
                         break;
                     case ENUM_reactSwitchPage.ViewOrders:
-                        window2.app.pushUrl('/ViewOrders'); //ProductListSearch
+                        window.app.pushUrl('/ViewOrders'); //ProductListSearch
                         setTimeout(() => {
                             window.scrollTo({
                                 top: 0,
                                 left: 0,
-                                behavior: 'instant' //'smooth'
+                                behavior: 'auto' //'smooth'
                             });
                         }, 10); //0的話有可能無法滑到最頂端，看運氣
                         break;
@@ -496,13 +377,8 @@ proxyMainPageUI = new Proxy(proxyMainPageUI, {
     }
 })
 
-// navbar menu click fade in-out effect
 
-
-//let path = require('path');
-// let path1 = path.join(__dirname,'../../assets/cusFullPageScroll/bg1.png')
-// console.log(__dirname)
-
+//------------ load webcomponents
 let newTagName = "cus-full-page-scroll";
 let pathHtml_fullPageScroll = '../../webcomponents/cusFullPageScroll/fullPageScroll.htm';
 if (!proxyMainPageUI.cusFullPageScroll)
@@ -510,11 +386,8 @@ if (!proxyMainPageUI.cusFullPageScroll)
     .then((htmlFile) => {
         let newComponent = new htmlFile.ctor(htmlFile.templateContent);
         proxyMainPageUI.cusFullPageScroll = newComponent
-
-        // console.log("LOG:: compUI.cssContent", compUI.cssContent)
-        // console.log("LOG:: compUI.templateContent", compUI.templateContent)
         pageStatic.append(newComponent)
-        //newComponent.scrollTo('#news')
+        //newComponent.scrollToElem('#news')
     })
 //---------------------Constructor()-> setFirebase(firebase) - > Auth().getRedirectResult()
 newTagName = "cus-modal-login";
@@ -529,61 +402,10 @@ if (!proxyMainPageUI.cusModalLogin) {
             //class-instance APPEAR!!  you can set template now~~~
             let newComponent = new htmlFile.ctor(htmlFile.templateContent, plugins);
             proxyMainPageUI.cusModalLogin = newComponent
-            // newComponent.setEvents({
-            //     onSwitchForgetPassword: function () {},
-            //     onSwitchRegister: function () {}
-            // })
+            
             document.body.appendChild(newComponent)
-
-            // newComponent.showModal(true)
-            // newComponent.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
-            // newComponent.proxyUI.bindIptSigninPWD = 'qwer1111'
-
-
-            // let href = '../../webcomponents/cusModalLogin3/cusModalLogin.css'
-            // let style = document.createElement('link')
-            // style.setAttribute('rel', 'stylesheet')
-            // style.setAttribute('href', '../../webcomponents/cusModalLogin3/cusModalLogin.css')
-            // document.body.appendChild(style)
-
-            //newComponent.setAuth_getRedirectResult();
-            // newComponent.setDataDefine({
-            //     UserProfile: UserProfile
-            // });
-            // let uid = testData.userId;
-
-            //======= tsetArea =======
-            //newComponent.appendTestArea(testArea)
-
-            // this.btnTEST = document.querySelector('#btnTEST');
-            // btnTEST.addEventListener('click', (e) => {
-            //     // newComponent.proxyUI.bindIptSigninEmail = 'AAAAA'
-            //     // console.log(newComponent.proxyUI.bindIptSigninEmail)
-
-            //     // //newComponent.proxyUI.bindCkboxSigninKeepIn = true
-            //     // console.log(newComponent.proxyUI.bindCkboxSigninKeepIn)
-
-
-            // })
-
-            // let btnLogout = document.querySelector('#btnLogout');
-            // btnLogout.addEventListener('click',(e) => {
-            //     firebase.auth().signOut().then(function () {
-            //         // Sign-out successful.
-            //     }).catch(function (error) {
-            //         // An error happened.
-            //     });
-            // });
-
-
-
         })
-
-
 }
-
-
-
 //------------------- aMyProfile
 let pathHtml_userProfile = '../../webcomponents/cusModalUserProfile3/cusModalUserProfile.htm';
 aMyProfile.addEventListener('click', (e) => {
@@ -609,15 +431,9 @@ aMyProfile.addEventListener('click', (e) => {
 
                 let uid = firebase.auth().currentUser.uid
                 newComponent.loadDbProfile(uid);
-                //newComponent.showModal(true)
                 newComponent.showModal(true)
                 //UI control
                 newComponent.proxyUI.isEmailVerified = firebase.auth().currentUser.emailVerified;
-
-                // console.log("LOG:: compUI.cssContent", compUI.cssContent)
-                // console.log("LOG:: compUI.templateContent", compUI.templateContent)
-                // pageStatic.append(newComponent)
-                //newComponent.scrollTo('#news')
             })
 
             .catch((err) => {
@@ -625,27 +441,6 @@ aMyProfile.addEventListener('click', (e) => {
             });
     }
 });
-
-
-// function navbar_menu_click() {
-//     let href = this.getAttribute('href')
-//     if (href === "#page-react") {
-//         pageStatic.hide()
-//         pageReact.fadeIn(500)
-//     } else {
-//         pageStatic.fadeIn(500)
-//         pageReact.hide()
-//     }
-
-//     //scroll to top mt-5
-//     //divId = $(this).attr('href');
-//     //let history_Top = $('#history').offset().top + 10
-//     let divId = href // content id
-//     // add smooth scroll to contents
-//     $('html, body').animate({
-//         scrollTop: $(divId).offset().top - navbar_height
-//     }, 500);
-// }
 
 // get 5 navbar items
 let all_MenuHref = document.querySelectorAll('a[href]')
@@ -660,6 +455,7 @@ let array_MenuHrefs = [...all_MenuHref].filter((item) => {
     return href !== "#" // 總共有5個
 })
 // add nav item click event
+// e.preventDefault()->ignore default scroll behavior, need to change react page?
 array_MenuHrefs.forEach(function (element) {
     let href = element.getAttribute('href')
     switch (href) {
@@ -701,38 +497,12 @@ array_MenuHrefs.forEach(function (element) {
         default:
             break;
     }
-    //if(href==="")
-    //console.log(item)
-    //element.addEventListener('click', navbar_menu_click);
 });
 
 //------------------- liLogin
 liLogin.addEventListener('click', (e) => {
     e.preventDefault()
-    let login_Element = document.querySelector('cus-modal-login');
-    login_Element.showModal(true)
-    // if (login_Element)
-    //     login_Element.showModal(true)
-    // else {
-    //     useComponent('./webcomponents/cusModalLogin/cusModalLogin.htm', 'cus-modal-login')
-    //         .then((htmlFile) => {
-    //             //class-instance APPEAR!!  you can set template now~~~
-    //             let newComponent = new htmlFile.ctor(htmlFile.templateContent);
-    //             newComponent.setEvents({
-    //                 onSwitchForgetPassword: function () {},
-    //                 onSwitchRegister: function () {}
-    //             })
-    //             //newComponent.setFirebase(firebase)
-    //             //newComponent.appendChild(htmlFile.templateContent);
-    //             //newComponent.setTemplate(htmlFile.templateContent)
-    //             document.body.appendChild(newComponent)
-    //             //newComponent.showModal(true)
-    //             newComponent.showModal(true)
-    //         })
-    //         .catch((err) => {
-    //             console.log(err)
-    //         });
-    // }
+    proxyMainPageUI.cusModalLogin.showModal(true)
 });
 //------------------- aLogout
 aLogout.addEventListener('click', (e) => {
@@ -752,119 +522,12 @@ aMyOrder.addEventListener('click', (e) => {
 });
 
 
-
-
-//---------------- Web Components
-// var _cls_ = {}; // serves as a cache, speed up later lookups
-// function getClass(name) {
-//     if (!_cls_[name]) {
-//         // cache is not ready, fill it up
-//         if (name.match(/^[a-zA-Z0-9_]+$/)) {
-//             // proceed only if the name is a single word string
-//             _cls_[name] = eval(name);
-//         } else {
-//             // arbitrary code is detected 
-//             throw new Error("Who let the dogs out?");
-//         }
-//     }
-//     return _cls_[name];
-// }
-
-
-// /**
-//  * get class name from text content
-//  * @function
-//  * @param {string} htmlString - from other webcomponent
-//  */
-// function getClassName(htmlString) {
-//     let reg = /class\s(?<X>cus[a-zA-Z0-9]+)/im; // Global Case-insensitive Multi-line
-//     let str = ` class cusModalUserProfile extends HTMLElement {
-//                         ffff
-//                         rrrr`
-//     str = htmlString;
-//     // let a = reg.exec(str)
-//     // console.log(a)
-//     let groups = str.match(reg).groups;
-//     //console.log(groups.X)
-//     return groups.X
-// }
-
-// /**
-//  * 
-//  * @param {string} componentPath 
-//  * @param {string} newTagName 
-//  */
-// function useComponent(componentPath, newTagName) {
-//     return fetch(componentPath).then((response) => {
-//             //console.log(response);
-//             return response.text();
-//         })
-//         .then((htmlString) => {
-//             let parser = new DOMParser();
-//             let doc = parser.parseFromString(htmlString, 'text/html');
-
-//             const template = doc.querySelector('template');
-//             const templateContent = template.content;
-//             //this.appendChild(templateContent)//class-instance not appear yet
-
-//             //console.log(templateContent)
-//             //console.log(doc)
-//             var script1 = doc.querySelector('#componentScript');
-//             script1 = document.createRange().createContextualFragment(script1.outerHTML)
-//             //document.currentScript.insertAdjacentHTML() 
-//             document.body.appendChild(script1);
-//             let newClassName = getClassName(htmlString);
-//             //let newClass = getClass('cusModalLogin')
-//             let newClass = getClass(newClassName)
-//             customElements.define(newTagName, newClass);
-//             //customElements.define(newTagName, cusModalLogin);
-//             let ctor = customElements.get(newTagName);
-
-//             return {
-//                 ctor: ctor,
-//                 templateContent: templateContent
-//             }
-//             //console.log(ctor)
-//             // let aa = new ctor();
-//             // aa.setTemplate(templateContent)
-//             // document.body.appendChild(aa)
-//             // aa.showModal()
-
-//             //var aa = new cus-modal-login()
-//         })
-// }
-
-//---------------------test scroll
-let btnstatic = document.querySelector('#btnstatic');
-let btnreact = document.querySelector('#btnreact');
-let btn1 = document.querySelector('#btn1');
-let btn2 = document.querySelector('#btn2');
-let btn3 = document.querySelector('#btn3');
-let btn4 = document.querySelector('#btn4');
-btnstatic.addEventListener('click', () => {
-    proxyMainPageUI.isReactPage = false;
-});
-btnreact.addEventListener('click', () => {
-    proxyMainPageUI.isReactPage = true;
-});
-// btn1.addEventListener('click', () => {
-//     proxyMainPageUI.scrollToHrefId = ENUM_static_scroll_href_Id.history;
-// });
-// btn2.addEventListener('click', () => {
-//     proxyMainPageUI.scrollToHrefId = ENUM_static_scroll_href_Id.news;
-// });
-// btn3.addEventListener('click', () => {
-//     proxyMainPageUI.scrollToHrefId = ENUM_static_scroll_href_Id.qanda;
-// });
-// btn4.addEventListener('click', () => {
-//     proxyMainPageUI.scrollToHrefId = ENUM_static_scroll_href_Id.contactus;
-// });
 aOpenModalShopcart.addEventListener('click', () => {
     proxyMainPageUI.isReactPage = true
     proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ProductListSearch;
     setTimeout(() => {
-        if (window2.app.openModalShopCart)
-            window2.app.openModalShopCart();
+        if (window.app.openModalShopCart)
+            window.app.openModalShopCart();
     }, 100);
 })
 //-------------
@@ -873,32 +536,3 @@ $(document).ready(function () {
     //pageReact.hide();
     proxyMainPageUI.isReactPage = false;
 })
-
-//test pageReact
-setTimeout(() => {
-    // let aOrderProducts = document.querySelector('#aOrderProducts');
-    // aOrderProducts.click();
-    // proxyMainPageUI.isReactPage = true;
-    // proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ViewOrders
-}, 500);
-// let style1 = document.createElement('style');
-// style1.innerHTML = `.fa-shopping-cart[data-count]:after {
-//     position: relative;
-//     right: 6px;
-//     top: -12px;
-//     content: attr(data-count);
-//     font-size: 50%;
-//     padding: .5em;
-//     border-radius: 50%;
-//     line-height: .75em;
-//     color: white;
-//     background: rgba(255, 0, 0, .85);
-//     text-align: center;
-//     display: inline-block;
-//     min-width: 2em;
-//     min-height: 2em;
-//     font-weight: bold;
-// }`
-// setTimeout(() => {
-//     document.body.appendChild(style1);
-// }, 2000);
