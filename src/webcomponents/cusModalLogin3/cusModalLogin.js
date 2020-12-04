@@ -9,7 +9,7 @@ const ENUM_switchPage = {
 export default class cusModalLogin extends HTMLElement {
     /**
      * @param {HTMLElement} templateContent 
-     * @param {plugins} plugins 
+     * @param {import("./cusModalLogin").plugins} plugins 
      */
     constructor(templateContent, plugins) {
         super();
@@ -19,7 +19,7 @@ export default class cusModalLogin extends HTMLElement {
         // assign firebase
         this.firebase = null;
         this.db = null
-
+        
         if (window.firebase)
             this.setFirebase(window.firebase)
 
@@ -157,13 +157,17 @@ export default class cusModalLogin extends HTMLElement {
 
 
     }
+    /**
+     * 
+     * @param {HTMLElement} htmlElement 
+     */
     appendTestArea(htmlElement) {
         let testArea = this.querySelector('[testArea]');
         testArea.appendChild(htmlElement)
         //console.log(aa)
     }
     
-    setFirebase(inFirebase) {
+    setFirebase(/**@type {import('firebase')}}*/inFirebase) {
         // console.log(inFirebase)
         this.firebase = inFirebase;
         this.db = this.firebase.firestore();
@@ -174,7 +178,7 @@ export default class cusModalLogin extends HTMLElement {
      */
     setAuth_getRedirectResult() {
         var self = this
-        this.firebase.auth().getRedirectResult().then(function (result) {
+        this.firebase.auth().getRedirectResult().then(function (/**@type {any}*/result) {
             if (result.credential) {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 var token = result.credential.accessToken;
@@ -188,7 +192,7 @@ export default class cusModalLogin extends HTMLElement {
                 self.showModal(false)
             }
 
-        }).catch(function (error) {
+        }).catch(function (/**@type {any}*/error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -267,7 +271,7 @@ export default class cusModalLogin extends HTMLElement {
             //     else
             //         return false //oldUser = false
             // })
-            .then((isNewUser) => {
+            .then(() => {
                 // if (isNewUser === false)
                 //     return null // no need to send email verification
                 // if account is stolen by someone, real owner can register again to get EmailVerification,
@@ -277,7 +281,7 @@ export default class cusModalLogin extends HTMLElement {
                 //send verification email
 
             })
-            .catch(function (error) {
+            .catch(function (/**@type {any} */error) {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -310,7 +314,7 @@ export default class cusModalLogin extends HTMLElement {
             .then(() => {
 
             })
-            .catch(function (error) {
+            .catch(function (/**@type {any} */error) {
                 // Handle Errors here.
 
                 let errZhTw = getErrorMessageZHTW(error.code, error.message)
@@ -325,7 +329,7 @@ export default class cusModalLogin extends HTMLElement {
             });
 
     }
-    Google_Register_Login(e) {
+    Google_Register_Login(/**@type {any} */ e) {
         var self = this;
         var provider = new this.firebase.auth.GoogleAuthProvider();
         let persistence = this.getPersistence(this.proxyUI.bindCkboxSigninKeepIn)
@@ -333,7 +337,7 @@ export default class cusModalLogin extends HTMLElement {
             .then(() => {
                 return this.firebase.auth().signInWithRedirect(provider);
             })
-            .catch(function (error) {
+            .catch(function (/**@type {any} */error) {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -352,6 +356,12 @@ export default class cusModalLogin extends HTMLElement {
 
     adoptedCallback() {}
 
+    /**
+     * 
+     * @param {*} name 
+     * @param {*} oldValue 
+     * @param {*} newValue 
+     */
     attributeChangedCallback(name, oldValue, newValue) {
         //updateStyle(this);
     }

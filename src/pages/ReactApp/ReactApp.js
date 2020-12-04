@@ -39,12 +39,12 @@ import _ from 'lodash'
 //     //visibilityFilter,
 // })
 
-var window2 = /**@type {import('../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
-window2.Firebase = new FirebaseMJS(window2.firebase, null)
+//var window2 = /**@type {import('../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
+window.FirebaseMJS = new FirebaseMJS(window.firebase)
 
 var rootReducer = reducer; //already combine Reducers
 
-const middlelogger = (store) => (next) => (action) => {
+const middlelogger = (/**@type {any}*/store) => (/**@type {any}*/next) => (/**@type {any}*/action) => {
     console.log("middlelogger dispatching", action);
     let result = next(action);
     console.log("middlelogger next state", store.getState());

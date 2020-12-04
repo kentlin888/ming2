@@ -17,9 +17,11 @@
 // }
 //-----finally OK!!!
 // import("sweetalert2")
+declare module '@babel/polyfill';
 declare interface Window {
     Swal: typeof import("sweetalert2").default;
     $: typeof jQuery;
+    firebase: typeof firebase;
     app: {
         /** push history url , so that can change react page router path */
         pushUrl: (url: string) => void;
@@ -33,7 +35,7 @@ declare interface Window {
         openModalShopCart: () => void;
         /** data is from firebase.auth().currentUser, get from onAuthStateChanged() */
         userData: import('../../js/dataDefine/index.js').UserData;
-        history:any;
+        history:History;
     };
 }
 

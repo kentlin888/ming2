@@ -19,16 +19,21 @@ import ViewOrders from './ViewOrders/ViewOrders.jsx'
 import ProductListSearch from './ProductListSearch/ProductListSearch.jsx'
 import './App.css'
 export default class App extends PureComponent {
-    constructor() {
-        super();
+    constructor(/**@type {any}*/props) {
+        super(props);
+        /**@type {any} */
         let history = createHashHistory(this.props)
         window.app.pushUrl = history.push
         window.app.history = history
+        
+        
         
     }
     OnClickMe = () => {
         //console.log('AAAA')
         window.app.history.push('/ViewOrders')
+        
+        
     }
     // SearchDashboard = (e) => {
     //     console.log('SearchDashboard')

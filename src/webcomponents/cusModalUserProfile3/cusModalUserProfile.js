@@ -1,18 +1,24 @@
 //@ts-check
+import { type } from 'jquery'
 import { UserData } from '../../js/dataDefine/index.js'
 import {FIRESTORE_COLLECTION} from '../../js/firebase/FirebaseMJS'
 
+/**@class */
 class ProxyFormData {
+    /**@prop {string} */
     iptAccount = ""
+    /**@prop {string} */
     iptEmail = ""
+    /**@prop {string} */
     iptName = ""
+    /**@prop {string} */
     iptPhone = ""
+    /**@prop {string} */
     iptAddress = ""
     /**@type {import('../../js/dataDefine/index.js').UserData} */
     userData = null//{}
     static userProfileConverter = {
-        toFirestore: function (proxyFormData) {
-        
+        toFirestore: function (/**@type {ProxyFormData} */ proxyFormData) {
             return {
                 // only write back key-userProfile
                 userProfile: {
@@ -27,7 +33,7 @@ class ProxyFormData {
                 }
             }
         },
-        fromFirestore: function (snapshot, options) {
+        fromFirestore: function (/**@type {any}} */snapshot, /**@type {any}}*/options) {
             
             const data = snapshot.data(options);
             
@@ -88,13 +94,14 @@ export default class cusModalUserProfile extends HTMLElement {
         this.db = null
         if (firebase)
             this.setFirebase(firebase)
-
+            
         if (!templateContent)
             throw new Error('error, arg - templateContent not defined!')
         
         /**@typedef {sweetalert2} Swal */
         if (!Swal)
             throw new Error('error, please implement sweetalert2 first!')
+        
         this.appendTemplate(templateContent);
         
         let proxyUI = {
@@ -110,10 +117,10 @@ export default class cusModalUserProfile extends HTMLElement {
         }
         let self = this
         this.proxyUI = new Proxy(proxyUI, {
-            get: function (target, prop) {
+            get: function (/**@type {any}*/ target, prop) {
                 return target[prop]
             },
-            set: function (target, prop, value) {
+            set: function (/**@type {any}*/target, prop, value) {
                 switch (prop) {
                     case 'enumPhoneStatus':
                         switch (value) {
@@ -262,8 +269,8 @@ export default class cusModalUserProfile extends HTMLElement {
         
 
         //check if google account
-        /**@type {Array} */
-        let findGoogleProvider = authUser.providerData.filter((item) => {
+        /**@type {any[]}} */
+        let findGoogleProvider = authUser.providerData.filter((/**@type {any}*/item) => {
             return item.providerId==='google.com'
         })
         this.proxyUI.isAccountOfGoogle = (findGoogleProvider.length>0)?this.proxyUI.isAccountOfGoogle = true:this.proxyUI.isAccountOfGoogle = false;
@@ -274,14 +281,14 @@ export default class cusModalUserProfile extends HTMLElement {
             let sVerifyCode = self.iptPhoneVerifyCode.value
             let credential_phone = this.firebase.auth.PhoneAuthProvider.credential(this.verificationId, sVerifyCode);
             authUser.linkWithCredential(credential_phone)
-                .then((e) => {
+                .then((/**@type {any}*/e) => {
                     self.proxyUI.enumPhoneStatus = ENUM_PhoneStatus.verifiedOK;
                     self.saveUserData({
                         phoneNumber: authUser.phoneNumber
                     })
                     self.proxyFormData.iptPhone = authUser.phoneNumber
                 })
-                .catch((error) => {
+                .catch((/**@type {any}*/error) => {
                     let {
                         errCodeZHTW,
                         errMessageZHTW
@@ -304,7 +311,7 @@ export default class cusModalUserProfile extends HTMLElement {
                 })
                 self.proxyFormData.iptPhone = defaultValue.iptPhone
 
-            }).catch(function (error) {
+            }).catch(function (/**@type {any}*/error) {
                 console.log("error -- LOG:: cusModalUserProfile -> connectedCallback -> error", error)
                 // An error happened
                 // ...
@@ -319,7 +326,7 @@ export default class cusModalUserProfile extends HTMLElement {
             authUser.sendEmailVerification().then(function () {
                 // Email sent.
                 self.plugins.Swal.fire('Email認證信已寄出', '請到信箱收信，並按下確認連結', 'success')
-            }).catch(function (error) {
+            }).catch(function (/**@type {any}*/error) {
                 // An error happened.
                 self.plugins.Swal.fire('發生錯誤', `${error.code},${error.message}`, 'error')
                 console.log(error)
@@ -444,7 +451,7 @@ export default class cusModalUserProfile extends HTMLElement {
         // [START appVerifier]
         window.recaptchaVerifier = new this.firebase.auth.RecaptchaVerifier(buttonID, {
             'size': 'invisible',
-            'callback': function (response) {
+            'callback': function (/**@type {any}*/response) {
                 
                 // reCAPTCHA solved, allow signInWithPhoneNumber.
                 //window.signingIn = true;
@@ -453,12 +460,12 @@ export default class cusModalUserProfile extends HTMLElement {
                 let appVerifier = window.recaptchaVerifier;
                 let sPhoneNumber = self.iptPhone.value; //document.querySelector('#iptPhone').textContent;
                 self.firebase.auth().signInWithPhoneNumber(sPhoneNumber, appVerifier)
-                    .then(function (confirmationResult) {
+                    .then(function (/**@type {any}*/confirmationResult) {
                         
                         //window.confirmationResult = confirmationResult;
                         self.verificationId = confirmationResult.verificationId
                         self.proxyUI.enumPhoneStatus = ENUM_PhoneStatus.inputVerifyCode;
-                    }).catch(function (error) {
+                    }).catch(function (/**@type {any}*/error) {
                         self.proxyUI.enumPhoneStatus = ENUM_PhoneStatus.inputPhoneFailed;
                         self.proxyUI.divInputPhoneFailed_Text = `${error.code}, ${error.message}`
                         // Error; SMS not sent
@@ -487,6 +494,10 @@ export default class cusModalUserProfile extends HTMLElement {
     //     // console.log(this.proxyFormData[e.target.id])
     // }
 
+    /**
+     * 
+     * @param {HTMLElement} templateContent 
+     */
     appendTemplate(templateContent) {
         // const shadowRoot = this.attachShadow({mode: 'open'});
         // shadowRoot.appendChild(templateContent)
@@ -525,6 +536,10 @@ export default class cusModalUserProfile extends HTMLElement {
         /**@type {HTMLElement} */
         this.divVerifyFailed = this.querySelector('#divVerifyFailed');
 
+        /**
+         * @this {HTMLElement | HTMLInputElement}
+         * @param {boolean} value 
+         */
         function setDisabled(value) {
             if (value)
                 this.setAttribute('disabled', '');
@@ -532,22 +547,27 @@ export default class cusModalUserProfile extends HTMLElement {
                 this.removeAttribute('disabled');
         }
 
+        /**
+         * @this {HTMLElement | HTMLInputElement}
+         * @param {boolean} value 
+         */
         function setShow(value) {
             if (value)
                 this.classList.remove('d-none')
             else
                 this.classList.add('d-none')
         }
+        
         let arrayElements_isDisable = this.querySelectorAll('[isDisable]');
         let arrayElements_isShow = this.querySelectorAll('[isShow]');
         // arrayElements_isDisable = arrayElements_isDisable.map((item) => {
         //     item.setDisabled = setDisabled
         //     return item
         // })
-        arrayElements_isDisable.forEach(( /**@type {HTMLElement}*/ item) => {
+        arrayElements_isDisable.forEach((item) => {
             item.setDisabled = setDisabled
         })
-        arrayElements_isShow.forEach((/**@type {HTMLElement}*/ item) => {
+        arrayElements_isShow.forEach((item) => {
             item.setShow = setShow
         })
         //this.iptPhone.setDisabled(true)
@@ -568,12 +588,13 @@ export default class cusModalUserProfile extends HTMLElement {
         //     iptAddress3: "",
         // }
 
+        /**@type {any}}*/
         let self = this
         this.proxyFormData = new Proxy(proxyFormData, {
-            get: function (target, prop) {
+            get: function (/**@type {any}*/target, prop) {
                 return target[prop]
             },
-            set: function (target, prop, value) {
+            set: function (/**@type {any}*/target, prop, value) {
                 switch (prop) {
 
                     default:
@@ -592,6 +613,10 @@ export default class cusModalUserProfile extends HTMLElement {
 
 
     }
+    /**
+     * 
+     * @param {HTMLElement} htmlElement 
+     */
     appendTestArea(htmlElement) {
         let testArea = document.querySelector('[testArea]');
         testArea.appendChild(htmlElement)
@@ -602,6 +627,10 @@ export default class cusModalUserProfile extends HTMLElement {
         uiCkboxEmailVerified.classList.remove('b-displayNone');
     }
 
+    /**
+     * 
+     * @param {firebase} inFirebase 
+     */
     setFirebase(inFirebase) {
         // console.log(inFirebase)
         this.firebase = inFirebase;
@@ -619,7 +648,10 @@ export default class cusModalUserProfile extends HTMLElement {
             merge: true
         })
     }
-    
+    /**
+     * 
+     * @param {boolean} isShow 
+     */
     showModal(isShow) {
         //let modalLogin2 = document.querySelector('#modalLogin2');
         //console.log(modalLogin2)
@@ -638,7 +670,7 @@ export default class cusModalUserProfile extends HTMLElement {
         $('#modalProfile').modal(strShow)
         //console.log($('#modalLogin'))
     }
-    onFormSubmit(e) {
+    onFormSubmit(/**@type {any}*/e) {
         e.preventDefault();
 
         let uid = this.proxyFormData.iptAccount
@@ -650,7 +682,7 @@ export default class cusModalUserProfile extends HTMLElement {
         })
         this.showModal(false)
     }
-    onInputChange(e) {
+    onInputChange(/**@type {any}*/e) {
         let thisElement = e.target;
         this.proxyFormData[e.target.id] = e.target.value;
         // console.log(e.target.id)
@@ -658,6 +690,10 @@ export default class cusModalUserProfile extends HTMLElement {
     }
     
     // } //-----------------------------------------
+    /**
+     * 
+     * @param {string} uid 
+     */
     loadDbProfile(uid) {
         let self = this
         let authUser = this.firebase.auth().currentUser
@@ -690,7 +726,7 @@ export default class cusModalUserProfile extends HTMLElement {
 
         //var self = this.firebase
         this.db.collection(FIRESTORE_COLLECTION.Users).doc(uid).withConverter(ProxyFormData.userProfileConverter).get()
-            .then((e) => {
+            .then((/**@type {any}*/e) => {
                 let userInfo = e.data();
                 if (userInfo) {
                     self.proxyFormData.iptName = userInfo.iptName
@@ -701,6 +737,11 @@ export default class cusModalUserProfile extends HTMLElement {
             })
 
     }
+    /**
+     * 
+     * @param {string} errCode 
+     * @param {string} errMessage 
+     */
     getErrorMessageZHTW(errCode, errMessage) {
         console.log("LOG:: cusModalUserProfile -> getErrorMessageZHTW -> errCode", errCode)
         let errCodeZHTW;

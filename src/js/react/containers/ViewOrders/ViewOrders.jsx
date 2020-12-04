@@ -8,7 +8,7 @@ import FirebaseMJS, { ENUM_orderStatus } from '../../../firebase/FirebaseMJS.js'
 import testData from '../../../../../adminData/testdata.json'
 var window2 = /**@type {import('../../../dataDefine/index.js').ExtendedWindow}*/ (window);
 export default class ViewOrders extends PureComponent {
-    constructor(props) {
+    constructor(/**@type {any}*/props) {
         super(props);
         this.state = {
             /**@type {OrderInfo[]} */

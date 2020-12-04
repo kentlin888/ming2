@@ -69,7 +69,38 @@ let aOpenModalShopcart = document.querySelector('#aOpenModalShopcart');
 
 window.firebase = firebase
 
-var proxyMainPageUI
+/**@enum {string} */
+const ENUM_static_scroll_href_Id = {
+    history: 'history',
+    news: 'news',
+    qanda: 'qanda',
+    contactus: 'contactus',
+    //page-react
+}
+/**@enum {string} */
+const ENUM_reactSwitchPage = {
+    ProductListSearch: 'ProductListSearch',
+    ViewOrders: 'ViewOrders',
+}
+//var //---pure data
+var proxyMainPageUI = {
+    /**@type {boolean} */
+    isReactPage: false,
+    //.history|'news'|'qanda'|'contactus
+    /**@type {ENUM_static_scroll_href_Id} */
+    scrollToHrefId: ENUM_static_scroll_href_Id.history,
+    /**@type {ENUM_reactSwitchPage} */
+    reactSwitchPage: ENUM_reactSwitchPage.ProductListSearch,
+    /**@type {number} */
+    shopItemCount: 0,
+    /**@type {cusFullPageScroll}} */
+    cusFullPageScroll: null,
+    /**@type {cusModalLogin} */
+    cusModalLogin: null,
+    /**@type {cusModalUserProfile}} */
+    cusModalUserProfile: null,
+}
+
 /**
  * @callback pushUrlFunc
  * @param {string} url - ...
@@ -87,6 +118,7 @@ window.app = {
     navbar1: document.querySelector('#navbar1'),
     openModalShopCart: null,
     userData: null,
+    history:null,
 }
 
 
@@ -100,10 +132,10 @@ let proxyUserMenuDropdown = {
 }
 //mvvm observeble pattern
 proxyUserMenuDropdown = new Proxy(proxyUserMenuDropdown, {
-    get: function (target, prop) {
+    get: function (/**@type {any} */target, /**@type {any} */prop) {
         return target[prop];
     },
-    set: function (target, prop, value) {
+    set: function (/**@type {any} */target, /**@type {any} */prop, value) {
         switch (prop) {
             case "isLogin":
                 if (value == true) {
@@ -145,7 +177,7 @@ aTestLogout.addEventListener('click', (e) => {
 // tset case 4: (has authUser, no window.app.userData) -- getDbUser
 // tset case 5: (has authUser, no window.app.userData, has DbUser) -- window.app.userData = dbUser; + sync emailVerified_auth;
 // tset case 6: (has authUser, no window.app.userData, no DbUser) -- userInfo = authUser; + window.app.userData = userInfo(已同時 sync emailVerified_auth);
-firebase.auth().onAuthStateChanged(function (authUser) {
+firebase.auth().onAuthStateChanged(function (/**@type {any}*/authUser) {
     let db = firebase.firestore();
     //functions....
     /**
@@ -197,9 +229,13 @@ firebase.auth().onAuthStateChanged(function (authUser) {
         if (!window.app.userData) {
             console.log('load user data from firestore...')
 
+            /**
+             * 
+             * @param {string} uid 
+             */
             function getDbUser(uid) {
                 return db.collection(FIRESTORE_COLLECTION.Users).doc(uid).get()
-                    .then((querySnapshot) => {
+                    .then((/**@type {any}*/querySnapshot) => {
                         if (querySnapshot.exists === false)
                             return null;
                         else
@@ -212,7 +248,10 @@ firebase.auth().onAuthStateChanged(function (authUser) {
                         // return dbUser
                     })
             }
-
+            /**
+             * 
+             * @param {any} authUser 
+             */
             function getUserInfo(authUser) {
                 let userInfo = new UserData();
                 // let dispalyName = null;
@@ -234,7 +273,7 @@ firebase.auth().onAuthStateChanged(function (authUser) {
             }
             // start load db user info --> ready to set window.app.userData
             getDbUser(uid)
-                .then((dbUser) => {
+                .then((/**@type {any}*/dbUser) => {
                     // db user exist
                     if (dbUser) {
                         window.app.userData = Object.assign(new UserData(), dbUser);
@@ -253,7 +292,7 @@ firebase.auth().onAuthStateChanged(function (authUser) {
                     }
 
                 })
-                .catch((err) => {
+                .catch((/**@type {any}*/err) => {
                     console.error('onAuthStateChanged, get userData failed. ', err.code, err.message)
                 })
 
@@ -281,37 +320,8 @@ firebase.auth().onAuthStateChanged(function (authUser) {
 
 //     })
 // console.log(__dirname)
-/**@enum {string} */
-const ENUM_static_scroll_href_Id = {
-    history: 'history',
-    news: 'news',
-    qanda: 'qanda',
-    contactus: 'contactus',
-    //page-react
-}
-/**@enum {string} */
-const ENUM_reactSwitchPage = {
-    ProductListSearch: 'ProductListSearch',
-    ViewOrders: 'ViewOrders',
-}
-//---pure data
-proxyMainPageUI = {
-    /**@type {boolean} */
-    isReactPage: false,
-    //.history|'news'|'qanda'|'contactus
-    /**@type {ENUM_static_scroll_href_Id} */
-    scrollToHrefId: ENUM_static_scroll_href_Id.history,
-    /**@type {ENUM_reactSwitchPage} */
-    reactSwitchPage: ENUM_reactSwitchPage.ProductListSearch,
-    /**@type {number} */
-    shopItemCount: 0,
-    /**@type {cusFullPageScroll}} */
-    cusFullPageScroll: null,
-    /**@type {cusModalLogin}} */
-    cusModalLogin: null,
-    /**@type {cusModalUserProfile}} */
-    cusModalUserProfile: null,
-}
+
+
 
 //mvvm observeble pattern
 
@@ -320,10 +330,10 @@ let pageReact = $('#page-react')
 //let navbar1 = document.querySelector('#navbar1');
 //let navbar_height = window.app.navbar1.offsetHeight + 5
 proxyMainPageUI = new Proxy(proxyMainPageUI, {
-    get: function (target, prop) {
+    get: function (/**@type {any} */target, /**@type {any} */prop) {
         return target[prop];
     },
-    set: function (target, prop, value) {
+    set: function (/**@type {any} */target, /**@type {any} */prop, value) {
         switch (prop) {
             case "isReactPage":
                 if (value == true) {
@@ -511,7 +521,7 @@ aLogout.addEventListener('click', (e) => {
     e.preventDefault()
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
-    }).catch(function (error) {
+    }).catch(function (/**@type {any}*/error) {
         // An error happened.
     });
 })

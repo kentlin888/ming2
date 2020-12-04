@@ -5,21 +5,12 @@
 //     Email_ResendPassword
 // } from "../../js/firebase/Firebase";
 // import Swal from "sweetalert2";
-
-//interface ok
-export type plugins = {
-    //aa:number;
-    Swal: typeof import('sweetalert2').default;
-    Email_ResendPassword:typeof import('../../js/firebase/FirebaseMJS').Email_ResendPassword;
-};
-//export function Email_ResendPassword(emailAddress, inFirebase, swal, funcCloseModal) {
-
-interface ${
-    modal:(strShow:string)=>void;
+interface Window {
+    // Swal: typeof import("sweetalert2").default;
+    // $: typeof jQuery;
+    firebase: typeof import('firebase/app');
 }
-interface JQuery{
-    modal:(strShow:string)=>void;
-}
+
 
 // type plugins = {
 //     Swal: Swal;
@@ -31,7 +22,7 @@ interface JQuery{
 // }
 // <TElement extends HTMLElement = HTMLElement>(html: JQuery.htmlString, ownerDocument_attributes
 //     ?: Document | JQuery.PlainObject): JQuery<TElement>;
-    
+
 
 //import * as $ from "jquery";
 // declare namespace plugins {
@@ -42,6 +33,13 @@ interface JQuery{
 // }
 
 
+export type plugins = {
+    Swal: typeof import('sweetalert2').default;
+    Email_ResendPassword: typeof import('../../js/firebase/FirebaseMJS').Email_ResendPassword;
+}
+declare export default class cusModalLogin{
+    showModal:(isShow:boolean)=>void;
+}
 // export declare module JQuery{
 //     function modal(cmd:string);
 // }
