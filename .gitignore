@@ -17,6 +17,7 @@ adminKeys/*
 adminTools/*
 dist/*
 docs/*
+host/*
 jsdoc/*
 node_modules/*
 src/js/firebase/Firebase.js

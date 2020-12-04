@@ -1,3 +1,5 @@
+//@ts-check
+//Inside of settings.json, add the following:{ "javascript.implicitProjectConfig.checkJs": true }
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -26,7 +28,6 @@ class ShopCart extends Component {
     /**
      * 
      * @param {ShopItem[]} shopItems 
-     * @param {number} totalPrice 
      */
     _getOrderInfo_FromShopItems = (shopItems) => {
         let newOrderIfno = new OrderInfo();

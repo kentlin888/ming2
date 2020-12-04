@@ -1,4 +1,5 @@
 //@ts-check
+//Inside of settings.json, add the following:{ "javascript.implicitProjectConfig.checkJs": true }
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
@@ -7,7 +8,7 @@ import { connect } from "react-redux";
 //import ProductList2 from '../ProductList/ProductList2.jsx'
 import ShopCart from '../ShopCart/ShopCart.jsx'
 import { countAllItems_Price } from '../../reducers/shopCart.js'
-import ProductListSearch from './ProductListSearch.css'
+import './ProductListSearch.css'
 import { HashLink as Link } from 'react-router-hash-link';
 import { load_productListAsync as load_productListAsync_act } from '../../actions/productList.js'
 import arryProductInfo from './ProductInfo.json'

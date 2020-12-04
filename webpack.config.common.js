@@ -166,7 +166,9 @@ module.exports = (devMode) => {
                 client: path.join(__dirname, "../src/client"),
                 server: path.join(__dirname, "../src/server")
             },
-            extensions: [".js", ".json", ".scss"]
+            // Add `.ts` and `.tsx` as a resolvable extension.
+            extensions: [".ts", ".tsx", ".js",".json", ".css", ".scss"]
+
             //extensions: [".wasm", ".ts", ".tsx", ".mjs", ".cjs", ".js", ".json"],
         },
         module: {

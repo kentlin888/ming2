@@ -33,6 +33,7 @@ declare interface Window {
         openModalShopCart: () => void;
         /** data is from firebase.auth().currentUser, get from onAuthStateChanged() */
         userData: import('../../js/dataDefine/index.js').UserData;
+        history:any;
     };
 }
 

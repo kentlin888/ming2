@@ -5,17 +5,17 @@ const ENUM_switchPage = {
     radioSignup: "radioSignup",
     radioForgetPwd: "radioForgetPwd"
 }
+
 export default class cusModalLogin extends HTMLElement {
     /**
      * @param {HTMLElement} templateContent 
-     * @param {import('./cusModalLogin').plugins} plugins 
+     * @param {plugins} plugins 
      */
     constructor(templateContent, plugins) {
         super();
         /** {Swal , Email_ResendPassword(...)} */
         this.plugins = plugins;
-
-        //plugins.Email_ResendPassword2
+        
         // assign firebase
         this.firebase = null;
         this.db = null
@@ -23,23 +23,10 @@ export default class cusModalLogin extends HTMLElement {
         if (window.firebase)
             this.setFirebase(window.firebase)
 
-        // this.events = {
-        //     onSwitchForgetPassword: function () {
-
-        //     },
-        //     onSwitchRegister: function () {
-
-        //     }
-        // }
         // initial templateContent
         if (templateContent)
             this.appendTemplate(templateContent);
-        // initial this.events
-        // if (events)
-        //     this.setEvents(events);
-        //var template = document.getElementById('loginTemplate');
-
-
+        
         this.proxyUI = {
             bindIptSigninEmail: '',
             bindIptSigninPWD: '',
@@ -111,57 +98,36 @@ export default class cusModalLogin extends HTMLElement {
             },
         })
 
-        this.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
-        this.proxyUI.bindIptSigninPWD = '11111111'
-        //this.innerHTML = `<button>Sup?</button>`;
-
-        //this.showModal();
-
-        // const style = document.createElement('style');
-        // style.textContent = `
-        //     div { padding: 10px; border: 1px solid gray; width: 200px; margin: 10px; }
-        //     h2 { margin: 0 0 10px; }
-        //     ul { margin: 0; }
-        //     p { margin: 10px 0; }
-        // `;
-        // shadowRoot.appendChild(style);
-
-        //---- also can use 
-        //  this.attachShadow({mode: 'open'});
-        //  this.shadowRoot.appendChild
-
-        // const shadowRoot = this.attachShadow({
-        //     mode: 'open'
-        // });
-        // shadowRoot.appendChild(templateContent.cloneNode(true));
-
     }
+    /**
+     * @function - append DOM UI
+     * @param {HTMLElement} templateContent 
+     */
     appendTemplate(templateContent) {
         this.appendChild(templateContent)
         let self = this;
 
-        //--------- inside functions
+        
+        //===== GOOGLE LOGIN
         this.btnGoogleSignin = this.querySelector('.signInHtm .btnGoogleSignin')
         this.btnGoogleSignin.addEventListener('click', this.Google_Register_Login.bind(this));
+        //===== EMAIL LOGIN -- form onSubmit
         this.btnEmailSignin = this.querySelector('.signInHtm .btnEmailSignin')
         this.btnEmailSignin.addEventListener('click', (e) => {
             //begin html input check
-            // console.log(1111)
+            //don't write code here, but write code on onSubmit of Form (formSignInHtm).
         });
-        this.btnEmailRegister = this.querySelector('.signUpHtm .btnEmailSignin')
-        this.btnEmailRegister.addEventListener('click', this.Email_Register.bind(this));
-        // this.btnResentPassword = this.querySelector(".forgetPwdHtm [btnResentPassword]")
-        // this.btnResentPassword.addEventListener('click', this.Email_ResendPassword.bind(this));
-
         let formSignInHtm = this.querySelector('.signInHtm');
         formSignInHtm.addEventListener('submit', (e) => {
             e.preventDefault()
-            console.log(1111)
             //already pass form input valid check
             this.Email_Login();
             return false
         })
-
+        //===== EMAIL REGISTER
+        this.btnEmailRegister = this.querySelector('.signUpHtm .btnEmailSignin')
+        this.btnEmailRegister.addEventListener('click', this.Email_Register.bind(this));
+        //===== EMAIL RESEND PASSWORD -- form onSubmit
         let forgetPwdHtm = this.querySelector('.forgetPwdHtm');
         forgetPwdHtm.addEventListener('submit', (e) => {
             e.preventDefault()
@@ -169,36 +135,21 @@ export default class cusModalLogin extends HTMLElement {
             //already pass form input valid check
             // extends from baseComponent.js
             self.Email_ResendPassword(emailAddress);
-
-
             //return false
         })
 
-
-        // $(this).on('shown.bs.modal', function () {
-        //     $('#iptEmail').trigger('focus')
-        // })
-        //--------- outter connect interface
-        this.modalLogin_Register = this.querySelector('.signInHtm .divSignupHtm');
-        this.modalLogin_forgetPwd = this.querySelector('.signInHtm .divForgetPassword');
-        // add click events
-        // this.modalLogin_Register.addEventListener('click', (e) => {
-        //     this.events.onSwitchRegister();
-        // })
-        // this.modalLogin_forgetPwd.addEventListener('click', (e) => {
-        //     this.events.onSwitchForgetPassword();
-        // })
-
-        // let ckboxHideLeftArrow = document.querySelector('.modal-header #ckboxHideLeftArrow');
-
+        
+        // Go back to Login Page
         let leftArrow = this.querySelector('.modal-header .leftArrow')
         leftArrow.addEventListener('click', (e) => {
             self.proxyUI.switchPage = ENUM_switchPage.radioSignin;
         })
+        // Goto Signup Page
         let divSignupHtm = this.querySelector('.modal-body .divSignupHtm')
         divSignupHtm.addEventListener('click', (e) => {
             self.proxyUI.switchPage = ENUM_switchPage.radioSignup;
         })
+        // Goto ForgetPWD page
         let divForgetPassword = this.querySelector('.modal-body .divForgetPassword')
         divForgetPassword.addEventListener('click', (e) => {
             self.proxyUI.switchPage = ENUM_switchPage.radioForgetPwd;
@@ -211,16 +162,16 @@ export default class cusModalLogin extends HTMLElement {
         testArea.appendChild(htmlElement)
         //console.log(aa)
     }
-    // setEvents(events) {
-    //     this.events = events;
-    // }
+    
     setFirebase(inFirebase) {
         // console.log(inFirebase)
         this.firebase = inFirebase;
         this.db = this.firebase.firestore();
         this.setAuth_getRedirectResult();
     }
-
+    /**
+     * @function - when google signin, page will redirect URL, clear all js, and starts again from here.
+     */
     setAuth_getRedirectResult() {
         var self = this
         this.firebase.auth().getRedirectResult().then(function (result) {
@@ -248,10 +199,11 @@ export default class cusModalLogin extends HTMLElement {
             // ...
         });
     }
+    /**
+     * @function - show modal self
+     * @param {boolean} isShow 
+     */
     showModal(isShow) {
-        //let modalLogin2 = document.querySelector('#modalLogin2');
-        //console.log(modalLogin2)
-        //modalLogin2.assign();
         /**@type {HTMLInputElement} */
         let iptEmail = this.querySelector(".modal .signInHtm input[type='email']");
         $('#modalLogin').on('shown.bs.modal', function () {
@@ -318,6 +270,8 @@ export default class cusModalLogin extends HTMLElement {
             .then((isNewUser) => {
                 // if (isNewUser === false)
                 //     return null // no need to send email verification
+                // if account is stolen by someone, real owner can register again to get EmailVerification,
+                // so anyone can sendEmailVerification (no need to check isNewUser)
                 let user = this.firebase.auth().currentUser;
                 return user.sendEmailVerification()
                 //send verification email
@@ -387,38 +341,6 @@ export default class cusModalLogin extends HTMLElement {
                 // ...
             });
         return;
-        //signInWithRedirect
-        //firebase.auth().signInWithPopup(provider).then(function (result) {
-        this.firebase.auth().signInWithPopup(provider).then(function (result) {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = result.credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-
-            let info = self.getUserInfo(user);
-            //check if user exists
-            // self.getDbUser(info.uid)
-            //     .then((dbUser) => {
-            //         if (dbUser.exists === false)
-            //             self.SetUserData(info)
-            //         else
-            //     })
-
-
-            // hide self element
-            self.showModal(false)
-            // ...
-        }).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            console.log(errorMessage)
-            // ...
-        });
     }
 
 
@@ -434,11 +356,12 @@ export default class cusModalLogin extends HTMLElement {
         //updateStyle(this);
     }
 
-
-    // assign(){
-    // }
 }
-
+/**
+ * @function - get chinese error message
+ * @param {string} errCode 
+ * @param {string} errMessage 
+ */
 function getErrorMessageZHTW(errCode, errMessage) {
     console.log("LOG:: cusModalLogin -> getErrorMessageZHTW -> errCode", errCode)
     let errCodeZHTW;

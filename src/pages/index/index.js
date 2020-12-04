@@ -88,6 +88,8 @@ window.app = {
     openModalShopCart: null,
     userData: null,
 }
+
+
 //-------------Proxy
 //---pure data
 let proxyUserMenuDropdown = {
@@ -424,9 +426,9 @@ aMyProfile.addEventListener('click', (e) => {
 
                 let newComponent = new compUI.ctor(compUI.templateContent, plugins);
                 proxyMainPageUI.cusModalUserProfile = newComponent
-                newComponent.setDataDefine({
-                    UserData: UserData
-                });
+                // newComponent.setDataDefine({
+                //     UserData: UserData
+                // });
                 document.body.appendChild(newComponent)
 
                 let uid = firebase.auth().currentUser.uid

@@ -1,4 +1,6 @@
 //@ts-check
+//Inside of settings.json, add the following:{ "javascript.implicitProjectConfig.checkJs": true }
+
 /**
  * @class
  * @desc ming1 project ShopItem.jsx
@@ -312,13 +314,13 @@ export class UserData{
             return null;
         //find google providerId
         let findGoogle = this.listProviderId.find((item) => {
-            if(item === 'google.com')
+            if(item === UserData.ENUM_ProviderType.google)//'google.com')
                 return true // return 'google.com'
         })
         if(findGoogle)// type string
-            return 'google.com'
+            return UserData.ENUM_ProviderType.google//'google.com'
         else//undefined
-            return 'password'
+            return UserData.ENUM_ProviderType.password//'password'
     }
     /**@prop {string} */
     email= ""
@@ -326,6 +328,10 @@ export class UserData{
      * @function
      * @param {Array} AuthUserProviderData 
      */
+    static ENUM_ProviderType={
+        google:"google.com",
+        password:"password"
+    }
     static getListProviderId_ByAuthUserProviderData(AuthUserProviderData){
         let arrayData = AuthUserProviderData;
         let listProviderId = arrayData.map((item) => {

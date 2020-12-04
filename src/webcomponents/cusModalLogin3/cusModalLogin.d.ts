@@ -1,30 +1,38 @@
 //@ts-check
-import 'firebase/app'
-import 'firebase/auth'
-import {
-    Email_ResendPassword
-} from "../../js/firebase/Firebase";
-import Swal from "sweetalert2";
-import $ from 'jquery';
-//import 'bootstrap';
+// import 'firebase/app'
+// import 'firebase/auth'
+// import {
+//     Email_ResendPassword
+// } from "../../js/firebase/Firebase";
+// import Swal from "sweetalert2";
 
-//import bootstrap from 'bootstrap';
+//interface ok
+export type plugins = {
+    //aa:number;
+    Swal: typeof import('sweetalert2').default;
+    Email_ResendPassword:typeof import('../../js/firebase/FirebaseMJS').Email_ResendPassword;
+};
+//export function Email_ResendPassword(emailAddress, inFirebase, swal, funcCloseModal) {
 
-import * as bootstrap from "bootstrap";
-
-
-declare const TT:number;
-
-interface plugins {
-    Swal: typeof Swal;
-    Email_ResendPassword:typeof Email_ResendPassword;
-}
 interface ${
-    modal:void;
+    modal:(strShow:string)=>void;
 }
 interface JQuery{
-    modal:void;
+    modal:(strShow:string)=>void;
 }
+
+// type plugins = {
+//     Swal: Swal;
+//     age: number;
+// };
+// declare namespace plugins {
+//     Swal : Swal
+
+// }
+// <TElement extends HTMLElement = HTMLElement>(html: JQuery.htmlString, ownerDocument_attributes
+//     ?: Document | JQuery.PlainObject): JQuery<TElement>;
+    
+
 //import * as $ from "jquery";
 // declare namespace plugins {
 //     function ajax(url: string, settings?: any): void;
@@ -32,7 +40,7 @@ interface JQuery{
 //     const Email_ResendPassword2:typeof Email_ResendPassword;
 //     const Swal:typeof Swal;
 // }
-declare const KJH:number;
+
 
 // export declare module JQuery{
 //     function modal(cmd:string);

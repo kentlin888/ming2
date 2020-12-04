@@ -1,4 +1,5 @@
 //@ts-check
+//Inside of settings.json, add the following:{ "javascript.implicitProjectConfig.checkJs": true }
 import React, { PureComponent } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next';
 //import OrderList_css from './OrderList.css'
@@ -7,6 +8,13 @@ import PropTypes from 'prop-types'
 import { OrderInfo, UserProfile, UserData } from '../../../../js/dataDefine/index.js'
 // import { times } from 'lodash';
 
+/**
+ * 
+ * @param {*} cell 
+ * @param {*} row 
+ * @param {*} rowIndex 
+ * @param {*} formatExtraData 
+ */
 function dateFormatter1(cell, row, rowIndex, formatExtraData) {
     /**@type {Date} */
     let date1 = cell;

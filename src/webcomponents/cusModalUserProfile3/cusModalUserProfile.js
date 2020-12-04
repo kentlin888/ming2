@@ -1,19 +1,18 @@
 //@ts-check
+import { UserData } from '../../js/dataDefine/index.js'
+import {FIRESTORE_COLLECTION} from '../../js/firebase/FirebaseMJS'
+
 class ProxyFormData {
     iptAccount = ""
     iptEmail = ""
     iptName = ""
     iptPhone = ""
     iptAddress = ""
-    // iptAddress1 = ""
-    // iptAddress2 = ""
-    // iptAddress3 = ""
-
-    //selectAddress = 0
-    userData = {}
+    /**@type {import('../../js/dataDefine/index.js').UserData} */
+    userData = null//{}
     static userProfileConverter = {
         toFirestore: function (proxyFormData) {
-        console.log("LOG: ~ file: cusModalUserProfile.js ~ line 16 ~ ProxyFormData ~ proxyFormData", proxyFormData)
+        
             return {
                 // only write back key-userProfile
                 userProfile: {
@@ -33,7 +32,7 @@ class ProxyFormData {
             const data = snapshot.data(options);
             
             let proxyFormData = new ProxyFormData();
-            proxyFormData.userData = data
+            proxyFormData.userData = Object.assign(new UserData(),data)
             //load email + phone + userProfile
             proxyFormData.iptEmail = data.email;
             proxyFormData.iptPhone = defaultValue.iptPhone
@@ -73,12 +72,17 @@ const defaultValue = {
 }
 
 export default class cusModalUserProfile extends HTMLElement {
+    /**
+     * 
+     * @param {HTMLElement} templateContent 
+     * @param {import('../cusModalLogin3/cusModalLogin.js').plugins} plugins 
+     */
     constructor(templateContent, plugins) {
         super();
         /** {Swal , Email_ResendPassword(...)} */
         this.plugins = plugins
+        //this.plugins.Email_ResendPassword()
         
-
         // assign firebase
         this.firebase = null;
         this.db = null
@@ -87,19 +91,12 @@ export default class cusModalUserProfile extends HTMLElement {
 
         if (!templateContent)
             throw new Error('error, arg - templateContent not defined!')
-
+        
         /**@typedef {sweetalert2} Swal */
         if (!Swal)
             throw new Error('error, please implement sweetalert2 first!')
         this.appendTemplate(templateContent);
-
-        this.dataDefine = {
-            UserData: null
-        }
-
-        // initial this.events
-        // if (events)
-        //     this.events = events;
+        
         let proxyUI = {
             /**@prop {ENUM_PhoneStatus}*/
             enumPhoneStatus: ENUM_PhoneStatus.noPhoneNubmer,
@@ -196,7 +193,9 @@ export default class cusModalUserProfile extends HTMLElement {
                         break;
 
                     case 'enumLoginMethod':
+                        /**@type {HTMLElement} */
                         let iFaEnvelope = self.querySelector('#iFaEnvelope');
+                        /**@type {HTMLElement} */
                         let iFaGoogle = self.querySelector('#iFaGoogle');
                         switch (value) {
                             case ENUM_LoginMethod.google:
@@ -212,12 +211,10 @@ export default class cusModalUserProfile extends HTMLElement {
                         }
                         break;
                     case "divInputPhoneFailed_Text":
-                        //console.log(self.divInputPhoneFailed)
                         self.divInputPhoneFailed.innerHTML = value;
                         //document.querySelector()
                         break;
                     case "divVerifyFailed_Text":
-                        //console.log(self.divVerifyFailed)
                         self.divVerifyFailed.innerHTML = value;
                         break;
                     case 'isEmailVerified':
@@ -279,7 +276,6 @@ export default class cusModalUserProfile extends HTMLElement {
             authUser.linkWithCredential(credential_phone)
                 .then((e) => {
                     self.proxyUI.enumPhoneStatus = ENUM_PhoneStatus.verifiedOK;
-                    console.log("LOG:: cusModalUserProfile -> connectedCallback -> user", authUser)
                     self.saveUserData({
                         phoneNumber: authUser.phoneNumber
                     })
@@ -476,7 +472,8 @@ export default class cusModalUserProfile extends HTMLElement {
             }
         });
         // [END appVerifier]
-        recaptchaVerifier.render()
+        // button start working
+        window.recaptchaVerifier.render()
             .then(function (widgetId) {
                 let recaptchaWidgetId = widgetId;
                 //updateSignInButtonUI();
@@ -495,43 +492,37 @@ export default class cusModalUserProfile extends HTMLElement {
         // shadowRoot.appendChild(templateContent)
         this.appendChild(templateContent)
         //------------------
+        /**@type {HTMLInputElement} */
         this.iptAccount = this.querySelector('#iptAccount');
         this.iptAccount.addEventListener('input', this.onInputChange.bind(this));
+        /**@type {HTMLInputElement} */
         this.iptEmail = this.querySelector('#iptEmail');
         this.iptEmail.addEventListener('input', this.onInputChange.bind(this));
+        /**@type {HTMLInputElement} */
         this.iptName = this.querySelector('#iptName');
         this.iptName.addEventListener('input', this.onInputChange.bind(this));
-        this.iptPhone = this.querySelector('#iptPhone');
-        this.iptPhone.addEventListener('input', this.onInputChange.bind(this));
+        // this.iptPhone = this.querySelector('#iptPhone');
+        // this.iptPhone.addEventListener('input', this.onInputChange.bind(this));
+        /**@type {HTMLInputElement} */
         this.iptAddress = this.querySelector('#iptAddress');
         this.iptAddress.addEventListener('input', this.onInputChange.bind(this));
-        // this.iptAddress1 = this.querySelector('#iptAddress1');
-        // this.iptAddress1.addEventListener('input', this.onInputChange.bind(this));
-        // this.iptAddress2 = this.querySelector('#iptAddress2');
-        // this.iptAddress2.addEventListener('input', this.onInputChange.bind(this));
-        // this.iptAddress3 = this.querySelector('#iptAddress3');
-        // this.iptAddress3.addEventListener('input', this.onInputChange.bind(this));
-        // div - inputGroup - all select
-        // this.iptgroup1 = this.querySelector('#iptgroup1');
-        // this.iptgroup1.addEventListener('click', (e) => {
-        //     this.proxyFormData.selectAddress = 1
-        // })
-        // this.iptgroup2 = this.querySelector('#iptgroup2');
-        // this.iptgroup2.addEventListener('click', (e) => {
-        //     this.proxyFormData.selectAddress = 2
-        // })
-        // this.iptgroup3 = this.querySelector('#iptgroup3');
-        // this.iptgroup3.addEventListener('click', (e) => {
-        //     this.proxyFormData.selectAddress = 3
-        // })
+        
         //======== Phone Number Verify=========
+        /**@type {HTMLInputElement} */
         this.iptPhone = this.querySelector('#iptPhone');
+        /**@type {HTMLElement} */
         this.btnVerifyNumber = this.querySelector('#btnVerifyNumber');
+        /**@type {HTMLElement} */
         this.btnDeleteNumber = this.querySelector('#btnDeleteNumber');
+        /**@type {HTMLElement} */
         this.divInputPhoneFailed = this.querySelector('#divInputPhoneFailed');
+        /**@type {HTMLElement} */
         this.divVerifyCode = this.querySelector('#divVerifyCode');
+        /**@type {HTMLInputElement} */
         this.iptPhoneVerifyCode = this.querySelector('#iptPhoneVerifyCode');
+        /**@type {HTMLElement} */
         this.btnSendVerifyCode = this.querySelector('#btnSendVerifyCode');
+        /**@type {HTMLElement} */
         this.divVerifyFailed = this.querySelector('#divVerifyFailed');
 
         function setDisabled(value) {
@@ -553,23 +544,16 @@ export default class cusModalUserProfile extends HTMLElement {
         //     item.setDisabled = setDisabled
         //     return item
         // })
-        arrayElements_isDisable.forEach(( /**@namespace foo*/ item) => {
+        arrayElements_isDisable.forEach(( /**@type {HTMLElement}*/ item) => {
             item.setDisabled = setDisabled
         })
-        arrayElements_isShow.forEach((item) => {
+        arrayElements_isShow.forEach((/**@type {HTMLElement}*/ item) => {
             item.setShow = setShow
         })
         //this.iptPhone.setDisabled(true)
         // this.divVerifyFailed.setShow(true)
 
-
-
-        //this.selectAddress = 0
-        // this.btnSaveProfile = this.querySelector('#btnSaveProfile');
-        // this.btnSaveProfile.addEventListener('click', this.saveProfile.bind(this));
-        // this.btnSaveProfile.addEventListener('submit', (params) => {
-        //     return false
-        // });
+        /**@type {HTMLElement} */
         this.formUserProfile = this.querySelector('#formUserProfile');
         this.formUserProfile.addEventListener('submit', this.onFormSubmit.bind(this));
 
@@ -591,10 +575,6 @@ export default class cusModalUserProfile extends HTMLElement {
             },
             set: function (target, prop, value) {
                 switch (prop) {
-                    // case 'selectAddress':
-                    //     self.setUi_iptGroup(value)
-
-                    //     break;
 
                     default:
                         /**@type {string} - UI input value */
@@ -622,52 +602,24 @@ export default class cusModalUserProfile extends HTMLElement {
         uiCkboxEmailVerified.classList.remove('b-displayNone');
     }
 
-    /**
-     * only set ui selected-Address
-     * @param {number} iptGroupNo
-     */
-    // setUi_iptGroup(iptGroupNo) {
-    //     switch (iptGroupNo) {
-    //         case 1:
-    //             let radioBtn_Address1 = this.querySelector('#radioBtn_Address1');
-    //             radioBtn_Address1.checked = true
-    //             this.iptAddress1.focus()
-    //             break;
-    //         case 2:
-    //             let radioBtn_Address2 = this.querySelector('#radioBtn_Address2');
-    //             radioBtn_Address2.checked = true
-    //             this.iptAddress2.focus()
-    //             break;
-    //         case 3:
-    //             let radioBtn_Address3 = this.querySelector('#radioBtn_Address3');
-    //             radioBtn_Address3.checked = true
-    //             this.iptAddress3.focus()
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }
-
-    // setEvents(events) {
-    //     this.events = events;
-    // }
     setFirebase(inFirebase) {
         // console.log(inFirebase)
         this.firebase = inFirebase;
         this.db = this.firebase.firestore();
         //this.setAuth_getRedirectResult();
-
     }
 
+    /**
+     * @function - save partial of userData to firestore
+     * @param {any} userData 
+     */
     saveUserData(userData) {
         let uid = this.proxyFormData.iptAccount
-        this.db.collection('Users').doc(uid).set(userData, {
+        this.db.collection(FIRESTORE_COLLECTION.Users).doc(uid).set(userData, {
             merge: true
         })
     }
-    setDataDefine(dataDefine) {
-        this.dataDefine = dataDefine;
-    }
+    
     showModal(isShow) {
         //let modalLogin2 = document.querySelector('#modalLogin2');
         //console.log(modalLogin2)
@@ -689,18 +641,9 @@ export default class cusModalUserProfile extends HTMLElement {
     onFormSubmit(e) {
         e.preventDefault();
 
-        //console.log(e.target)
-        //console.log(this.proxyFormData)
         let uid = this.proxyFormData.iptAccount
-        //let userProfile = this.getUserProfile(this.proxyFormData);
-        // this.db.collection('Users').doc(uid).set({
-        //     userProfile: {
-        //         ...userProfile
-        //     }
-        // }, {
-        //     merge: true
-        // })
-        this.db.collection('Users').doc(uid).withConverter(ProxyFormData.userProfileConverter).set({
+        
+        this.db.collection(FIRESTORE_COLLECTION.Users).doc(uid).withConverter(ProxyFormData.userProfileConverter).set({
             ...this.proxyFormData
         }, {
             merge: true
@@ -713,68 +656,9 @@ export default class cusModalUserProfile extends HTMLElement {
         // console.log(e.target.id)
         // console.log(this.proxyFormData[e.target.id])
     }
-    //---------- UserProfile <==> proxyFormData
-
-
-    // getUserProfile(proxyFormData) {
-    //     let userProfile = new this.dataDefine.UserProfile()
-    //     userProfile.sendEmail = this.proxyFormData.iptEmail
-    //     userProfile.name = this.proxyFormData.iptName
-    //     userProfile.phoneNumber = this.proxyFormData.iptPhone
-    //     userProfile.address1 = this.proxyFormData.iptAddress1
-    //     userProfile.address2 = this.proxyFormData.iptAddress2
-    //     userProfile.address3 = this.proxyFormData.iptAddress3
-    //     return userProfile;
-    // }
-    // setProxyFormData(userProfile) {
-    //     this.proxyFormData.iptEmail = userProfile.sendEmail
-    //     this.proxyFormData.iptName = userProfile.name
-    //     this.proxyFormData.iptPhone = userProfile.phoneNumber
-    //     this.proxyFormData.iptAddress1 = userProfile.address1
-    //     this.proxyFormData.iptAddress2 = userProfile.address2
-    //     this.proxyFormData.iptAddress3 = userProfile.address3
-    reset() {
-        console.log(1111)
-        console.log(this.firebase.auth().currentUser.credential)
-        //To sign in with a pop - up window, call linkWithPopup:
-        // var provider = new this.firebase.auth.GoogleAuthProvider();
-        // provider = new this.firebase.auth.FacebookAuthProvider();
-        // provider = new this.firebase.auth.PhoneAuthProvider();
-
-        // //window.credential_phone = firebase.auth.PhoneAuthProvider.credential(window.verificationId, sVerifyCode);
-        // this.firebase.auth().currentUser.linkWithPopup(provider).then(function (result) {
-        //     // Accounts successfully linked.
-        //     var credential = result.credential;
-        //     var user = result.user;
-        //     // ...
-        // }).catch(function (error) {
-        //     // Handle Errors here.
-        //     // ...
-        // });
-
-
-        // var user = firebase.auth().currentUser;
-        // var credential;
-
-        // // Prompt the user to re-provide their sign-in credentials
-        // var previousUser = firebase.auth().currentUser;
-        // firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
-        //     .then(function (result) {
-        //         return previousUser.link(result.credential);
-        //     })
-        //     .catch(function (err) {
-        //         // Handle error
-        //     });
-
-
-        // user.reauthenticateWithCredential(credential).then(function () {
-        //     // User re-authenticated.
-        // }).catch(function (error) {
-        //     // An error happened.
-        // });
-    }
+    
     // } //-----------------------------------------
-    loadDbProfile(uid, email) {
+    loadDbProfile(uid) {
         let self = this
         let authUser = this.firebase.auth().currentUser
         this.proxyFormData.iptAccount = uid
@@ -784,74 +668,35 @@ export default class cusModalUserProfile extends HTMLElement {
             this.proxyFormData.iptAccount = uid;
             this.proxyFormData.iptEmail = authUser.email;
             this.proxyFormData.iptPhone = authUser.phoneNumber
-            // userInfo.iptAccount = uid;
-            //         for (let keyName in userInfo) {
-            //             if (keyName !== 'userData')
-            //                 self.proxyFormData[keyName] = userInfo[keyName]
-            //         }
             //==== phone status
             this.proxyUI.enumPhoneStatus = (authUser.phoneNumber) ? ENUM_PhoneStatus.verifiedOK : ENUM_PhoneStatus.noPhoneNubmer;
             //==== signin provider type
-            /**@type {Array} */
-            let findGoogleProvider = authUser.providerData.filter((item) => {
-                return item.providerId === 'google.com' // google.com password
-            })
-            if (findGoogleProvider.length > 0)
-                this.proxyUI.enumLoginMethod = ENUM_LoginMethod.google;
-            else
-                this.proxyUI.enumLoginMethod = ENUM_LoginMethod.email;
+            let listProviderId = UserData.getListProviderId_ByAuthUserProviderData(authUser.providerData);
+            let fakeUser = new UserData();
+            fakeUser.listProviderId = listProviderId;
+            let providerId = fakeUser.providerId;
+            this.proxyUI.enumLoginMethod = (providerId === UserData.ENUM_ProviderType.google)?ENUM_LoginMethod.google:ENUM_LoginMethod.email;
+            // /**@type {Array} */
+            // let findGoogleProvider = authUser.providerData.filter((item) => {
+            //     return item.providerId === 'google.com' // google.com password
+            // })
+            // if (findGoogleProvider.length > 0)
+            //     this.proxyUI.enumLoginMethod = ENUM_LoginMethod.google;
+            // else
+            //     this.proxyUI.enumLoginMethod = ENUM_LoginMethod.email;
         }
 
         //newAA.proxyFormData.iptAccount = 'RZN9NipaymMkYA8Pr4a8Tg5gvz13'
 
         //var self = this.firebase
-        this.db.collection('Users').doc(uid).withConverter(ProxyFormData.userProfileConverter).get()
+        this.db.collection(FIRESTORE_COLLECTION.Users).doc(uid).withConverter(ProxyFormData.userProfileConverter).get()
             .then((e) => {
                 let userInfo = e.data();
                 if (userInfo) {
                     self.proxyFormData.iptName = userInfo.iptName
                     self.proxyFormData.iptAddress = userInfo.iptAddress
                 }
-                // if (userInfo === undefined) {
-                //     let newProxyFormData = new ProxyFormData();
-                //     newProxyFormData.iptAccount = uid;
-                //     for (let keyName in newProxyFormData) {
-                //         if (keyName !== 'userData')
-                //             self.proxyFormData[keyName] = newProxyFormData[keyName]
-                //     }
-                //     // let userProfile = new this.dataDefine.UserProfile()
-                //     // userProfile.sendEmail = ""
-                //     // userProfile.name = ""
-                //     // userProfile.phoneNumber = ""
-                //     // userProfile.address1 = ""
-                //     // userProfile.address2 = ""
-                //     // userProfile.address3 = ""
-                //     // self.setProxyFormData(userProfile)
-                // } else {
-                //     //------------ userInfo Existed
-                //     userInfo.iptAccount = uid;
-                //     for (let keyName in userInfo) {
-                //         if (keyName !== 'userData')
-                //             self.proxyFormData[keyName] = userInfo[keyName]
-                //     }
-                //     // //enumPhoneStatus
-                //     // if (userInfo.userData.phoneNumber)
-                //     //     this.proxyUI.enumPhoneStatus = ENUM_PhoneStatus.verifiedOK;
-                //     // else
-                //     //     this.proxyUI.enumPhoneStatus = ENUM_PhoneStatus.noPhoneNubmer;
-                //     // //enumPhoneStatus
-                //     // switch (userInfo.userData.providerId) {
-                //     //     case 'google.com':
-                //     //         this.proxyUI.enumLoginMethod = ENUM_LoginMethod.google;
-                //     //         break;
-                //     //     case 'password':
-                //     //         this.proxyUI.enumLoginMethod = ENUM_LoginMethod.email;
-                //     //         break;
-                //     //     default:
-                //     //         break;
-                //     // }
-
-                // }
+                
 
             })
 
