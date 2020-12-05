@@ -13,10 +13,10 @@ export function load_productListAsync() {
     let db_data = dataDefine.fakeProductInfo1;
     
     //return Refresh_productList(db_data)   this line is replaced to as below...
-    return (dispatch, getState)=>{
+    return (/**@type {any}*/dispatch, /**@type {any}*/getState)=>{
         
-        window.Firebase.getProducts()
-        .then((productList) => {
+        window.FirebaseMJS.getProductInfo()
+        .then((/**@type {any}*/productList) => {
             //console.log('--- ',)
             dispatch(Refresh_productList(productList));
             //console.log(productList)

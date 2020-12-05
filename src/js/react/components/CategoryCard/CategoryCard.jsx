@@ -4,7 +4,7 @@ import ProductCard from '../ProductCard/ProductCard.jsx'
 
 import '../../containers/ProductListSearch/ProductListSearch.css'
 import PropTypes from 'prop-types'
-import {Map_ProductCategory} from '../../../dataDefine/index.js'
+import {Map_ProductCategory, ProductInfo} from '../../../dataDefine/index.js'
 // import { connect } from 'react-redux'
 // import { load_productListAsync as load_productListAsync_act } from '../../actions/productList.js'
 
@@ -13,7 +13,7 @@ class CategoryCard extends React.Component {
     static propTypes = {
         groupedProducts: PropTypes.object
     }
-    constructor(props) {
+    constructor(/**@type {any}*/props) {
         super(props)
         let {refShopcartBox} = this.props;
         this.refShopcartBox = refShopcartBox;
@@ -59,9 +59,7 @@ class CategoryCard extends React.Component {
                             <div>NT$ 20</div>
                             <hr class="hrDot" />
                         </li> */}
-                                {arrayGroupedItems.map((productInfo, index) => (
-
-
+                                {arrayGroupedItems.map((/**@type {ProductInfo}*/productInfo, /**@type {Number}*/index) => (
                                     <ProductCard refShopcartBox={this.refShopcartBox} productInfo={productInfo} key={index} dispatch={this.props.dispatch} />
                                 ))}
                             </ul>

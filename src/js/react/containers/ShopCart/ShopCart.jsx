@@ -16,7 +16,7 @@ class ShopCart extends Component {
     // static propTypes = {
     //     prop: PropTypes
     // }
-    constructor(props) {
+    constructor(/**@type {any}*/props) {
         super(props)
         const { dispatch } = props
         this.boundActionCreators = bindActionCreators(shopCart_actions, dispatch);
@@ -27,12 +27,13 @@ class ShopCart extends Component {
     // }
     /**
      * 
-     * @param {ShopItem[]} shopItems 
+     * @param {ShopItemInfo[]} shopItems 
      */
     _getOrderInfo_FromShopItems = (shopItems) => {
         let newOrderIfno = new OrderInfo();
         shopItems.forEach((item) => {
-            let newItem = { ...item }
+            /**@type {ShopItemInfo} */
+            let newItem = window._.cloneDeep(item)// { ...item }
             newItem._productInfo = null
             newOrderIfno.shopItemList.push(newItem);
         })
@@ -42,8 +43,8 @@ class ShopCart extends Component {
         let orderInfo = this._getOrderInfo_FromShopItems(this.props.shopItemList);
         orderInfo.totalPrice = this.props.AllItems_Price;
 
-        return window.Firebase.getUser()
-            .then((user) => {
+        return window.FirebaseMJS.getUser()
+            .then((/**@type {any}*/user) => {
                 //console.log('wwwww---', user)
                 orderInfo.userId = user.uid
                 //orderInfo.userProfile = user.userProfile
@@ -63,13 +64,13 @@ class ShopCart extends Component {
 
     }
 
-    CheckOutOrder = (e) => {
+    CheckOutOrder = (/**@type {any}*/e) => {
         console.log('CheckOutOrder')
 
         this._getOrderInfo()
             .then((orderInfo) => {
                 //console.log(orderInfo)
-                return window.Firebase.addOrderInfo(orderInfo)
+                return window.FirebaseMJS.addOrderInfo(orderInfo)
             })
             .then(() => {
                 return Swal.fire({
@@ -141,7 +142,7 @@ class ShopCart extends Component {
                     <table id="tbShopcart" className="tableShopcart bd1">
                         <tbody>
 
-                            {shopItemList.map((item, index) => (<ShopItem key={index} shopItem={item} dispatch={dispatch}></ShopItem>))}
+                            {shopItemList.map((/**@type {ShopItemInfo}}*/item, /**@type {number}*/index) => (<ShopItem key={index} shopItem={item} dispatch={dispatch}></ShopItem>))}
                             {/* <tr>
                                 <td>總計 (包括稅項)</td>
                                 <td>NT$0.00</td>
@@ -153,7 +154,7 @@ class ShopCart extends Component {
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colSpan="2">
+                                <td colSpan={2}>
                                     <button className="btn btn-block btn-success" onClick={this.CheckOutOrder}>結帳</button>
                                 </td>
                             </tr>
@@ -191,7 +192,7 @@ class ShopCart extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (/**@type {any}*/state) => {
     //console.log('shopCart -- mapStateToProps==> ', state)
     let { sumPrice, totalItemCount } = countAllItems_Price(state.shopCart.shopItemList)
     return {
@@ -202,7 +203,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (/**@type {any}*/dispatch) => {
     //return bindActionCreators(App_redux, dispatch);
     return {
         dispatch: dispatch

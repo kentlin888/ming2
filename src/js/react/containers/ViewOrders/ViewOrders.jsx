@@ -36,9 +36,9 @@ export default class ViewOrders extends PureComponent {
             e.preventDefault()
             // $(".active").removeClass("active");
             // $(this).addClass("active");
-            let element_orderStatus = e.currentTarget.getAttribute('orderstatus')
+            let element_orderStatus = e.currentTarget.getAttribute('data-orderstatus')
             if (ENUM_orderStatus.hasOwnProperty(element_orderStatus) === false)
-                throw new Error('value of attribute[orderstatus] is not valid in ENUM_orderStatus.')
+                throw new Error('value of attribute[data-orderstatus] is not valid in ENUM_orderStatus.')
             //console.log(ENUM_orderStatus.hasOwnProperty(element_orderStatus))
             //window2.app
             
@@ -46,7 +46,7 @@ export default class ViewOrders extends PureComponent {
             uid = window2.app.userData.uid
             uid = window2.firebase.auth().currentUser.uid
             if(uid){
-                window2.Firebase.getOrderInfo(uid, element_orderStatus)//'canceled'
+                window.FirebaseMJS.getOrderInfo(uid, element_orderStatus)//'canceled'
                 .then((orderInfo_list) => {
                     //let sJson = JSON.stringify(orderInfo_list[0], null, 4)
                     //console.log(sJson)
@@ -61,10 +61,10 @@ export default class ViewOrders extends PureComponent {
 
     //     e.preventDefault()
     //     // console.log(bindarg1)
-    //     // console.log(e.currentTarget.getAttribute('orderstatus'))
+    //     // console.log(e.currentTarget.getAttribute('data-orderstatus'))
     //     $(".active").removeClass("active");
     //     $(this).addClass("active");
-    //     let orderstatus = e.currentTarget.getAttribute('orderstatus')
+    //     let orderstatus = e.currentTarget.getAttribute('data-orderstatus')
     //     console.log(orderstatus)
     //     //console.log(bindarg1)
     //     //console.log(e.target)
@@ -78,11 +78,11 @@ export default class ViewOrders extends PureComponent {
                 <article >
                     <section>
                         <ul className="b-flexCenter ulScrollButtons bd3">
-                            <li className="btnCategory" orderstatus="all">所有訂單</li>
-                            <li className="btnCategory" orderstatus="completed">已完成</li>
-                            <li className="btnCategory" orderstatus="waitForPay">待付款</li>
-                            <li className="btnCategory" orderstatus="waitForDelivery">待出貨</li>
-                            <li className="btnCategory" orderstatus="canceled">已取消</li>
+                            <li className="btnCategory" data-orderstatus="all">所有訂單</li>
+                            <li className="btnCategory" data-orderstatus="completed">已完成</li>
+                            <li className="btnCategory" data-orderstatus="waitForPay">待付款</li>
+                            <li className="btnCategory" data-orderstatus="waitForDelivery">待出貨</li>
+                            <li className="btnCategory" data-orderstatus="canceled">已取消</li>
                         </ul>
                         <div >
 
@@ -97,7 +97,7 @@ export default class ViewOrders extends PureComponent {
 
                         <div className="boxTable bd1">
                             {/* <button onClick={this.loadOrders}>Load Orders</button> */}
-                            <ViewOrdersItem data={this.state.orderInfo_list}></ViewOrdersItem>
+                            <ViewOrdersItem data-arrayOrder={this.state.orderInfo_list}></ViewOrdersItem>
                         </div>
 
                     </section>

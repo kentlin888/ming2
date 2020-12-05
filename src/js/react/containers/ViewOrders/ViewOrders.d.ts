@@ -9,7 +9,7 @@
 import * as React from 'react'
 export interface ViewOrdersProps {
     // foo ? : any;
-    data ?:[any];
+    data ? : [any];
     //Requireable<any[]>
 }
 // interface PropsType {
@@ -17,12 +17,13 @@ export interface ViewOrdersProps {
 //     name: string;
 //     data:Array;
 // }
-declare class ViewOrders extends React.PureComponent<ViewOrdersProps, any> {
-    constructor (props: any){}
+declare class ViewOrders extends React.PureComponent < ViewOrdersProps, any > {
+    constructor(props: any) {}
     //constructor (props: ViewOrdersProps){}
     //render: any;
 }
 export default ViewOrders;
+
 
 
 // declare namespace JSX {

@@ -11,7 +11,7 @@ import FirebaseMJS, {
     Email_ResendPassword,
     FIRESTORE_COLLECTION
 } from '../../js/firebase/FirebaseMJS.js'
-
+import _ from 'lodash'
 // import firebase from "firebase/app";
 // import "firebase/auth"
 // import 'firebase/firestore'
@@ -45,7 +45,8 @@ import Swal from 'sweetalert2'
 //require("html-loader!./webpack_html/img_html.html");
 window.Swal = Swal;
 window.$ = $
-
+window._ = _
+//console.log('lodash--',_)
 
 // kick off the polyfill!
 smoothscroll.polyfill();

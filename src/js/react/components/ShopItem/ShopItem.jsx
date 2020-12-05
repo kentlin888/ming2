@@ -22,18 +22,18 @@ export default class ShopItem extends Component {
         // price:0,
         // id:'null',
     };
-    constructor(props){
+    constructor(/**@type {any}*/props){
         super(props)
         const {dispatch} = this.props
         this.boundActionCreators = bindActionCreators(shopCart_act, dispatch);
         // console.log('actions-->', shopCart_act)
         // console.log('this.boundActionCreators --> ', this.boundActionCreators)
     }
-    btnAdd_onClick=(e) => {
+    btnAdd_onClick=(/**@type {any}*/e) => {
         const { shopItem } = this.props
         this.boundActionCreators.add_shopCart(1, shopItem.productInfo);
     }
-    btnDecrease_onClick=(e) => {
+    btnDecrease_onClick=(/**@type {any}*/e) => {
         const { shopItem } = this.props
         this.boundActionCreators.decrease_shopCart(1, shopItem.productInfo);
     }
@@ -61,45 +61,6 @@ export default class ShopItem extends Component {
                     </div>
                 </td>
             </tr>
-            // <tr>
-            //     <td>
-            //         {/* ======= amount button ======= */}
-            //         <div className="block_button">
-            //             <button onClick={this.btnDecrease_onClick}>-</button>
-            //             <div>{shopItem.amount}</div>
-            //             <button onClick={this.btnAdd_onClick}>+</button>
-            //         </div>
-            //     </td>
-            //     <td>
-            //         {/* ======= product description ======= */}
-            //         <div className="block_productDesc">
-            //             <div>
-            //                 {shopItem.productInfo.name}
-            //             </div>
-            //         </div>
-            //     </td>
-            //     <td>
-            //         {/* ======= count price ======= */}
-            //         <div className="block_countPrice">
-            //             <div>
-            //                 NT$ {shopItem.amount * shopItem.productInfo.price}
-            //             </div>
-            //         </div>
-            //     </td>
-
-            // </tr>
-
-
         )
     }
 }
-
-// const mapStateToProps = (state) => ({
-
-// })
-
-// const mapDispatchToProps = {
-
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ShopCard)

@@ -16,14 +16,9 @@ export default class ProductCard extends PureComponent {
         //ref
         refShopcartBox:PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         //PropTypes.instanceOf(Element)
-        
-        // productId:PropTypes.string,
-        // name:PropTypes.string,
-        // price:PropTypes.number,
-        // imgFileName:PropTypes.string,
 
     }
-    constructor(props) {
+    constructor(/**@type {any}*/props) {
         super(props);
         //this.data = props.data;
         const { dispatch, refShopcartBox } = props
@@ -31,20 +26,9 @@ export default class ProductCard extends PureComponent {
         //notify parent add click happened.  need to scroll to shopcart bottom.
         
         this.refShopcartBox = refShopcartBox;
-        // this.btnRemove = React.createRef();
-
-        //console.log('props--> ', props)
-        //console.log('props==> ',props)
-        //console.log('props--------->',props)
-        // this.data = {
-        //     "productId":"kssf"
-        //     "name":"白斬雞",
-        //     "price":140,
-        //     "imgFileName":"白斬雞.jpg"
-        // }
 
     }
-    btnAddToCart = (e) => {
+    btnAddToCart = (/**@type {any}*/e) => {
         const { productInfo, dispatch } = this.props
         //console.log(this.props)
         //console.log('productInfo---> ', productInfo)
@@ -53,17 +37,6 @@ export default class ProductCard extends PureComponent {
             this.refShopcartBox.current.scroll(0,this.refShopcartBox.current.scrollHeight)
         }, 500);
         
-        //let aa = shopCart_actions.add_shopCart(1, productInfo)
-        //dispatch(aa)
-        //console.log(aa)
-        //console.log('btnAddToCart')
-        //let a = e.target.getAttribute('rid');
-        //let b = e.currentTarget.getAttribute('rid');
-        //console.log(a)
-        // console.log(a)
-        // console.log(b)
-        //console.log(this.props)
-        //this.props.add_shopCart();
     }
     render() {
         const { productInfo } = this.props
@@ -72,8 +45,6 @@ export default class ProductCard extends PureComponent {
                 <li className="bd1 productCard">
                     <figure>
                         <figcaption className="b-textCenter">
-                            {/* <div cardid="autoNum">{productInfo.autoNum}</div>
-                                        <div cardid="productId">{productInfo.productId}</div> */}
                             <div >{productInfo.name}</div>
                         </figcaption>
                         <div className="imgContainer bd2">
@@ -93,29 +64,8 @@ export default class ProductCard extends PureComponent {
                         </button>
                     </div>
                     <hr className="hrDot" />
-                    {/* <div>{productInfo.}</div>
-                                <img class="imgFood" src="noodle1.png" alt="" />
-                                <div>NT$ 20</div>
-                                <hr class="hrDot" /> */}
                 </li>
-                {/* <div id={this.props.id} className="productCard col-10 col-sm-10  col-md-5 col-lg-3" >
-                    <figure>
-                        <figcaption>
-                            <div cardid="autoNum">{productInfo.autoNum}</div>
-                            <div cardid="productId">{productInfo.productId}</div>
-                            <div cardid="productName">{productInfo.name}</div>
-                            <div cardid="productPrice">NT$ {productInfo.price}</div>
-                        </figcaption>
-                        <img
-                            className="productFigure"
-                            src={productInfo.imgUrl}
-                            // src={imgProduct.default}
-                            alt="image not found"
-                        />
-
-                    </figure>
-                    <button rid="btnAddToCart" onClick={this.btnAddToCart}>+</button>
-                </div> */}
+                
             </React.Fragment>
         );
     }

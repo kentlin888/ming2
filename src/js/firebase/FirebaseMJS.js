@@ -151,6 +151,7 @@ export default class FirebaseMJS {
         })
 
     }
+    /**@function - get doc.data() from FIRESTORE_COLLECTION.ProductInfo */
     getProductInfo = () => {
         this.initDB();
 
@@ -177,6 +178,35 @@ export default class FirebaseMJS {
                 return rtnProductInfo_list;
             })
     }
+    // getProducts = () => {
+    //     this.initDB();
+    //     let rtn_ProductInfo_List = []
+        
+    //     return this._db.collection(FIRESTORE_COLLECTION.Products) //.where("autoNum", "==", 7)
+    //         .get()
+    //         .then(function (querySnapshot) {
+    //             // let {docs} = querySnapshot
+    //             // console.log(docs[2].data())
+    //             //console.log(querySnapshot.docs[1].data())
+    //             querySnapshot.forEach(function (doc) {
+    //                 //console.log(doc.id)
+    //                 if (doc.id === '--AutoNum--')
+    //                     return true
+    //                 //console.log(111)
+    //                 // doc.data() is never undefined for query doc snapshots
+    //                 //console.log(doc.id)
+    //                 let data = doc.data()
+    //                 rtn_ProductInfo_List.push(data)
+    //                 // str += JSON.stringify(data)
+    //                 // console.log(doc.id, " => ", doc.data());
+
+    //             });
+    //             //console.log(888)
+    //             return rtn_ProductInfo_List
+    //         })
+    //     // .catch(function (error) {
+    //     // });
+    // }
     /**
      * add OrderInfo to firestore.OrderInfo
      * @param  {import("../dataDefine/index.js").OrderInfo} orderInfo

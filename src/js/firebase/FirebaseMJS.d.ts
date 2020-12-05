@@ -77,7 +77,7 @@ export default class FirebaseMJS {
         beginEvent: Function;
         endEvent: Function;
     }): any;
-    getProductInfo: () => any;
+    //getProductInfo: () => any;
     /**
      * add OrderInfo to firestore.OrderInfo
      * @param  {import("../dataDefine/index.js").OrderInfo} orderInfo

@@ -7,12 +7,16 @@ interface JQuery {
 interface History{
     push:(url:string)=>void;
 }
-// declare interface HTMLInputElement {
-//     setShow:(isTrue:boolean)=>void;
-//     setDisabled:(isTrue:boolean)=>void;
-//     // self.btnVerifyNumber.setShow(true)
-//     // self.btnVerifyNumber.setDisabled(false)
+
+//-------- add attrubutes ok
+// declare namespace JSX {
+//     interface IntrinsicElements {
+//         "li": HTMLAttributes & {
+//             orderstatus: string;
+//         }
+//     }
 // }
+
 // declare interface HTMLElement {
 //     setShow:(isTrue:boolean)=>void;
 //     setDisabled:(isTrue:boolean)=>void;

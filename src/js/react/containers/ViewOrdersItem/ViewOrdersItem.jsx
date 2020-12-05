@@ -5,7 +5,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 //import OrderList_css from './OrderList.css'
 
 import PropTypes from 'prop-types'
-import { OrderInfo, UserProfile, UserData } from '../../../../js/dataDefine/index.js'
+import { OrderInfo, UserProfile, UserData, ShopItemInfo } from '../../../../js/dataDefine/index.js'
 // import { times } from 'lodash';
 
 /**
@@ -63,7 +63,7 @@ const rowStyle = { backgroundColor: '#c8e6c9' };
 const expandRow = {
     onlyOneExpanding: true,
     className: 'expandingRowBackground',
-    renderer: (row) => {
+    renderer: (/**@type {any}*/row) => {
         /**@type {import('../../../dataDefine/index.js').UserData} */
         let userData = new UserData();
         userData = Object.assign(userData, row.userData)
@@ -95,7 +95,7 @@ const expandRow = {
                 商品明細
             </div>
             <div>
-                {row.shopItemList.map(function (item, index) {
+                {row.shopItemList.map(function (/**@type {ShopItemInfo}*/item, /**@type {number}}*/index) {
                     return <div key={index} className="productBox bd4">
                         <div>
                             <div className="imgContainer">
@@ -125,19 +125,19 @@ const expandRow = {
         </div>
     }
     ,
-    parentClassName: (isExpanded, row, rowIndex) => {
+    parentClassName: (/**@type {Boolean}*/isExpanded, /**@type {any}*/row, /**@type {Number}*/rowIndex) => {
         return 'parentExpandFoo'
         // if (rowIndex > 2) return 'parent-expand-foo';
         // return 'parent-expand-bar';
     },
     showExpandColumn: true,
-    expandHeaderColumnRenderer: ({ isAnyExpands }) => {
+    expandHeaderColumnRenderer: (/**@type {any}*/{ isAnyExpands }) => {
         if (isAnyExpands) {
             return <b>-</b>;
         }
         return <b>+</b>;
     },
-    expandColumnRenderer: ({ expanded }) => {
+    expandColumnRenderer: (/**@type {any}*/{ expanded }) => {
         if (expanded) {
             return (
                 <b>-</b>
@@ -151,20 +151,21 @@ const expandRow = {
 };
 
 export default class ViewOrdersItem extends PureComponent {
+    
     static propTypes = {
-        /**@type {OrderInfo[]} */
-        data: PropTypes.array
+        //OrderInfo[]
+        ['data-arrayOrder']: PropTypes.arrayOf(PropTypes.instanceOf(OrderInfo))
     }
     static defaultProps = {
-        data: []
+        //data: []
     }
     render() {
-
+        console.log('llpppp-->', this.props)
         return (
             <div>
                 <BootstrapTable
                     keyField='orderId'
-                    data={this.props.data}
+                    data={this.props['data-arrayOrder']}
                     columns={columns}
                     expandRow={expandRow}
                 />
