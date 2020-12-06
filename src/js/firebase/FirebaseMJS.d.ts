@@ -50,8 +50,9 @@ export default class FirebaseMJS {
     };
     /**
      * @param {firebase} firebase - from firebase
+     * @param {import('../lib/dataKits.js')}
      */
-    constructor(firebase: any);
+    constructor(firebase: any,dataKits:dataKits);
     _firebase: any;
     /**
      * initial-- use this.initStorageRef()
@@ -91,6 +92,8 @@ export default class FirebaseMJS {
      * @returns {Promise<OrderInfo[]>}
      */
     getOrderInfo: (userId: string, orderStatus: ENUM_orderStatus) => Promise<OrderInfo[]>;
+    /**@function - get doc.data() from FIRESTORE_COLLECTION.ProductInfo */
+    getProductInfo: ()=>any;
     /**
      * @function
      * @return {Promise<object>} - firestore.Users.data()

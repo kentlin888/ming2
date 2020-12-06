@@ -30,7 +30,7 @@ function dateFormatter1(cell, row, rowIndex, formatExtraData) {
 }
 const columns = [
     {
-        dataField: 'createDateTime',
+        dataField: 'jsdtCreateDateTime_server',
         text: 'Create Date',
         formatter: dateFormatter1
     }, {

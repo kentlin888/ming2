@@ -5,7 +5,7 @@
         "tag": "#",
         "price": 30,
         "imgUrl": "http://fakeimg.pl/440x320/282828/EAE0D0/",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252980,
             "nanoseconds": 815000000
         },
@@ -19,7 +19,7 @@
         "autoNum": 2,
         "isActived": false,
         "imgFileName": "null",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252981,
             "nanoseconds": 175000000
         },
@@ -37,7 +37,7 @@
         "name": "百頁豆腐",
         "tag": "#",
         "category": "soybean",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252981,
             "nanoseconds": 430000000
         },
@@ -52,7 +52,7 @@
         "imgUrl": "http://fakeimg.pl/640x220/282828/EAE0D0/",
         "isActived": false,
         "autoNum": 4,
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252981,
             "nanoseconds": 689000000
         },
@@ -61,7 +61,7 @@
     },
     {
         "isActived": false,
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252981,
             "nanoseconds": 949000000
         },
@@ -83,14 +83,14 @@
         "name": "小素條",
         "price": 20,
         "productId": "0006-ftl",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252982,
             "nanoseconds": 128000000
         },
         "isActived": false
     },
     {
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252982,
             "nanoseconds": 388000000
         },
@@ -107,7 +107,7 @@
     {
         "productId": "0008-yyc",
         "tag": "#",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252982,
             "nanoseconds": 666000000
         },
@@ -126,7 +126,7 @@
         "category": "chicken",
         "isActived": false,
         "productId": "0009-2o8",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252982,
             "nanoseconds": 858000000
         },
@@ -142,7 +142,7 @@
         "category": "chicken",
         "price": 240,
         "imgUrl": "http://fakeimg.pl/440x320/282828/EAE0D0/",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252983,
             "nanoseconds": 18000000
         },
@@ -156,7 +156,7 @@
         "imgUrl": "http://fakeimg.pl/440x320/282828/EAE0D0/",
         "price": 120,
         "productId": "0011-iu0",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252983,
             "nanoseconds": 238000000
         },
@@ -170,7 +170,7 @@
         "imgFileName": "null",
         "name": "牛腱",
         "imgUrl": "http://fakeimg.pl/440x320/282828/EAE0D0/",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252983,
             "nanoseconds": 413000000
         },
@@ -183,7 +183,7 @@
         "name": "牛肚",
         "price": 150,
         "imgFileName": "null",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252983,
             "nanoseconds": 574000000
         },
@@ -204,7 +204,7 @@
         "productId": "0014-c76",
         "price": 100,
         "tag": "#",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252983,
             "nanoseconds": 716000000
         }
@@ -216,7 +216,7 @@
         "name": "滷蛋",
         "imgUrl": "http://fakeimg.pl/440x320/282828/EAE0D0/",
         "category": "others",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252983,
             "nanoseconds": 839000000
         },
@@ -233,7 +233,7 @@
         "imgFileName": "null",
         "productId": "0016-dit",
         "autoNum": 16,
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252983,
             "nanoseconds": 985000000
         },
@@ -246,7 +246,7 @@
         "isActived": true,
         "imgFileName": "null",
         "imgUrl": "http://fakeimg.pl/440x320/282828/EAE0D0/",
-        "addDateTime": {
+        "fstsAddDateTime_server": {
             "seconds": 1602252984,
             "nanoseconds": 155000000
         },

@@ -3,6 +3,7 @@ import {
     OrderInfo,
     ShopItemInfo
 } from '../dataDefine/index'
+import * as dataKits from '../lib/dataKits.js'
 let firebaseConfig = require('../../projectConfig/firebaseProj.config.json')
 let chai = require('chai')
 let firebase = require('firebase/app');
@@ -42,8 +43,8 @@ describe('Connect1.test.js', () => {
     it('Prod.admin.Products.BatchDelete', () => {
         let collectionName
         //collectionName = 'Products'
-        collectionName = 'ProductInfo'
-        //collectionName = "OrderInfo"
+        //collectionName = 'ProductInfo'
+        collectionName = "OrderInfo"
         let admin = require('firebase-admin');
         admin.initializeApp({
             credential: admin.credential.cert(adminKeyJson),
@@ -71,7 +72,7 @@ describe('Connect1.test.js', () => {
         })
     })
     it('FirebaseMJS.addProductInfo()', () => {
-        let firebaseMJS = new FirebaseMJS(firebase);
+        let firebaseMJS = new FirebaseMJS(firebase,dataKits);
         return firebaseMJS.addProductInfo("清燉牛肉麵", 540, "beef", "https://www.google.com")
             .then((newDocRef) => {
                 return newDocRef.get()
@@ -85,7 +86,7 @@ describe('Connect1.test.js', () => {
 
     })
     it('Prod.html.Firebase_MJS.addProductInfo data[17]', () => {
-        let firebaseMJS = new FirebaseMJS(firebase);
+        let firebaseMJS = new FirebaseMJS(firebase,dataKits);
         let arrayProductInfo = require('../../../adminData/NewProducts.json')
         //only test 3 items
         // let [a,b,c] = arrayProductInfo
@@ -115,7 +116,7 @@ describe('Connect1.test.js', () => {
     })
     it('FirebaseMJS.addOrderInfo()', () => {
         let orderInfo = new OrderInfo();
-        let firebaseMJS = new FirebaseMJS(firebase);
+        let firebaseMJS = new FirebaseMJS(firebase,dataKits);
         return firebaseMJS.addOrderInfo(orderInfo)
             .then((newDocRef) => {
                 return newDocRef.get()
@@ -146,7 +147,7 @@ describe('Connect1.test.js', () => {
 
     })
     it('Prod.html.Firebase_MJS.addOrderInfo_FakeData[4]', () => {
-        let firebaseMJS = new FirebaseMJS(firebase);
+        let firebaseMJS = new FirebaseMJS(firebase,dataKits);
         let _ = require('lodash')
         return firebaseMJS.getProductInfo()
             .then((listProductInfo) => {

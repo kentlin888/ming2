@@ -108,7 +108,7 @@ export default function reducer(state = initState, action = {}) {
 export const countAllItems_Price = (shopItemList=[{},{}])=>{
     //console.log('shopItemList-> ', shopItemList)
     let sumPrice = 0;
-    /**@type {nubmer} sum of all items amount */
+    /**@type {Number} sum of all items amount */
     let totalItemCount = 0;
     shopItemList.forEach((/**@type {dataDefine.ShopItemInfo}*/shopItem, index)=>{
         totalItemCount+=shopItem.amount;
@@ -116,8 +116,8 @@ export const countAllItems_Price = (shopItemList=[{},{}])=>{
         //shopItem.amount * shopItem.productInfo.price;
         sumPrice+=shopItemPrice
     });
-    let window2 = /** @type {import('../dataDefine/index.js').ExtendedWindow} */ (window);
-    window2.app.setShopItemCount(totalItemCount)
+    //let window2 = /** @type {import('../../dataDefine/index.js').ExtendedWindow} */ (window);
+    window.app.setShopItemCount(totalItemCount)
     let result = {
         sumPrice,
         totalItemCount

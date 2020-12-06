@@ -12,11 +12,7 @@ export interface ViewOrdersProps {
     data ? : [any];
     //Requireable<any[]>
 }
-// interface PropsType {
-//     children: JSX.Element;
-//     name: string;
-//     data:Array;
-// }
+
 declare class ViewOrders extends React.PureComponent < ViewOrdersProps, any > {
     constructor(props: any) {}
     //constructor (props: ViewOrdersProps){}

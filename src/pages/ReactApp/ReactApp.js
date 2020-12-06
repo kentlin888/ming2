@@ -10,6 +10,7 @@ import reducer from "../../js/react/reducers";
 import App from "../../js/react/containers/App.jsx";
 import FirebaseMJS from '../../js/firebase/FirebaseMJS.js'
 import _ from 'lodash'
+import * as dataKits from '../../js/lib/dataKits.js'
 //reducers
 
 //console.log(window.aaa)
@@ -40,7 +41,7 @@ import _ from 'lodash'
 // })
 
 //var window2 = /**@type {import('../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
-window.FirebaseMJS = new FirebaseMJS(window.firebase)
+window.FirebaseMJS = new FirebaseMJS(window.firebase,dataKits)
 
 var rootReducer = reducer; //already combine Reducers
 

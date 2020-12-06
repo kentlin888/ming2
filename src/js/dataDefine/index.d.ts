@@ -1,3 +1,5 @@
+import firebase from 'firebase';
+
 /**
  * @class
  * @desc ming1 project ShopItem.jsx
@@ -32,16 +34,21 @@ export namespace ENUM_ProductCategory {
     export const coldPlates: string;
 }
 export namespace Map_ProductCategory {
-    const mainCourse_1: string;
-    export { mainCourse_1 as mainCourse };
-    const meats_1: string;
-    export { meats_1 as meats };
-    const soups_1: string;
-    export { soups_1 as soups };
-    const stirFired_1: string;
-    export { stirFired_1 as stirFired };
-    const coldPlates_1: string;
-    export { coldPlates_1 as coldPlates };
+    export const mainCourse:string;
+    export const meats:string;
+    export const soups:string;
+    export const stirFired:string;
+    export const coldPlates:string;
+    // const mainCourse_1: string;
+    // export { mainCourse_1 as mainCourse };
+    // const meats_1: string;
+    // export { meats_1 as meats };
+    // const soups_1: string;
+    // export { soups_1 as soups };
+    // const stirFired_1: string;
+    // export { stirFired_1 as stirFired };
+    // const coldPlates_1: string;
+    // export { coldPlates_1 as coldPlates };
 }
 /**
  * @class
@@ -54,8 +61,8 @@ export class ProductInfo {
     name: string;
     /**@prop {number} */
     price: number;
-    /**@prop {?Date} */
-    addDateTime: any;
+    /**@prop {?firebase.firestore.Timestamp} */
+    fstsAddDateTime_server: any;
     /**@prop {string} */
     category: string;
     /**@prop {string} */
@@ -88,8 +95,8 @@ export class OrderStatus {
  * @description - OrderInfo.OrderLog by LogType
  */
 export class OrderLog {
-    /**@type {?Date} */
-    logDateTime: Date | null;
+    /**@type {?firebase.firestore.Timestamp} */
+    fstsLogDateTime_server: Date | null;
     /**@type {LogType} */
     logType: LogType;
     /**@type {string} */
@@ -111,36 +118,38 @@ export namespace LogType {
  * @description - from firestore.OrderInfo
  */
 export class OrderInfo {
-    /**@type {string} - firestore.Users.uid*/
+    /** firestore.Users.uid*/
     userId: string;
-    /**@type {(?Date|object)} - order create datetime from firestore*/
-    createDateTime: ((Date | object) | null);
-    /**@property {string} */
+    /** order create datetime is js Date or from firestore timestamp FORMAT!*/
+    fstsCreateDateTime_server: firebase.firestore.Timestamp;
+    
+    /**@type {?Date} - server time conver to client js datetime*/ 
+    get jsdtCreateDateTime_server():Date;
+
     get sCreateDateTime(): string;
-    /**@property {string} */
+    
     get sOrderStatus(): string;
-    /**@type {string} */
+    
     orderId: string;
-    /**@type {ShopItemInfo[]} */
+    
     shopItemList: ShopItemInfo[];
-    /**@property {string} - first shop product name with /.... */
+    /**first shop product name with /.... */
     get orderProductName(): string;
-    /**
-     * @returns {string[]}
-     */
+    
     getShopItems_Id: () => string[];
+    
     /**
-     * fill shopItem detail information
-     * @param {ProductInfo[]} arrayProductInfo - distinct product list
+     * @function - fill shopItem detail information
+     * @param arrayProductInfo - distinct product list
      */
     fillShopItems(arrayProductInfo: ProductInfo[]): void;
-    /**@type {number} */
+    
     totalPrice: number;
-    /**@type {OrderStatus} */
+    
     orderStatus: OrderStatus;
-    /**@type {OrderLog[]} */
+    
     orderLog: OrderLog[];
-    /**@prop {UserData} */
+    
     userData: UserData;
 }
 /**@class

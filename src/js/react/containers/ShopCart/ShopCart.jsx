@@ -12,6 +12,7 @@ import ShopItem from '../../components/ShopItem/ShopItem.jsx'
 //import '../../containers/ProductListSearch/ProductListSearch.css'
 import { OrderInfo, ShopItemInfo, UserData, UserProfile } from '../../../dataDefine/index.js'
 import Swal from 'sweetalert2'
+import {TypeOf, ENUM_TypeOf, getPlainObject} from '../../../lib/dataKits.js'
 class ShopCart extends Component {
     // static propTypes = {
     //     prop: PropTypes
@@ -69,7 +70,9 @@ class ShopCart extends Component {
 
         this._getOrderInfo()
             .then((orderInfo) => {
-                //console.log(orderInfo)
+                // let enumType = TypeOf(orderInfo)
+                // let toDb_orderInfo = (enumType == ENUM_TypeOf.objectClass)?recursiveToPlainObject(orderInfo): orderInfo;
+                // console.log('toDb_orderInfo-->',toDb_orderInfo)
                 return window.FirebaseMJS.addOrderInfo(orderInfo)
             })
             .then(() => {

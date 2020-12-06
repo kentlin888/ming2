@@ -21,6 +21,7 @@ import './App.css'
 export default class App extends PureComponent {
     constructor(/**@type {any}*/props) {
         super(props);
+        this.props = props
         /**@type {any} */
         let history = createHashHistory(this.props)
         window.app.pushUrl = history.push

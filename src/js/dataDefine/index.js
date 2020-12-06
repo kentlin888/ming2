@@ -81,10 +81,15 @@ export const Map_ProductCategory = {
     // pork:"豬肉類",
     // others:"其他類別",
 
+    /**@type {string} */
     mainCourse:"主菜",
+    /**@type {string} */
     meats:"肉類",
+    /**@type {string} */
     soups:"湯",
+    /**@type {string} */
     stirFired:"快炒",
+    /**@type {string} */
     coldPlates:"冷盤"
 }
 /**
@@ -98,8 +103,8 @@ export class ProductInfo {
     name = "null" //"白斬雞"
     /**@prop {number} */
     price = 0 //140
-    /**@prop {?Date} */
-    addDateTime = null
+    /**@prop {?firebase.firestore.Timestamp} */
+    fstsAddDateTime_server = null
 
     /**@prop {string} */
     category = "null"
@@ -135,8 +140,8 @@ export class OrderStatus {
  * @description - OrderInfo.OrderLog by LogType
  */
 export class OrderLog {
-    /**@type {?Date} */
-    logDateTime = null
+    /**@type {?firebase.firestore.Timestamp} */
+    fstsLogDateTime_server = null
     /**@type {LogType} */
     logType = ''
     /**@type {string} */
@@ -158,15 +163,18 @@ export const LogType = {
 /** 
  * @class
  * @description - from firestore.OrderInfo 
- */
-export class OrderInfo {
+ */export class OrderInfo {
     /**@type {string} - firestore.Users.uid*/
     userId = "xxxxxxx"
-    /**@type {(?Date|object)} - order create datetime from firestore*/
-    createDateTime = null
+    /**@type {(?firebase.firestore.Timestamp)} - order create datetime from firestore*/
+    fstsCreateDateTime_server = null
+    /**@type {?Date} - server time conver to client js datetime*/ 
+    get jsdtCreateDateTime_server(){
+        return (this.fstsCreateDateTime_server == null) ? null : this.fstsCreateDateTime_server.toDate();        
+    }
     /**@property {string} */
     get sCreateDateTime() {
-        return getDisplayTime(this.createDateTime)
+        return getDisplayTime(this.jsdtCreateDateTime_server)
     }
     /**@property {string} */
     get sOrderStatus() {
@@ -249,7 +257,7 @@ export class OrderInfo {
     /**@type {OrderLog[]} */
     orderLog = []
     // {
-    //     logDateTime: null,
+    //     fstsLogDateTime_server: null,
     //     logType: '',
     //     remarks: ''
     // }

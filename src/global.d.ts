@@ -4,15 +4,29 @@ interface $ {
 interface JQuery {
     modal: (strShow: string) => void;
 }
-interface History{
-    push:(url:string)=>void;
+interface History {
+    push: (url: string) => void;
 }
+
+
 
 //-------- add attrubutes ok
 // declare namespace JSX {
 //     interface IntrinsicElements {
 //         "li": HTMLAttributes & {
 //             orderstatus: string;
+//         }
+//     }
+// }
+
+
+// declare global {
+//     namespace JSX {
+//         interface IntrinsicAttributes extends React.Attributes {
+//             testID ? : string
+//         }
+//         interface IntrinsicClassAttributes < T > extends React.ClassAttributes < T > {
+//             testID ? : string
 //         }
 //     }
 // }
@@ -28,7 +42,7 @@ interface History{
 // }
 //declare var $: typeof JQuery;
 declare var Swal: typeof import("sweetalert2").default;
-declare var firebase : firebase;
+declare var firebase: firebase;
 declare interface Window {
     Swal: typeof import("sweetalert2").default;
     $: jQuery;
@@ -46,8 +60,8 @@ declare interface Window {
         openModalShopCart: () => void;
         /** data is from firebase.auth().currentUser, get from onAuthStateChanged() */
         userData: import('../../js/dataDefine/index.js').UserData;
-        history: History;//import('history').default;
+        history: History; //import('history').default;
     };
-    recaptchaVerifier : firebase.auth.RecaptchaVerifier;
-    FirebaseMJS : import('./js/firebase/FirebaseMJS.js').default
+    recaptchaVerifier: firebase.auth.RecaptchaVerifier;
+    FirebaseMJS: import('./js/firebase/FirebaseMJS.js').default
 }

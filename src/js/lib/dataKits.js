@@ -156,12 +156,25 @@ function converter_objectPlain(propValue){
 function objectMapValue(objValue){
     return Object.assign({},objValue)
 }
+
+/**
+ * 
+ * @param {object} rootNode 
+ * @returns {object} - type is objectPlain
+ */
+export function getPlainObject(rootNode) {
+    recursiveToPlainObject(rootNode)//process all children
+    //process rootNode then return
+    if(TypeOf(rootNode)==ENUM_TypeOf.objectClass)
+        rootNode = Object.assign({}, rootNode)
+    return rootNode //plain object
+}
 export function recursiveToPlainObject(leafNode) {
     //search object props
     //let keys = Object.getOwnPropertyNames(leafNode)// leafNode prop names [Array]
     for (let keyName in leafNode) {
         let value = leafNode[keyName]
-        if (TypeOf(value) == ENUM_TypeOf.objectClass |
+        if (TypeOf(value) == ENUM_TypeOf.objectClass ||
             TypeOf(value) == ENUM_TypeOf.objectPlain) {
                 recursiveToPlainObject(value)
             //if(converter) converter(leafNode[keyName]);
@@ -171,7 +184,7 @@ export function recursiveToPlainObject(leafNode) {
 
             for(let i = 0;i<value.length;i++){
                 let item = value[i]
-                if (TypeOf(item) == ENUM_TypeOf.objectClass |
+                if (TypeOf(item) == ENUM_TypeOf.objectClass ||
                     TypeOf(item) == ENUM_TypeOf.objectPlain) {
                         recursiveToPlainObject(item)
                     //if(converter) converter(value[i]);

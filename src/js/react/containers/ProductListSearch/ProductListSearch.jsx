@@ -4,21 +4,16 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-//import * as App_redux from "./App_redux.js";
-//import ProductList2 from '../ProductList/ProductList2.jsx'
 import ShopCart from '../ShopCart/ShopCart.jsx'
 import { countAllItems_Price } from '../../reducers/shopCart.js'
 import './ProductListSearch.css'
-import { HashLink as Link } from 'react-router-hash-link';
+//import { HashLink as Link } from 'react-router-hash-link';
 import { load_productListAsync as load_productListAsync_act } from '../../actions/productList.js'
 import arryProductInfo from './ProductInfo.json'
 import CategoryCard from '../../components/CategoryCard/CategoryCard.jsx'
-import ProductCard from '../../components/ProductCard/ProductCard.jsx'
+
 import { Map_ProductCategory } from '../../../../js/dataDefine/index.js'
 import FirebaseMJS from '../../../firebase/FirebaseMJS.js'
-
-
-
 
 /**@enum {string} */
 let ENUM_screenSize = {
@@ -26,6 +21,14 @@ let ENUM_screenSize = {
     desktop: "desktop"
 }
 export class App extends Component {
+    state = {
+        /**@prop {?ENUM_screenSize} */
+        screenSize: null,//ENUM_screenSize.desktop,
+        /**@prop {?boolean} */
+        showbtnBottomCartButton: true,
+        /**@prop {?any} */
+        groupedProducts: null
+    }
     constructor(props) {
         super(props);
         this.refShopCart = React.createRef();
@@ -33,36 +36,33 @@ export class App extends Component {
         this.refInsideShop = React.createRef();
         this.reStickyHeader = React.createRef();
 
-        this.refBeef = React.createRef();
-        this.state = {
-            /**@type {?ENUM_screenSize} */
-            screenSize: null,//ENUM_screenSize.desktop,
-            /**@type {?boolean} */
-            showbtnBottomCartButton: true,
-            aa: null,
-            groupedProducts: null
-        }
+        this.refBeef = React.createRef();        
         
-        let window2 = /**@type {import('../../../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
-        this.state.groupedProducts = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(_, arryProductInfo);
+        
+        this.state.groupedProducts = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(window._, arryProductInfo);
         //this.setState({groupedProducts:})
         // React.createRef() -- for scrollTo purpose
-        this.state.groupedProducts = this.state.groupedProducts.map((item) => {
-            item.ref = React.createRef();
-            return item
-        })
+        if(!this.state.groupedProducts)
+            throw new Error('this.state.groupedProducts is null!')
+        if(this.state.groupedProducts){
+            this.state.groupedProducts = this.state.groupedProducts.map((/**@type {any}*/item) => {
+                item.ref = React.createRef();
+                return item
+            })
+        }
+        
         let self = this
 
         //async methods
         window.firebase.firestore().collection('ProductInfo').get()
-            .then((querySnapshot) => {
-                let arrayFilteredDbProducts = querySnapshot.docs.filter((item) => {
+            .then((/**@type {any}*/querySnapshot) => {
+                let arrayFilteredDbProducts = querySnapshot.docs.filter((/**@type {any}*/item) => {
                     //console.log("LOG:: App -> constructor -> item", item)
                     return item.id !== "--AutoNum--"
                 })
                 return arrayFilteredDbProducts
             })
-            .then((arrayFilteredDbProducts) => {
+            .then((/**@type {any[]}*/arrayFilteredDbProducts) => {
                 let arrayDbProductInfo = arrayFilteredDbProducts.map((item) => {
                     //console.log("LOG:: App -> constructor -> item", item)
 
@@ -71,14 +71,14 @@ export class App extends Component {
                 })
                 return arrayDbProductInfo
             })
-            .then((arrayDbProducts) => {
+            .then((/**@type {any[]}*/arrayDbProducts) => {
                 // console.log("LOG:: App -> componentDidMount -> arrayDbProducts", arrayDbProducts)
                 //let window2 = /**@type {import('../../../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
-                self.state.groupedProducts = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(_, arrayDbProducts);
+                self.state.groupedProducts = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(window._, arrayDbProducts);
                 // console.log("LOG:: App -> componentDidMount -> self.groupedProducts", self.state.groupedProducts)
                 //console.log("LOG:: App -> componentDidMount -> self.groupedProducts", self.groupedProducts)
                 // React.createRef() -- for scrollTo purpose
-                let groupedProducts = self.state.groupedProducts.map((item) => {
+                let groupedProducts = self.state.groupedProducts.map((/**@type {any}*/item) => {
                     item.ref = React.createRef();
                     return item
                 })
@@ -91,9 +91,9 @@ export class App extends Component {
     //     prop: PropTypes.number
     // }
 
-    initLoad = (e) => {
-        function debounce(fun, delay) {
-            return function (args) {
+    initLoad = (/**@type {any}*/e) => {
+        function debounce(/**@type {any}*/fun, /**@type {Number} - miliseconds}*/delay) {
+            return /**@this {any} */ function (/**@type {any}*/args) {
                 let that = this
                 let _args = args
                 clearTimeout(fun.id)
@@ -102,15 +102,15 @@ export class App extends Component {
                 }, delay)
             }
         }
-        let inputb = document.getElementById('iptDebounce')
-        let debounceAjax = debounce((e) => {
-            //console.log(e)
-        }, 500)
-        inputb.addEventListener('keyup', function (e) {
-            debounceAjax(e.target.value)
-        })
+        // let inputb = document.getElementById('iptDebounce')
+        // let debounceAjax = debounce((/**@type {any}*/e) => {
+        //     //console.log(e)
+        // }, 500)
+        // inputb.addEventListener('keyup', function (e) {
+        //     debounceAjax(e.target.value)
+        // })
         //----------------
-        let debounceResize = debounce((e) => {
+        let debounceResize = debounce((/**@type {any}*/e) => {
             displayWindowSize();
         }, 500)
 
@@ -134,14 +134,14 @@ export class App extends Component {
         //let aa = document.querySelector('.navbar-expand-lg');
         //console.log(viewSize())
     }
-    test2 = (params) => {
+    test2 = (/**@type {any}*/params) => {
         //this.setState({ screenSize: ENUM_screenSize.desktop })
         //$('#exampleModal2').modal('hide')
         console.log(this.props)
     }
 
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(/**@type {any}*/prevProps, /**@type {any}*/prevState, /**@type {any}*/snapshot) {
         if (prevState.screenSize != this.state.screenSize) {
             switch (this.state.screenSize) {
                 case ENUM_screenSize.desktop:
@@ -172,8 +172,8 @@ export class App extends Component {
 
 
         //========detect screen size
-        function debounce(fun, delay) {
-            return function (args) {
+        function debounce(/**@type {any}*/fun, /**@type {Number} - miliseconds*/delay) {
+            return /**@this {any}*/function (/**@type {any}*/args) {
                 let that = this
                 let _args = args
                 clearTimeout(fun.id)
@@ -182,7 +182,7 @@ export class App extends Component {
                 }, delay)
             }
         }
-        let debounceResize = debounce((e) => {
+        let debounceResize = debounce((/**@type {any}*/e) => {
             switchWindowSize();
         }, 500)
 
@@ -210,23 +210,24 @@ export class App extends Component {
 
 
     }
-    componentWillUnmount(e) {
+    componentWillUnmount(/**@type {any}*/e) {
         console.log('component will unmount--', e)
     }
-    scrollToCategory = (e) => {
+    scrollToCategory = (/**@type {any}*/e) => {
         e.preventDefault();
         // e.stopPropagation();
         //console.log(e.currentTarget)
-        let href = e.currentTarget.getAttribute('href')
-        href = href.replace(/#/i, "");//.trimStart("#")
-        let findCategory = this.state.groupedProducts.find((item) => {
-            if (item.category === href)
+        let dataHref = e.currentTarget.getAttribute('data-href')
+        dataHref = dataHref.replace(/#/i, "");//.trimStart("#")
+        /**@type {object}}} - category object*/
+        let findCategory = this.state.groupedProducts.find((/**@type {Object} - category object*/item) => {
+            if (item.category === dataHref)
                 return item
         })
         let scrollTo_Ref = findCategory.ref
-
+        
         //console.log(scrollTo_Ref)
-        let scrollOffset_TopHeight = this.reStickyHeader.current.offsetHeight + window.navbar1.offsetHeight
+        let scrollOffset_TopHeight = this.reStickyHeader.current.offsetHeight + window.app.navbar1.offsetHeight
         // let aa = document.querySelector('#beef');
         if (window.scroll) {
             e.preventDefault()
@@ -242,25 +243,9 @@ export class App extends Component {
 
         //window.scrollTo(aa)
     }
+    
 
-    scrollToCategory2 = (e) => {
-        e.preventDefault();
-        // e.stopPropagation();
-        let scrollOffset_TopHeight = this.reStickyHeader.current.offsetHeight + window.navbar1.offsetHeight
-        // let aa = document.querySelector('#beef');
-        if (window.scrollTo) {
-            e.preventDefault()
-            //this.refBeef.current.scrollTop()
-            window.scrollTo({
-                'behavior': 'smooth',
-                'top': this.refBeef.current.offsetTop - scrollOffset_TopHeight
-            })
-        }
-
-        //window.scrollTo(aa)
-    }
-
-    loadProducts = (e) => {
+    loadProducts = (/**@type {any}*/e) => {
         this.props.act_loadProducts();
     }
 
@@ -325,13 +310,13 @@ export class App extends Component {
                             {/*中英對照 item[0] = Object.Key 英文, item[1] = Object.value 中文  */}
                             {arrayMap_ProductCategory.map((item, index) => {
                                 return <li className="btnCategory" key={index}>
-                                    <div href={`#${item[0]}`} onClick={this.scrollToCategory}>{item[1]}</div>
+                                    <div data-href={`#${item[0]}`} onClick={this.scrollToCategory}>{item[1]}</div>
                                 </li>
                             })}
                         </ul>
                         {/* ============ Category - Product Cards ============== */}
                         <div className="boxCategoryCard bd2">
-                            {this.state.groupedProducts.map((item, index) => (
+                            {this.state.groupedProducts.map((/**@type {any}*/item, /**@type {Number}*/index) => (
                                 <CategoryCard className="listContainer row" forwardRef={this.refBeef} refShopcartBox={this.refShopcartBox} groupedProducts={item} key={index} dispatch={this.props.dispatch}></CategoryCard>
                             ))}
                         </div>
@@ -340,7 +325,7 @@ export class App extends Component {
                             {this.props.totalItemCount}項 --- 查看購物車 --- NT$ {this.props.AllItems_Price}
                         </div>
                         {/* Modal */}
-                        <div className="modal fade " tabIndex="-1" id="modalShopcart">
+                        <div className="modal fade " tabIndex={-1} id="modalShopcart">
                             <div className="modal-dialog">
                                 <div className="modal-content">
                                     <div className="modal-header">
@@ -398,7 +383,7 @@ export class App extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (/**@type {any}*/state) => {
     let { sumPrice, totalItemCount } = countAllItems_Price(state.shopCart.shopItemList)
     //console.log('state-> ',state)
     return {
@@ -409,7 +394,7 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (/**@type {any}*/dispatch) => {
     //return bindActionCreators(App_redux, dispatch);
     return {
         dispatch: dispatch,
