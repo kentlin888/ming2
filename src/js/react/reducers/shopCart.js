@@ -1,6 +1,7 @@
-import {SET_productList, ADD_shopCart,DECREASE_shopCart, ADD_uniqueId} from '../actionTypes/index.js'
+import {SET_productList, ADD_shopCart,DECREASE_shopCart,CLEAR_shopCart, ADD_uniqueId} from '../actionTypes/index.js'
 import * as dataDefine from '../../dataDefine/index.js'
 import _ from 'lodash'
+import { clear_shopCart } from '../actions/shopCart.js';
 // Action Creators
 
 
@@ -96,6 +97,13 @@ export default function reducer(state = initState, action = {}) {
                     ...state,
                     shopItemList:newItemList
                 }
+            }
+
+        }
+        case CLEAR_shopCart:{
+            return{
+                ...state,
+                shopItemList:[]
             }
 
         }

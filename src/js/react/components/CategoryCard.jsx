@@ -1,17 +1,17 @@
 import React, { PureComponent } from 'react'
-import ProductCard from '../ProductCard/ProductCard.jsx'
+import ProductCard from './ProductCard.jsx'
 // import CategoryCard_css from './CategoryCard.css'
 
-import '../../containers/ProductListSearch/ProductListSearch.css'
+import '../containers/ProductListSearch.css'
 import PropTypes from 'prop-types'
-import {Map_ProductCategory, ProductInfo} from '../../../dataDefine/index.js'
+import {Map_ProductCategory, ProductInfo} from '../../dataDefine/index.js'
 // import { connect } from 'react-redux'
 // import { load_productListAsync as load_productListAsync_act } from '../../actions/productList.js'
 
 class CategoryCard extends React.Component {
     // st
     static propTypes = {
-        groupedProducts: PropTypes.object
+        arrayGroupedCategories: PropTypes.object
     }
     constructor(/**@type {any}*/props) {
         super(props)
@@ -25,10 +25,10 @@ class CategoryCard extends React.Component {
 
     }
     render() {
-        const { groupedProducts } = this.props
+        const { arrayGroupedCategories } = this.props
         
-        const { arrayGroupedItems } = groupedProducts
-        const { ref } = groupedProducts
+        const { arrayGroupedItems } = arrayGroupedCategories
+        const { ref } = arrayGroupedCategories
         //console.log(this.props)
         //console.log(arrayGroupedItems)
         //const { productList } = this.props
@@ -44,12 +44,12 @@ class CategoryCard extends React.Component {
             <React.Fragment>
                 
                 <div className="b-flexCenter">
-                    <div className="CategoryCard" id={`category-${this.props.groupedProducts.category}`} ref={ref}>
+                    <div className="CategoryCard" id={`category-${this.props.arrayGroupedCategories.category}`} ref={ref}>
                         {/* <section class="bd4 sec1"> */}
-                        <header className="headerTitle">{this.props.groupedProducts.categoryZhTW}</header>
-                        {/* <header class="headerTitle">{this.props.groupedProducts.category}</header> */}
+                        <header className="headerTitle">{this.props.arrayGroupedCategories.categoryZhTW}</header>
+                        {/* <header class="headerTitle">{this.props.arrayGroupedCategories.category}</header> */}
                         <div className="row">
-                            {/* <div>{this.props.groupedProducts.category}</div><br></br> */}
+                            {/* <div>{this.props.arrayGroupedCategories.category}</div><br></br> */}
                             {/* {arrayGroupedItems.map((product, index)=>(<div className="productCard" key={index}>{product.name}, {product.price}, {product.imgFileName} </div>))} */}
                             {/* {arrayGroupedItems.map((productInfo, index) => (<ProductCard className="productCard" id={`${this.UID('productCard')}-${index}`} productInfo={productInfo} key={index} dispatch={this.props.dispatch} />))} */}
                             <ul id="ulCards" className="bd2 b-ulStyleNone b-flexStart">

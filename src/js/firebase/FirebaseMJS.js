@@ -480,24 +480,31 @@ export default class FirebaseMJS {
         // )
 
     }
+
+
     /**
      * @param {import('lodash')} _ 
      * @param {ProductInfo[]} listProductInfo 
+     * @returns {import("./FirebaseMJS.js").groupedCategory[]}
      */
     static getProductInfo_GroupedItems_ByCategory(_, listProductInfo) {
         let groupedData = _(listProductInfo).groupBy('category').map((arrayGroupedItems, category) => {
             // return ''
             // Object.
-            return {
+            
+            let categories = {
                 category,
                 categoryZhTW: Map_ProductCategory[category],
-                arrayGroupedItems
+                arrayGroupedItems,
+                ref:null,
             }
+            return categories
             // return {
             //     category,
             //     name: _.map(arrayGroupedItems, 'name')
             // }
         }).value()
+        console.log("LOG: ~ file: FirebaseMJS.js ~ line 507 ~ FirebaseMJS ~ groupedData ~ groupedData", groupedData)
         //console.log(d2)
         return groupedData
     }

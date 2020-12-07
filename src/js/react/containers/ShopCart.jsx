@@ -1,18 +1,21 @@
 //@ts-check
 //Inside of settings.json, add the following:{ "javascript.implicitProjectConfig.checkJs": true }
 import React, { Component } from 'react'
+// import {ENUM_switchIndexPage} from '../../../../pages/index/index.js'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 //import * as App_redux from '../../App_redux.js'
-import * as shopCart_actions from '../../actions/shopCart'
-import { countAllItems_Price } from '../../reducers/shopCart.js'
+import * as shopCart_actions from '../actions/shopCart'
+import { countAllItems_Price } from '../reducers/shopCart.js'
 import { bindActionCreators } from 'redux'
-import ShopItem from '../../components/ShopItem/ShopItem.jsx'
+import ShopItem from '../components/ShopItem.jsx'
 // import './ShopCart.css'
 //import '../../containers/ProductListSearch/ProductListSearch.css'
-import { OrderInfo, ShopItemInfo, UserData, UserProfile } from '../../../dataDefine/index.js'
+import { OrderInfo, ShopItemInfo, UserData, UserProfile } from '../../dataDefine/index.js'
 import Swal from 'sweetalert2'
-import {TypeOf, ENUM_TypeOf, getPlainObject} from '../../../lib/dataKits.js'
+import {TypeOf, ENUM_TypeOf, getPlainObject} from '../../lib/dataKits.js'
+import { ENUM_switchIndexPage } from '../../../pages/index/index.js'
+
 class ShopCart extends Component {
     // static propTypes = {
     //     prop: PropTypes
@@ -21,6 +24,7 @@ class ShopCart extends Component {
         super(props)
         const { dispatch } = props
         this.boundActionCreators = bindActionCreators(shopCart_actions, dispatch);
+        console.log("LOG: ~ file: ShopCart.jsx ~ line 27 ~ ShopCart ~ constructor ~ this.boundActionCreators", this.boundActionCreators)
         //console.log('props.shopCart--> ',props.shopCart)
     }
     // shouldComponentUpdate = ()=>{
@@ -89,13 +93,18 @@ class ShopCart extends Component {
 
                 })
             })
-            // .then((e) => {
-            //     console.log(e)
-            //     //     isConfirmed: true
-            //     // isDenied: false
-            //     // isDismissed: false  cancel
-            //     // value: true
-            // })
+            .then((e) => {
+                this.boundActionCreators.clear_shopCart();
+                if(e.isConfirmed === true){
+                    window.app.switchIndexPage(ENUM_switchIndexPage.ViewOrders)
+                }
+                    
+                //console.log(e)
+                //     isConfirmed: true
+                // isDenied: false
+                // isDismissed: false  cancel
+                // value: true
+            })
             .catch((error) => {
                 console.error("LOG: ~ file: ShopCart.jsx ~ line 95 ~ ShopCart ~ error---")
                 console.dir(error)
@@ -128,7 +137,8 @@ class ShopCart extends Component {
         //let newOrder = new OrderInfo();
         //console.log(newOrder)
     }
-
+    
+    
     render() {
         //console.log('---------- render ShopCart----------------')
         //const {getAllItem_PriceTotal} = this.props
@@ -141,6 +151,7 @@ class ShopCart extends Component {
         return (
             <div>
                 <div>
+                    
                     <div className="boxShopCard"><h1>購物車</h1></div>
                     <table id="tbShopcart" className="tableShopcart bd1">
                         <tbody>

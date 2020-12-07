@@ -1,3 +1,5 @@
+// import { ENUM_switchIndexPage } from "./pages/index/index.js";
+
 interface $ {
     modal: (strShow: string) => void;
 }
@@ -61,6 +63,8 @@ declare interface Window {
         /** data is from firebase.auth().currentUser, get from onAuthStateChanged() */
         userData: import('../../js/dataDefine/index.js').UserData;
         history: History; //import('history').default;
+        switchIndexPage:(enum_switchIndexPage:string)=>void;
+        arrayGroupedCategories:import('./js/firebase/FirebaseMJS.js').groupedCategory[];
     };
     recaptchaVerifier: firebase.auth.RecaptchaVerifier;
     FirebaseMJS: import('./js/firebase/FirebaseMJS.js').default

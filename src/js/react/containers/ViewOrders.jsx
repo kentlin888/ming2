@@ -1,12 +1,12 @@
 //@ts-check
 //Inside of settings.json, add the following:{ "javascript.implicitProjectConfig.checkJs": true }
 import React, { PureComponent } from 'react'
-import ViewOrdersItem from '../ViewOrdersItem/ViewOrdersItem.jsx'
-import { OrderInfo } from '../../../dataDefine/index.js'
+import ViewOrdersItem from './ViewOrdersItem.jsx'
+import { OrderInfo } from '../../dataDefine/index.js'
 import './ViewOrders.css'
-import FirebaseMJS, { ENUM_orderStatus } from '../../../firebase/FirebaseMJS.js'
-import testData from '../../../../../adminData/testdata.json'
-var window2 = /**@type {import('../../../dataDefine/index.js').ExtendedWindow}*/ (window);
+import FirebaseMJS, { ENUM_orderStatus } from '../../firebase/FirebaseMJS.js'
+import testData from '../../../../adminData/testdata.json'
+var window2 = /**@type {import('../../dataDefine/index.js').ExtendedWindow}*/ (window);
 export default class ViewOrders extends PureComponent {
     constructor(/**@type {any}*/props) {
         super(props);

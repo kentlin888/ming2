@@ -4,16 +4,16 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import ShopCart from '../ShopCart/ShopCart.jsx'
-import { countAllItems_Price } from '../../reducers/shopCart.js'
+import ShopCart from './ShopCart.jsx'
+import { countAllItems_Price } from '../reducers/shopCart.js'
 import './ProductListSearch.css'
 //import { HashLink as Link } from 'react-router-hash-link';
-import { load_productListAsync as load_productListAsync_act } from '../../actions/productList.js'
-import arryProductInfo from './ProductInfo.json'
-import CategoryCard from '../../components/CategoryCard/CategoryCard.jsx'
+import { load_productListAsync as load_productListAsync_act } from '../actions/productList.js'
+//import arryProductInfo from './ProductInfo.json'
+import CategoryCard from '../components/CategoryCard.jsx'
 
-import { Map_ProductCategory } from '../../../../js/dataDefine/index.js'
-import FirebaseMJS from '../../../firebase/FirebaseMJS.js'
+import { Map_ProductCategory } from '../../../js/dataDefine/index.js'
+import FirebaseMJS, { FIRESTORE_COLLECTION } from '../../firebase/FirebaseMJS.js'
 
 /**@enum {string} */
 let ENUM_screenSize = {
@@ -26,8 +26,8 @@ export class App extends Component {
         screenSize: null,//ENUM_screenSize.desktop,
         /**@prop {?boolean} */
         showbtnBottomCartButton: true,
-        /**@prop {?any} */
-        groupedProducts: null
+        /**@prop {import('../../../firebase/FirebaseMJS.js').groupedCategory[]} */
+        arrayGroupedCategories: [],
     }
     constructor(props) {
         super(props);
@@ -36,56 +36,50 @@ export class App extends Component {
         this.refInsideShop = React.createRef();
         this.reStickyHeader = React.createRef();
 
-        this.refBeef = React.createRef();        
-        
-        
-        this.state.groupedProducts = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(window._, arryProductInfo);
-        //this.setState({groupedProducts:})
-        // React.createRef() -- for scrollTo purpose
-        if(!this.state.groupedProducts)
-            throw new Error('this.state.groupedProducts is null!')
-        if(this.state.groupedProducts){
-            this.state.groupedProducts = this.state.groupedProducts.map((/**@type {any}*/item) => {
-                item.ref = React.createRef();
-                return item
-            })
-        }
-        
+        this.refBeef = React.createRef();
+
         let self = this
 
-        //async methods
-        window.firebase.firestore().collection('ProductInfo').get()
-            .then((/**@type {any}*/querySnapshot) => {
-                let arrayFilteredDbProducts = querySnapshot.docs.filter((/**@type {any}*/item) => {
-                    //console.log("LOG:: App -> constructor -> item", item)
-                    return item.id !== "--AutoNum--"
+        if (window.app.arrayGroupedCategories)
+            self.setState({ arrayGroupedCategories: window.app.arrayGroupedCategories });
+        else {
+            //async methods
+            window.firebase.firestore().collection(FIRESTORE_COLLECTION.ProductInfo).get()
+                .then((/**@type {any}*/querySnapshot) => {
+                    let arrayFilteredDbProducts = querySnapshot.docs.filter((/**@type {any}*/item) => {
+                        //console.log("LOG:: App -> constructor -> item", item)
+                        return item.id !== "--AutoNum--"
+                    })
+                    return arrayFilteredDbProducts
                 })
-                return arrayFilteredDbProducts
-            })
-            .then((/**@type {any[]}*/arrayFilteredDbProducts) => {
-                let arrayDbProductInfo = arrayFilteredDbProducts.map((item) => {
-                    //console.log("LOG:: App -> constructor -> item", item)
+                .then((/**@type {any[]}*/arrayFilteredDbProducts) => {
+                    let arrayDbProductInfo = arrayFilteredDbProducts.map((item) => {
+                        //console.log("LOG:: App -> constructor -> item", item)
 
-                    if (item.id !== "--AutoNum--")
-                        return item.data()
+                        if (item.id !== "--AutoNum--")
+                            return item.data()
+                    })
+                    return arrayDbProductInfo
                 })
-                return arrayDbProductInfo
-            })
-            .then((/**@type {any[]}*/arrayDbProducts) => {
-                // console.log("LOG:: App -> componentDidMount -> arrayDbProducts", arrayDbProducts)
-                //let window2 = /**@type {import('../../../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
-                self.state.groupedProducts = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(window._, arrayDbProducts);
-                // console.log("LOG:: App -> componentDidMount -> self.groupedProducts", self.state.groupedProducts)
-                //console.log("LOG:: App -> componentDidMount -> self.groupedProducts", self.groupedProducts)
-                // React.createRef() -- for scrollTo purpose
-                let groupedProducts = self.state.groupedProducts.map((/**@type {any}*/item) => {
-                    item.ref = React.createRef();
-                    return item
+                .then((/**@type {any[]}*/arrayDbProducts) => {
+                    // console.log("LOG:: App -> componentDidMount -> arrayDbProducts", arrayDbProducts)
+                    //let window2 = /**@type {import('../../../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
+                    self.state.arrayGroupedCategories = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(window._, arrayDbProducts);
+                    
+                    /**@type {import('../../firebase/FirebaseMJS.js').groupedCategory[]} */
+                    let arrayGroupedCategories = self.state.arrayGroupedCategories.map((/**@type {any}*/item) => {
+                        // add React.createRef()
+                        item.ref = React.createRef();// React.createRef() -- for scrollTo purpose
+                        return item
+                    })
+                    window.app.arrayGroupedCategories = arrayGroupedCategories;
+                    console.log('SET window.app.arrayGroupedCategories ---->', arrayGroupedCategories)
+                    self.setState({ arrayGroupedCategories: arrayGroupedCategories });
                 })
-                self.setState({ groupedProducts: groupedProducts });
-            })
+        }
 
-        //console.log(this.groupedProducts)
+
+        //console.log(this.arrayGroupedCategories)
     }
     // static propTypes = {
     //     prop: PropTypes.number
@@ -121,7 +115,7 @@ export class App extends Component {
 
             // Display result inside a div element
             document.getElementById("result").innerHTML = "Width: " + w + ", " + "Height: " + h;
-            let window2 = /** @type {import('../../../../js/dataDefine/index.js').ExtendedWindow} */ (window);
+            let window2 = /** @type {import('../../../js/dataDefine/index.js').ExtendedWindow} */ (window);
             //console.log(window2.app.viewSize())
         }
         window.addEventListener("resize", debounceResize);
@@ -187,7 +181,7 @@ export class App extends Component {
         }, 500)
 
         function switchWindowSize() {
-            let window2 = /** @type {import('../../../../js/dataDefine/index.js').ExtendedWindow} */ (window);
+            let window2 = /** @type {import('../../../js/dataDefine/index.js').ExtendedWindow} */ (window);
             let size = window2.app.viewSize()
             let arrayLarge = ['xl', 'lg']
             let arraySmall = ['xs', 'sm', 'md']
@@ -220,12 +214,12 @@ export class App extends Component {
         let dataHref = e.currentTarget.getAttribute('data-href')
         dataHref = dataHref.replace(/#/i, "");//.trimStart("#")
         /**@type {object}}} - category object*/
-        let findCategory = this.state.groupedProducts.find((/**@type {Object} - category object*/item) => {
+        let findCategory = this.state.arrayGroupedCategories.find((/**@type {Object} - category object*/item) => {
             if (item.category === dataHref)
                 return item
         })
         let scrollTo_Ref = findCategory.ref
-        
+
         //console.log(scrollTo_Ref)
         let scrollOffset_TopHeight = this.reStickyHeader.current.offsetHeight + window.app.navbar1.offsetHeight
         // let aa = document.querySelector('#beef');
@@ -243,7 +237,7 @@ export class App extends Component {
 
         //window.scrollTo(aa)
     }
-    
+
 
     loadProducts = (/**@type {any}*/e) => {
         this.props.act_loadProducts();
@@ -251,8 +245,8 @@ export class App extends Component {
 
 
     render() {
-        this.state.groupedProducts
-        // console.log("LOG:: App -> render -> this.groupedProducts5555", this.state.groupedProducts)
+        this.state.arrayGroupedCategories
+        // console.log("LOG:: App -> render -> this.arrayGroupedCategories5555", this.state.arrayGroupedCategories)
         const { productList } = this.props
         let userAddress = '';
         if (window.app.userData && window.app.userData && window.app.userData.userProfile)
@@ -272,6 +266,7 @@ export class App extends Component {
                             <span>地址</span>
                             <input type="text" placeholder="個人檔案中可以預設地址" defaultValue={userAddress}></input>
                         </div>
+                        <button onClick={this.loadProducts}>Load Products</button>
                         {/* <div className="boxDeliveryTimeAddress bd4">
                             地址 時間<br />
                             <div>
@@ -316,8 +311,8 @@ export class App extends Component {
                         </ul>
                         {/* ============ Category - Product Cards ============== */}
                         <div className="boxCategoryCard bd2">
-                            {this.state.groupedProducts.map((/**@type {any}*/item, /**@type {Number}*/index) => (
-                                <CategoryCard className="listContainer row" forwardRef={this.refBeef} refShopcartBox={this.refShopcartBox} groupedProducts={item} key={index} dispatch={this.props.dispatch}></CategoryCard>
+                            {this.state.arrayGroupedCategories.map((/**@type {any}*/item, /**@type {Number}*/index) => (
+                                <CategoryCard className="listContainer row" forwardRef={this.refBeef} refShopcartBox={this.refShopcartBox} arrayGroupedCategories={item} key={index} dispatch={this.props.dispatch}></CategoryCard>
                             ))}
                         </div>
                         {/* ============== FOOTER ================ */}

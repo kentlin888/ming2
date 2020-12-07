@@ -22,6 +22,14 @@ export namespace ENUM_orderStatus {
     export const waitForDelivery: string;
     export const canceled: string;
 }
+
+export type groupedCategory = {
+    category: string;
+    categoryZhTW: string;
+    arrayGroupedItems: ProductInfo[];
+    ref:React.Ref;
+}
+
 /**
  * @module
  * @class
@@ -32,11 +40,13 @@ export default class FirebaseMJS {
      * @param {import('lodash')} _
      * @param {ProductInfo[]} listProductInfo
      */
-    static getProductInfo_GroupedItems_ByCategory(_: import('lodash'), listProductInfo: ProductInfo[]): {
-        category: string;
-        categoryZhTW: any;
-        arrayGroupedItems: ProductInfo[];
-    }[];
+    static getProductInfo_GroupedItems_ByCategory(_: import('lodash'), listProductInfo: ProductInfo[]):groupedCategory[];
+    // {
+    //     category: string;
+    //     categoryZhTW: string;
+    //     arrayGroupedItems: ProductInfo[];
+    //     ref:React.RefObject;
+    // } [];
     /**
      * get new OrderInfo ID , check whether cross date or not.
      * @param {Date} preDayTime
@@ -52,7 +62,7 @@ export default class FirebaseMJS {
      * @param {firebase} firebase - from firebase
      * @param {import('../lib/dataKits.js')}
      */
-    constructor(firebase: any,dataKits:dataKits);
+    constructor(firebase: any, dataKits: dataKits);
     _firebase: any;
     /**
      * initial-- use this.initStorageRef()
@@ -74,7 +84,7 @@ export default class FirebaseMJS {
      * @param {ENUM_ProductCategory} category - beef/chicken/soybean...etc
      * @param {{beginEvent:function, endEvent:function}} [options] - callback functions
      */
-    addProductInfo(name: string, price: number, category: ENUM_ProductCategory, imgUrl: any, options?: {
+    addProductInfo(name: string, price: number, category: ENUM_ProductCategory, imgUrl: any, options ? : {
         beginEvent: Function;
         endEvent: Function;
     }): any;
@@ -91,19 +101,25 @@ export default class FirebaseMJS {
      * @param {ENUM_orderStatus} orderStatus
      * @returns {Promise<OrderInfo[]>}
      */
-    getOrderInfo: (userId: string, orderStatus: ENUM_orderStatus) => Promise<OrderInfo[]>;
+    getOrderInfo: (userId: string, orderStatus: ENUM_orderStatus) => Promise < OrderInfo[] > ;
     /**@function - get doc.data() from FIRESTORE_COLLECTION.ProductInfo */
-    getProductInfo: ()=>any;
+    getProductInfo: () => any;
     /**
      * @function
      * @return {Promise<object>} - firestore.Users.data()
      */
-    getUser: () => Promise<object>;
+    getUser: () => Promise < object > ;
 }
 export type EnumObj = {
     value: number;
     desc: string;
 };
-import { ENUM_ProductCategory } from "../dataDefine/index.js";
-import { OrderInfo as OrderInfo_1 } from "../dataDefine/index.js";
-import { ProductInfo as ProductInfo_1 } from "../dataDefine/index.js";
+import {
+    ENUM_ProductCategory
+} from "../dataDefine/index.js";
+import {
+    OrderInfo as OrderInfo_1
+} from "../dataDefine/index.js";
+import {
+    ProductInfo as ProductInfo_1
+} from "../dataDefine/index.js";

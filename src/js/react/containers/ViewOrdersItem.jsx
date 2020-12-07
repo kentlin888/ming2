@@ -5,7 +5,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 //import OrderList_css from './OrderList.css'
 
 import PropTypes from 'prop-types'
-import { OrderInfo, UserProfile, UserData, ShopItemInfo } from '../../../../js/dataDefine/index.js'
+import { OrderInfo, UserProfile, UserData, ShopItemInfo } from '../../../js/dataDefine/index.js'
 // import { times } from 'lodash';
 
 /**
@@ -64,7 +64,7 @@ const expandRow = {
     onlyOneExpanding: true,
     className: 'expandingRowBackground',
     renderer: (/**@type {any}*/row) => {
-        /**@type {import('../../../dataDefine/index.js').UserData} */
+        /**@type {import('../../dataDefine/index.js').UserData} */
         let userData = new UserData();
         userData = Object.assign(userData, row.userData)
         let totalPrice = row.totalPrice;

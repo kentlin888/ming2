@@ -78,8 +78,13 @@ const ENUM_static_scroll_href_Id = {
     contactus: 'contactus',
     //page-react
 }
+
+// const ENUM_reactSwitchPage = {
+//     ProductListSearch: 'ProductListSearch',
+//     ViewOrders: 'ViewOrders',
+// }
 /**@enum {string} */
-const ENUM_reactSwitchPage = {
+export const ENUM_switchIndexPage = {
     ProductListSearch: 'ProductListSearch',
     ViewOrders: 'ViewOrders',
 }
@@ -90,8 +95,8 @@ var proxyMainPageUI = {
     //.history|'news'|'qanda'|'contactus
     /**@type {ENUM_static_scroll_href_Id} */
     scrollToHrefId: ENUM_static_scroll_href_Id.history,
-    /**@type {ENUM_reactSwitchPage} */
-    reactSwitchPage: ENUM_reactSwitchPage.ProductListSearch,
+    // /**@type {ENUM_reactSwitchPage} */
+    // reactSwitchPage: ENUM_reactSwitchPage.ProductListSearch,
     /**@type {number} */
     shopItemCount: 0,
     /**@type {cusFullPageScroll}} */
@@ -119,10 +124,44 @@ window.app = {
     navbar1: document.querySelector('#navbar1'),
     openModalShopCart: null,
     userData: null,
-    history:null,
+    history: null,
+    switchIndexPage: switchIndexPage,
+    arrayGroupedCategories:null,
 }
 
+function switchIndexPage (enum_switchIndexPage) {
+    switch (enum_switchIndexPage) {
+        case ENUM_switchIndexPage.ProductListSearch:
+            proxyMainPageUI.isReactPage = true;
+            //proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ProductListSearch;
+            window.app.pushUrl('/ProductListSearch'); //ProductListSearch
+            setTimeout(() => {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'auto' //'smooth'
+                });
+            }, 500); //0的話有可能無法滑到最頂端，看運氣
+            break;
+        case ENUM_switchIndexPage.ViewOrders:
+            proxyMainPageUI.isReactPage = true;
+            //proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ViewOrders;
+            window.app.pushUrl('/ViewOrders'); //ProductListSearch
+            setTimeout(() => {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'auto' //'smooth'
+                });
+            }, 500); //0的話有可能無法滑到最頂端，看運氣
+            break;
 
+        default:
+            break;
+    }
+    proxyMainPageUI.isReactPage = true;
+    //ENUM_switchIndexPage
+}
 //-------------Proxy
 //---pure data
 let proxyUserMenuDropdown = {
@@ -133,10 +172,10 @@ let proxyUserMenuDropdown = {
 }
 //mvvm observeble pattern
 proxyUserMenuDropdown = new Proxy(proxyUserMenuDropdown, {
-    get: function (/**@type {any} */target, /**@type {any} */prop) {
+    get: function ( /**@type {any} */ target, /**@type {any} */ prop) {
         return target[prop];
     },
-    set: function (/**@type {any} */target, /**@type {any} */prop, value) {
+    set: function ( /**@type {any} */ target, /**@type {any} */ prop, value) {
         switch (prop) {
             case "isLogin":
                 if (value == true) {
@@ -178,7 +217,7 @@ aTestLogout.addEventListener('click', (e) => {
 // tset case 4: (has authUser, no window.app.userData) -- getDbUser
 // tset case 5: (has authUser, no window.app.userData, has DbUser) -- window.app.userData = dbUser; + sync emailVerified_auth;
 // tset case 6: (has authUser, no window.app.userData, no DbUser) -- userInfo = authUser; + window.app.userData = userInfo(已同時 sync emailVerified_auth);
-firebase.auth().onAuthStateChanged(function (/**@type {any}*/authUser) {
+firebase.auth().onAuthStateChanged(function ( /**@type {any}*/ authUser) {
     let db = firebase.firestore();
     //functions....
     /**
@@ -236,7 +275,7 @@ firebase.auth().onAuthStateChanged(function (/**@type {any}*/authUser) {
              */
             function getDbUser(uid) {
                 return db.collection(FIRESTORE_COLLECTION.Users).doc(uid).get()
-                    .then((/**@type {any}*/querySnapshot) => {
+                    .then(( /**@type {any}*/ querySnapshot) => {
                         if (querySnapshot.exists === false)
                             return null;
                         else
@@ -261,7 +300,7 @@ firebase.auth().onAuthStateChanged(function (/**@type {any}*/authUser) {
                 // else
                 //     dispalyName = authUser.dispalyName;
                 // }
-                userInfo.dispalyName =(authUser.dispalyName)?authUser.dispalyName:null
+                userInfo.dispalyName = (authUser.dispalyName) ? authUser.dispalyName : null
                 userInfo.email = authUser.email;
                 userInfo.emailVerified = authUser.emailVerified;
                 userInfo.phoneNumber = authUser.phoneNumber;
@@ -274,7 +313,7 @@ firebase.auth().onAuthStateChanged(function (/**@type {any}*/authUser) {
             }
             // start load db user info --> ready to set window.app.userData
             getDbUser(uid)
-                .then((/**@type {any}*/dbUser) => {
+                .then(( /**@type {any}*/ dbUser) => {
                     // db user exist
                     if (dbUser) {
                         window.app.userData = Object.assign(new UserData(), dbUser);
@@ -293,7 +332,7 @@ firebase.auth().onAuthStateChanged(function (/**@type {any}*/authUser) {
                     }
 
                 })
-                .catch((/**@type {any}*/err) => {
+                .catch(( /**@type {any}*/ err) => {
                     console.error('onAuthStateChanged, get userData failed. ', err.code, err.message)
                 })
 
@@ -331,10 +370,10 @@ let pageReact = $('#page-react')
 //let navbar1 = document.querySelector('#navbar1');
 //let navbar_height = window.app.navbar1.offsetHeight + 5
 proxyMainPageUI = new Proxy(proxyMainPageUI, {
-    get: function (/**@type {any} */target, /**@type {any} */prop) {
+    get: function ( /**@type {any} */ target, /**@type {any} */ prop) {
         return target[prop];
     },
-    set: function (/**@type {any} */target, /**@type {any} */prop, value) {
+    set: function ( /**@type {any} */ target, /**@type {any} */ prop, value) {
         switch (prop) {
             case "isReactPage":
                 if (value == true) {
@@ -355,33 +394,33 @@ proxyMainPageUI = new Proxy(proxyMainPageUI, {
                     element.textContent = value
                 })
                 break;
-            case "reactSwitchPage":
-                switch (value) {
-                    case ENUM_reactSwitchPage.ProductListSearch:
-                        window.app.pushUrl('/ProductListSearch'); //ProductListSearch
-                        setTimeout(() => {
-                            window.scrollTo({
-                                top: 0,
-                                left: 0,
-                                behavior: 'auto' //'smooth'
-                            });
-                        }, 10); //0的話有可能無法滑到最頂端，看運氣
+                // case "reactSwitchPage":
+                //     switch (value) {
+                //         case ENUM_reactSwitchPage.ProductListSearch:
+                //             window.app.pushUrl('/ProductListSearch'); //ProductListSearch
+                //             setTimeout(() => {
+                //                 window.scrollTo({
+                //                     top: 0,
+                //                     left: 0,
+                //                     behavior: 'auto' //'smooth'
+                //                 });
+                //             }, 10); //0的話有可能無法滑到最頂端，看運氣
 
-                        break;
-                    case ENUM_reactSwitchPage.ViewOrders:
-                        window.app.pushUrl('/ViewOrders'); //ProductListSearch
-                        setTimeout(() => {
-                            window.scrollTo({
-                                top: 0,
-                                left: 0,
-                                behavior: 'auto' //'smooth'
-                            });
-                        }, 10); //0的話有可能無法滑到最頂端，看運氣
-                        break;
-                    default:
-                        break;
-                }
-                break;
+                //             break;
+                //         case ENUM_reactSwitchPage.ViewOrders:
+                //             window.app.pushUrl('/ViewOrders'); //ProductListSearch
+                //             setTimeout(() => {
+                //                 window.scrollTo({
+                //                     top: 0,
+                //                     left: 0,
+                //                     behavior: 'auto' //'smooth'
+                //                 });
+                //             }, 10); //0的話有可能無法滑到最頂端，看運氣
+                //             break;
+                //         default:
+                //             break;
+                //     }
+                //     break;
             default:
                 break;
         }
@@ -415,7 +454,7 @@ if (!proxyMainPageUI.cusModalLogin) {
             //class-instance APPEAR!!  you can set template now~~~
             let newComponent = new htmlFile.ctor(htmlFile.templateContent, plugins);
             proxyMainPageUI.cusModalLogin = newComponent
-            
+
             document.body.appendChild(newComponent)
         })
 }
@@ -475,8 +514,9 @@ array_MenuHrefs.forEach(function (element) {
         case '#page-react':
             element.addEventListener('click', (e) => {
                 e.preventDefault()
-                proxyMainPageUI.isReactPage = true;
-                proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ProductListSearch;
+                //proxyMainPageUI.isReactPage = true;
+                //proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ProductListSearch;
+                window.app.switchIndexPage(ENUM_switchIndexPage.ProductListSearch)
             });
             break;
         case '#history':
@@ -522,22 +562,24 @@ aLogout.addEventListener('click', (e) => {
     e.preventDefault()
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
-    }).catch(function (/**@type {any}*/error) {
+    }).catch(function ( /**@type {any}*/ error) {
         // An error happened.
     });
 })
 //------------------- aMyOrder
 aMyOrder.addEventListener('click', (e) => {
     e.preventDefault()
-    proxyMainPageUI.isReactPage = true
-    proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ViewOrders
+    window.app.switchIndexPage(ENUM_switchIndexPage.ViewOrders);
+    // proxyMainPageUI.isReactPage = true
+    // proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ViewOrders
     //window.app.pushUrl('/ViewOrders'); //ProductListSearch
 });
 
 
 aOpenModalShopcart.addEventListener('click', () => {
-    proxyMainPageUI.isReactPage = true
-    proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ProductListSearch;
+    window.app.switchIndexPage(ENUM_switchIndexPage.ProductListSearch)
+    // proxyMainPageUI.isReactPage = true
+    // proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ProductListSearch;
     setTimeout(() => {
         if (window.app.openModalShopCart)
             window.app.openModalShopCart();

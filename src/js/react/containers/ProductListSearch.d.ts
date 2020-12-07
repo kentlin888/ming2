@@ -16,3 +16,7 @@ declare class ProductListSearch extends React.PureComponent < ProductListSearchP
     // state:Readonly<ProductListSearchStates>;
 }
 export default ProductListSearch;
+
+export type arrayGroupedCategories={
+
+}

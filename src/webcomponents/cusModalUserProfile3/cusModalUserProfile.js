@@ -1,5 +1,5 @@
 //@ts-check
-import { type } from 'jquery'
+
 import { UserData } from '../../js/dataDefine/index.js'
 import {FIRESTORE_COLLECTION} from '../../js/firebase/FirebaseMJS'
 

@@ -15,8 +15,8 @@ import {
 } from "react-router-dom";
 import { createBrowserHistory, createHashHistory } from "history";
 //import { browserHistory } from 'react-router'
-import ViewOrders from './ViewOrders/ViewOrders.jsx'
-import ProductListSearch from './ProductListSearch/ProductListSearch.jsx'
+import ViewOrders from './ViewOrders.jsx'
+import ProductListSearch from './ProductListSearch.jsx'
 import './App.css'
 export default class App extends PureComponent {
     constructor(/**@type {any}*/props) {

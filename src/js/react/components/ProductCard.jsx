@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 //import * as App_redux from "../../App_redux.js";
-import * as shopCart_actions from '../../actions/shopCart.js'
+import * as shopCart_actions from '../actions/shopCart.js'
 //import ProductCard_css from './ProductCard.css'
 //import '../CategoryCard/CategoryCard.css'
-import '../../containers/ProductListSearch/ProductListSearch.css'
+import '../containers/ProductListSearch.css'
 
 export default class ProductCard extends PureComponent {
     static propTypes = {

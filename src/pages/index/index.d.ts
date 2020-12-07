@@ -19,6 +19,15 @@
 // import("sweetalert2")
 declare module '@babel/polyfill';
 
+
+export declare namespace index{
+    //export type ENUM_switchIndexPage : "Unknown" | "Fatal" | "Critical" | "Error";    
+    
+}
+export enum ENUM_switchIndexPage {
+    ProductListSearch= 'ProductListSearch',
+    ViewOrders= 'ViewOrders',
+}
 // declare function jQuery(domReadyCallback: () => any): any;
 
 //-----Property 'Swal' is missing in type 'typeof Swal' but required in type 'typeof import("sweetalert2")'

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 //import { connect } from 'react-redux'
 //import '../../containers/ProductListSearch/ProductListSearch.css'
 //import '../../containers/ShopCart/ShopCart.css'
-import * as shopCart_act from '../../actions/shopCart.js'
+import * as shopCart_act from '../actions/shopCart.js'
 import { bindActionCreators } from 'redux'
 
 export default class ShopItem extends Component {
