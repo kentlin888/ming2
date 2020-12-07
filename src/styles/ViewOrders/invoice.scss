@@ -1,0 +1,97 @@
+@use '../base/base.scss';
+@use '../form.scss';
+
+// *{
+//     background-color: black;
+//     color: white;
+// }
+form {
+    width: 70vw;
+}
+
+.boxInvoice {
+    
+    .tableHeader {
+        width: 70vw;
+        padding: 1rem;
+
+        tr {
+            td:first-child {
+                text-align: left;
+                width: 60%;
+                //background-color: yellow;
+            }
+
+            td:last-child {
+                text-align: right;
+                //background-color: greenyellow;
+            }
+        }
+    }
+
+    .tableItems {
+        
+        
+        border: 0;
+        border-collapse: separate; //merged
+        border-spacing: 0 1px;
+
+        thead th {
+            border-bottom: 3px solid red;
+            border-collapse: separate;
+            border-spacing: 1px 1px;
+        }
+
+        th,
+        td {
+            padding: .5rem;
+        }
+        td:not(:nth-child(2)){
+            text-align: center;
+        }
+        th,td:nth-child(2){
+            max-width: 30vw;
+            //width:50px;
+            //max-width: 20vw;
+            // max-width: 21vw;
+            // max-height: 600px;
+            //overflow:hidden; 
+            // text-overflow:ellipsis;
+            // white-space: space wrap;; 
+            
+            //background-color: greenyellow;
+        }
+        .rowProductName{
+            //width:50px;
+            
+            //background-color: red;
+            overflow-wrap: break-word;
+        }
+
+        // td {
+        //     overflow:hidden; 
+        //     // white-space:nowrap; 
+        //     text-overflow:ellipsis;
+        //     max-width: 30px;
+        // }
+        // th,td:nth-child(3){
+        //     width:150px;
+        //     //background-color: greenyellow;
+        // }
+        
+        // thead{
+        //     border-bottom: yellow 2px solid;
+        // }
+        .imgContainer {
+            @extend .b-imgContainer;
+            width: 100px;
+            height: 100px;
+            // max-width: 90%;
+            // max-height: 90%;
+
+        }
+
+    }
+
+}
+

@@ -131,6 +131,8 @@ export class OrderInfo {
     get sOrderStatus(): string;
     
     orderId: string;
+
+    orderAddress:string;
     
     shopItemList: ShopItemInfo[];
     /**first shop product name with /.... */

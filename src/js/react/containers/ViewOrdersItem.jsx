@@ -67,8 +67,8 @@ const expandRow = {
         /**@type {import('../../dataDefine/index.js').UserData} */
         let userData = new UserData();
         userData = Object.assign(userData, row.userData)
-        let totalPrice = row.totalPrice;
-        
+        //let totalPrice = row.totalPrice;
+        let {orderAddress,totalPrice} = row
 
         // /**@type {import('../../../dataDefine/index.js').UserProfile} */
         // let userInfo = new UserProfile();
@@ -80,8 +80,8 @@ const expandRow = {
                 <span>{userData.userProfile.name}</span>
             </div>
             <div>
-                <label>住址:</label>
-                <span>{userData.userProfile.address}</span>
+                <label>送貨地址:</label>
+                <span>{orderAddress}</span>
             </div>
             <div>
                 <label>電話:</label>

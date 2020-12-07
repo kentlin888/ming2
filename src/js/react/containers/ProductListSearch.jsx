@@ -28,6 +28,8 @@ export class App extends Component {
         showbtnBottomCartButton: true,
         /**@prop {import('../../../firebase/FirebaseMJS.js').groupedCategory[]} */
         arrayGroupedCategories: [],
+        /**@prop {?string} */
+        orderAddress: '',
     }
     constructor(props) {
         super(props);
@@ -65,7 +67,7 @@ export class App extends Component {
                     // console.log("LOG:: App -> componentDidMount -> arrayDbProducts", arrayDbProducts)
                     //let window2 = /**@type {import('../../../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
                     self.state.arrayGroupedCategories = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(window._, arrayDbProducts);
-                    
+
                     /**@type {import('../../firebase/FirebaseMJS.js').groupedCategory[]} */
                     let arrayGroupedCategories = self.state.arrayGroupedCategories.map((/**@type {any}*/item) => {
                         // add React.createRef()
@@ -242,15 +244,23 @@ export class App extends Component {
     loadProducts = (/**@type {any}*/e) => {
         this.props.act_loadProducts();
     }
+    handleInputChange = (e) => {
+        // event.target 是當前的 DOM elment
+        // 從 event.target.value 取得 user 剛輸入的值
+        // 將 user 輸入的值更新回 state
+        this.setState({ orderAddress: e.target.value });
+    }
 
 
     render() {
         this.state.arrayGroupedCategories
         // console.log("LOG:: App -> render -> this.arrayGroupedCategories5555", this.state.arrayGroupedCategories)
         const { productList } = this.props
-        let userAddress = '';
-        if (window.app.userData && window.app.userData && window.app.userData.userProfile)
-            userAddress = window.app.userData.userProfile.address
+        // let userAddress = '';
+        // if (window.app.userData && window.app.userData.userProfile)
+        //     userAddress = window.app.userData.userProfile.address
+
+
         // console.log("LOG: ~ file: ProductListSearch.jsx ~ line 273 ~ App ~ render ~ window.app.userData.userProfile", window.app.userData.userProfile)
 
 
@@ -264,9 +274,10 @@ export class App extends Component {
                         {/* =============== HEADER ================== */}
                         <div className="boxDeliveryTimeAddress inputField1 bd4">
                             <span>地址</span>
-                            <input type="text" placeholder="個人檔案中可以預設地址" defaultValue={userAddress}></input>
+                            {/* <div>{this.state.orderAddress}</div> */}
+                            <input type="text" placeholder="個人檔案中可以預設地址" defaultValue={this.state.orderAddress} onChange={this.handleInputChange}></input>
                         </div>
-                        <button onClick={this.loadProducts}>Load Products</button>
+                        {/* <button onClick={this.loadProducts}>Load Products</button> */}
                         {/* <div className="boxDeliveryTimeAddress bd4">
                             地址 時間<br />
                             <div>
@@ -370,7 +381,7 @@ export class App extends Component {
                 {/* ============= 2.Aside (RIGHT) ============= */}
                 <aside ref={this.refShopcartBox} className="boxShopCart bd4">
                     <div ref={this.refShopCart}>
-                        <ShopCart></ShopCart>
+                        <ShopCart data-orderAddress={this.state.orderAddress}></ShopCart>
                     </div>
                 </aside>
             </main>

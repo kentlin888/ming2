@@ -197,6 +197,8 @@ export const LogType = {
     }
     /**@type {string} */
     orderId = "XXXXXXXX" // odke-20200717-0001
+    /**@type {string} */
+    orderAddress = 'XXXXXX'
     /**@type {ShopItemInfo[]} */
     shopItemList = []
     /**@property {string} - first shop product name with /.... */

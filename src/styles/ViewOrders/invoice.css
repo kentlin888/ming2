@@ -1,0 +1,150 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: #06101b;
+  color: white;
+}
+
+.b-displayNone {
+  display: none;
+}
+
+.b-textCenter {
+  text-align: center;
+}
+
+.b-flexStart {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 5px;
+}
+
+.b-flexCenter {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.b-ulStyleNone {
+  list-style-type: none;
+}
+
+.b-imgContainer, .boxInvoice .tableItems .imgContainer {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+.b-imgContainer img, .boxInvoice .tableItems .imgContainer img {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.b-btnGolden {
+  display: block;
+  text-align: center;
+  background-color: transparent;
+  cursor: pointer;
+  /*background-color: $colorGold;
+  */
+  color: #beac74;
+  border: #beac74 2px solid;
+  font-weight: bold;
+  font-size: 1.2em;
+  border-radius: 20px;
+}
+.b-btnGolden:hover {
+  color: white;
+  background-color: #beac74;
+  transition-duration: 0.3s;
+  border-radius: 20px;
+}
+.b-btnGolden:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.bd1 {
+  border: red 2px solid;
+}
+
+.bd2 {
+  border: #f8f407 2px solid;
+}
+
+.bd3 {
+  border: #076ff8 2px solid;
+}
+
+.bd4 {
+  border: #07f877 2px solid;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Helvetica;
+  background: #000;
+  -webkit-font-smoothing: antialiased;
+}
+
+form {
+  width: 380px;
+  margin: 4em auto;
+  padding: 3em 2em 2em 2em;
+  border: 1px solid #ebebeb;
+  box-shadow: rgba(0, 0, 0, 0.14902) 0px 1px 1px 0px, rgba(0, 0, 0, 0.09804) 0px 1px 2px 0px;
+}
+
+form {
+  width: 70vw;
+}
+
+.boxInvoice .tableHeader {
+  width: 70vw;
+  padding: 1rem;
+}
+.boxInvoice .tableHeader tr td:first-child {
+  text-align: left;
+  width: 60%;
+}
+.boxInvoice .tableHeader tr td:last-child {
+  text-align: right;
+}
+.boxInvoice .tableItems {
+  border: 0;
+  border-collapse: separate;
+  border-spacing: 0 1px;
+}
+.boxInvoice .tableItems thead th {
+  border-bottom: 3px solid red;
+  border-collapse: separate;
+  border-spacing: 1px 1px;
+}
+.boxInvoice .tableItems th,
+.boxInvoice .tableItems td {
+  padding: 0.5rem;
+}
+.boxInvoice .tableItems td:not(:nth-child(2)) {
+  text-align: center;
+}
+.boxInvoice .tableItems th, .boxInvoice .tableItems td:nth-child(2) {
+  max-width: 30vw;
+}
+.boxInvoice .tableItems .rowProductName {
+  overflow-wrap: break-word;
+}
+.boxInvoice .tableItems .imgContainer {
+  width: 100px;
+  height: 100px;
+}

@@ -17,9 +17,9 @@ import {TypeOf, ENUM_TypeOf, getPlainObject} from '../../lib/dataKits.js'
 import { ENUM_switchIndexPage } from '../../../pages/index/index.js'
 
 class ShopCart extends Component {
-    // static propTypes = {
-    //     prop: PropTypes
-    // }
+    static propTypes = {
+        ['data-orderAddress']:PropTypes.string
+    }
     constructor(/**@type {any}*/props) {
         super(props)
         const { dispatch } = props
@@ -46,6 +46,7 @@ class ShopCart extends Component {
     }
     _getOrderInfo = () => {
         let orderInfo = this._getOrderInfo_FromShopItems(this.props.shopItemList);
+        orderInfo.orderAddress = this.props['data-orderAddress'];
         orderInfo.totalPrice = this.props.AllItems_Price;
 
         return window.FirebaseMJS.getUser()
@@ -70,7 +71,6 @@ class ShopCart extends Component {
     }
 
     CheckOutOrder = (/**@type {any}*/e) => {
-        console.log('CheckOutOrder')
 
         this._getOrderInfo()
             .then((orderInfo) => {
@@ -151,7 +151,7 @@ class ShopCart extends Component {
         return (
             <div>
                 <div>
-                    
+                    {/* <div>{this.props['data-orderAddress']}</div> */}
                     <div className="boxShopCard"><h1>購物車</h1></div>
                     <table id="tbShopcart" className="tableShopcart bd1">
                         <tbody>

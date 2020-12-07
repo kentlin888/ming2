@@ -268,12 +268,8 @@ firebase.auth().onAuthStateChanged(function ( /**@type {any}*/ authUser) {
         //----window.app.userData not exist!
         if (!window.app.userData) {
             console.log('load user data from firestore...')
-
-            /**
-             * 
-             * @param {string} uid 
-             */
-            function getDbUser(uid) {
+            
+            function getDbUser(/**@type {string} */uid) {
                 return db.collection(FIRESTORE_COLLECTION.Users).doc(uid).get()
                     .then(( /**@type {any}*/ querySnapshot) => {
                         if (querySnapshot.exists === false)
