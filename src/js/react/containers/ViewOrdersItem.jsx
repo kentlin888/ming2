@@ -3,9 +3,9 @@
 import React, { PureComponent } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next';
 //import OrderList_css from './OrderList.css'
-
+import Invoice from '../components/Invoice.jsx'
 import PropTypes from 'prop-types'
-import { OrderInfo, UserProfile, UserData, ShopItemInfo } from '../../../js/dataDefine/index.js'
+import { OrderInfo, UserData, ShopItemInfo } from '../../../js/dataDefine/index.js'
 // import { times } from 'lodash';
 
 /**
@@ -64,65 +64,71 @@ const expandRow = {
     onlyOneExpanding: true,
     className: 'expandingRowBackground',
     renderer: (/**@type {any}*/row) => {
-        /**@type {import('../../dataDefine/index.js').UserData} */
-        let userData = new UserData();
-        userData = Object.assign(userData, row.userData)
-        //let totalPrice = row.totalPrice;
-        let {orderAddress,totalPrice} = row
+        let orderInfo = row
+        // console.log("LOG: ~ file: ViewOrdersItem.jsx ~ line 70 ~ row.userData", row)
+        // /**@type {import('../../dataDefine/index.js').UserData} */
+        // let userData = new UserData();
+        // userData = Object.assign(userData, row.userData)
+        
+        // //let totalPrice = row.totalPrice;
+        // let {orderAddress,totalPrice} = row
 
         // /**@type {import('../../../dataDefine/index.js').UserProfile} */
         // let userInfo = new UserProfile();
         // userInfo = Object.assign(userInfo, row.userProfile)
         // let sendAddress = userInfo.address//.getSelectedAddress();
-        return <div>
-            <div>
-                <label>姓名:</label>
-                <span>{userData.userProfile.name}</span>
-            </div>
-            <div>
-                <label>送貨地址:</label>
-                <span>{orderAddress}</span>
-            </div>
-            <div>
-                <label>電話:</label>
-                <span>{userData.phoneNumber}</span>
-            </div>
-            <div>
-                <label>訂單金額總計:</label>
-                <span>{totalPrice}</span>
-            </div>
-            <div className="titleProductList">
-                商品明細
-            </div>
-            <div>
-                {row.shopItemList.map(function (/**@type {ShopItemInfo}*/item, /**@type {number}}*/index) {
-                    return <div key={index} className="productBox bd4">
-                        <div>
-                            <div className="imgContainer">
-                                <img src={item._productInfo.imgUrl} alt="not found"></img>
-                            </div>
-                        </div>
+        return <Invoice orderInfo={orderInfo}></Invoice>
+        // <Invoice orderInfo={orderInfo}></Invoice>
+            
+        // <div>
+        //     <div>
+        //         <label>姓名:</label>
+        //         <span>{userData.userProfile.name}</span>
+        //     </div>
+        //     <div>
+        //         <label>送貨地址:</label>
+        //         <span>{orderAddress}</span>
+        //     </div>
+        //     <div>
+        //         <label>電話:</label>
+        //         <span>{userData.phoneNumber}</span>
+        //     </div>
+        //     <div>
+        //         <label>訂單金額總計:</label>
+        //         <span>{totalPrice}</span>
+        //     </div>
+        //     <div className="titleProductList">
+        //         商品明細
+        //     </div>
+        //     <div>
+        //         {row.shopItemList.map(function (/**@type {ShopItemInfo}*/item, /**@type {number}}*/index) {
+        //             return <div key={index} className="productBox bd4">
+        //                 <div>
+        //                     <div className="imgContainer">
+        //                         <img src={item._productInfo.imgUrl} alt="not found"></img>
+        //                     </div>
+        //                 </div>
 
-                        <div className="boxProductName">
-                            <span>{item._productInfo.name}</span>
-                        </div>
-                        <div className="boxProductUnitPrice">
-                            <label>單價:</label>
-                            <span>{item._productInfo.price}</span>
-                        </div>
-                        <div className="boxProductAmount">
-                            <label>數量:</label>
-                            <span>{item.amount}</span>
-                        </div>
-                        <div className="boxProductCountPrice">
-                            <label>金額:</label>
-                            <span>{item.amount * item._productInfo.price}</span>
-                        </div>
+        //                 <div className="boxProductName">
+        //                     <span>{item._productInfo.name}</span>
+        //                 </div>
+        //                 <div className="boxProductUnitPrice">
+        //                     <label>單價:</label>
+        //                     <span>{item._productInfo.price}</span>
+        //                 </div>
+        //                 <div className="boxProductAmount">
+        //                     <label>數量:</label>
+        //                     <span>{item.amount}</span>
+        //                 </div>
+        //                 <div className="boxProductCountPrice">
+        //                     <label>金額:</label>
+        //                     <span>{item.amount * item._productInfo.price}</span>
+        //                 </div>
 
-                    </div>
-                })}
-            </div>
-        </div>
+        //             </div>
+        //         })}
+        //     </div>
+        // </div>
     }
     ,
     parentClassName: (/**@type {Boolean}*/isExpanded, /**@type {any}*/row, /**@type {Number}*/rowIndex) => {
@@ -160,7 +166,7 @@ export default class ViewOrdersItem extends PureComponent {
         //data: []
     }
     render() {
-        console.log('llpppp-->', this.props)
+        console.log('ViewOrdersItem.props-->', this.props)
         return (
             <div>
                 <BootstrapTable

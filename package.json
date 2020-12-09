@@ -7,12 +7,15 @@
     "gom": "mocha 11.test.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "sass": "sass ./ --watch --no-source-map",
+    "babeljsx": "babel --watch --presets @babel/preset-env --presets @babel/preset-react  ./wtemp/src/ --out-dir ./wtemp/out/",
     "ming2DevBuild": "webpack --env NODE_ENV=development --env BUILD_SITE=ming --config ./webpack.config.js",
     "ming2DevServer": "webpack-dev-server --env.NODE_ENV=development --env.BUILD_SITE=ming --config ./webpack.config.js",
     "ming2ProdBuild": "webpack --env NODE_ENV=production --env BUILD_SITE=ming --config ./webpack.config.js",
     "ming2ProdServer": "webpack-dev-server --env.NODE_ENV=production --env.BUILD_SITE=ming --config ./webpack.config.js",
     "demo1Build": "webpack --env NODE_ENV=development --env BUILD_SITE=demo1 --config ./webpack.config.js",
-    "demo1Server": "webpack-dev-server --env.NODE_ENV=development --env.BUILD_SITE=demo1 --config ./webpack.config.js"
+    "demo1Server": "webpack-dev-server --env.NODE_ENV=development --env.BUILD_SITE=demo1 --config ./webpack.config.js",
+    "demo1T1": "webpack-dev-server --env.NODE_ENV=development --env.BUILD_SITE=demo1 --env.ENUM_AppPage=T1 --config ./webpack.config.js",
+    "demo1Invoice": "webpack-dev-server --env.NODE_ENV=development --env.BUILD_SITE=demo1 --env.ENUM_AppPage=Invoice --config ./webpack.config.js"
   },
   "repository": {
     "type": "git",

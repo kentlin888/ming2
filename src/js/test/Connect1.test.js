@@ -33,12 +33,33 @@ describe('Connect1.test.js', () => {
             })
     })
 
+    it('firestore.set save-fakeData', () => {
+        let testData = require('../../../adminData/testdata.json')
+        let db = firebase.firestore()
+        let collectionName = 'OrderInfo'
+        let uid = testData.userId;
+        return db.collection(collectionName).where("userId", "==", uid).get()
+        .then((snapshot) => {
+            //console.log(snapshot.docs)
+            let arrayOrderInfo = snapshot.docs.map((item) => {
+                let data = item.data()                
+                return data
+            })
+            let fs = require('fs')
+            let json = JSON.stringify(arrayOrderInfo,null,4)
+            let path = require('path')
+            let filePath = path.resolve(__dirname,`../../../adminData/fakeData/${collectionName}.json`)
+            fs.writeFileSync(filePath,json)
+            console.warn('okokok')
+        })
+    })
+
     it('Prod.html.Products.delete(AutoNum).', () => {
         let db = firebase.firestore()
-        return db.collection('Products').doc('--AutoNum--').delete()
-            .then((e) => {
-                console.log('delete done!')
-            })
+        // return db.collection('Products').doc('--AutoNum--').delete()
+        //     .then((e) => {
+        //         console.log('delete done!')
+        //     })
     })
     it('Prod.admin.Products.BatchDelete', () => {
         let collectionName
@@ -147,74 +168,41 @@ describe('Connect1.test.js', () => {
 
     })
     it('Prod.html.Firebase_MJS.addOrderInfo_FakeData[4]', () => {
+        
         let firebaseMJS = new FirebaseMJS(firebase,dataKits);
+        
         let _ = require('lodash')
-        return firebaseMJS.getProductInfo()
-            .then((listProductInfo) => {
-                let arrayOrderInfo = GetArrayOrderInfo(listProductInfo);
-                // console.log('---------------')
-                let orderInfo = arrayOrderInfo[0]
-                // //delete orderInfo.shopItemList
-                orderInfo.shopItemList = orderInfo.shopItemList.map((item) => {
-                    item._productInfo = Object.assign({}, item._productInfo)
-                    return Object.assign({}, item)
-                    //return item
-
-                })
-
-                function customizer(value) {
-                    //value = Object.assign({},value)
-                    // console.log('---value---', value)
-                    return value
-
-                    // if(value){
-                    //     console.log('---value---', value.constructor)
-                    //     let sValue_ctor
-                    //     if (value.constructor) {
-                    //         sValue_ctor = value.constructor.toString()
-                    //         if (sValue_ctor.startsWith('class')) {
-                    //             console.log('---value---', value)
-                    //             return Object.assign({},value)
-                    //             //return value
-                    //         }
-                    //     }
-                    // }
-                    // return value
-                    
-
-                    // else
-                    //     return value
-                    //console.log('---value---', value)
-                    //return Object.assign({},value)
-                }
-
-                let orderInfo2 = _.cloneDeepWith(orderInfo, customizer)
-                //let orderInfo2 = JSON.parse(JSON.stringify(orderInfo))
-
-                return firebaseMJS.addOrderInfo(orderInfo2)
-            })
         // return firebaseMJS.getProductInfo()
         //     .then((listProductInfo) => {
         //         let arrayOrderInfo = GetArrayOrderInfo(listProductInfo);
-        //         console.log('arrayOrderInfo[0]--->'+JSON.stringify(arrayOrderInfo[0],null,4))
-        //         // console.log("LOG:: arrayOrderInfo", arrayOrderInfo)
-        //         //console.log(arrayOrderInfo)
-        //         //let arrayOrderInfo = GetArrayOrderInfo();
-        //         let arrayPromise_AddOrderInfo = arrayOrderInfo.map((item) => {
-        //             //must be BIND()!!!
-        //             let dd = firebaseMJS.addOrderInfo.bind(firebaseMJS, item, true)
-        //             return dd //Firebase.addOrderInfo(item, true)
-        //         })
-        //         return arrayPromise_AddOrderInfo
+
+
+        //         let orderInfo = arrayOrderInfo[0]
+        //         // get plain object
+        //         orderInfo = dataKits.getPlainObject(orderInfo)
+        //         let _ = require('lodash')
+        //         return firebaseMJS.addOrderInfo(orderInfo,_)
         //     })
-        //     .then((arrayPromise_AddOrderInfo) => {
-        //         return arrayPromise_AddOrderInfo.reduce(function (prePromise, arryFunc_promise, i) {
-        //             //return arryPromise
-        //             return prePromise.then(function () {
-        //                 return arryFunc_promise() //saveInDatabase(item).then((myResult) => ... );
-        //             });
-        //         }, Promise.resolve())
-        //     })
+
+        return firebaseMJS.getProductInfo()
+            .then((listProductInfo) => {
+                let arrayOrderInfo = GetArrayOrderInfo(listProductInfo);
+                let _ = require('lodash')
+                let arrayPromise_AddOrderInfo = arrayOrderInfo.map((item) => {
+                    //must be BIND()!!!
+                    let dd = firebaseMJS.addOrderInfo.bind(firebaseMJS, item, _)
+                    return dd //Firebase.addOrderInfo(item, true)
+                })
+                return arrayPromise_AddOrderInfo
+            })
+            .then((arrayPromise_AddOrderInfo) => {
+                return arrayPromise_AddOrderInfo.reduce(function (prePromise, arryFunc_promise, i) {
+                    //return arryPromise
+                    return prePromise.then(function () {
+                        return arryFunc_promise() //saveInDatabase(item).then((myResult) => ... );
+                    });
+                }, Promise.resolve())
+            })
     })
     
     
@@ -259,32 +247,55 @@ function GetArrayOrderInfo(listProductInfo) {
 
     let getNewOrderInfo = () => {
         let rtnOrderInfo = new OrderInfo();
-        let newJsonOrder = new OrderInfo(); //_.cloneDeep(jsonOrder);
-        newJsonOrder.userId = testdata.userId;
-        newJsonOrder.userData = userData;
+        //let newJsonOrder = new OrderInfo(); //_.cloneDeep(jsonOrder);
+        rtnOrderInfo.userId = testdata.userId;
+        rtnOrderInfo.userData = userData;
+
+        let newAddress = Math.random().toString(36).substring(2, 5) // 36 carry bit, ignore '0.', get 8 char
+        rtnOrderInfo.orderAddress = newAddress;
+        
         //pick random ShopItems
         //let sumPrice = 0
         let listRandomProducts = _.cloneDeep(listProductInfo)
         listRandomProducts = listRandomProducts.pickArrayRandomElements(3)
-        let listShotItems = listRandomProducts.map((item) => {
+        
+        //console.log("LOG: ~ file: Connect1.test.js ~ line 276 ~ getNewOrderInfo ~ listRandomProducts", listRandomProducts)
+        
+        let listShopItems = listRandomProducts.map((item) => {
+            
             let newShopItem = new ShopItemInfo()
             // custom object must not be class object,(if save firestore)
             //newShopItem = Object.assign({},newShopItem);
+            //newShopItem._productInfo=null;
             newShopItem.productId = item.productId
             //newShopItem.productInfo = item; //setter productId + price
             newShopItem.amount = getRandom(1, 4)
+            
             //sumPrice+=(newShopItem.amount * newShopItem.productInfo.price)
+            
             return newShopItem
         })
-        newJsonOrder.shopItemList = listShotItems;
+        
+        rtnOrderInfo.shopItemList = listShopItems;
+        rtnOrderInfo.fillShopItems(listRandomProducts)
+        rtnOrderInfo.shopItemList = rtnOrderInfo.shopItemList.map((item) => {
+            item._productInfo = null;
+            return item
+        })
         //newJsonOrder.fillShopItems(listRandomProducts)
         //newJsonOrder.totalPrice = sumPrice
         //---------------
-        rtnOrderInfo = Object.assign(rtnOrderInfo, newJsonOrder)
-        rtnOrderInfo.fillShopItems(listRandomProducts)
-        //console.log("LOG:: getNewOrderInfo -> rtnOrderInfo", rtnOrderInfo)
+        //rtnOrderInfo = Object.assign(rtnOrderInfo, newJsonOrder)
+        
+        //count total price
+        
+        // rtnOrderInfo.shopItemList = rtnOrderInfo.shopItemList.map((item) => {
+        //     item._productInfo=null;
+        // })
 
-        delete rtnOrderInfo.getShopItems_Id
+        //console.log("LOG:: getNewOrderInfo -> rtnOrderInfo", rtnOrderInfo)
+        
+        //delete rtnOrderInfo.getShopItems_Id
         return rtnOrderInfo;
     }
 

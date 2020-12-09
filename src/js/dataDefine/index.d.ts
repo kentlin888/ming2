@@ -138,7 +138,7 @@ export class OrderInfo {
     /**first shop product name with /.... */
     get orderProductName(): string;
     
-    getShopItems_Id: () => string[];
+    getShopItems_ProdId: () => string[];
     
     /**
      * @function - fill shopItem detail information
@@ -153,6 +153,11 @@ export class OrderInfo {
     orderLog: OrderLog[];
     
     userData: UserData;
+    
+    /**Convert props from db to local js fields */
+    convertDbFields():void;
+
+    static getOrderInfo_FromDb(db_orderInfo:*):OrderInfo;
 }
 /**@class
  * @desc firestore.Users

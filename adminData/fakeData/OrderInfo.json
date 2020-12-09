@@ -1,0 +1,202 @@
+[
+    {
+        "orderStatus": {
+            "isPaid": false,
+            "isCompleted": false,
+            "isDelivery": false,
+            "isCanceled": false
+        },
+        "fstsCreateDateTime_server": {
+            "seconds": 1607496130,
+            "nanoseconds": 833000000
+        },
+        "orderAddress": "hw8",
+        "userId": "wLdBVK7ihpgmGTyt1sgeCFELS8g2",
+        "orderId": "202012090001",
+        "orderLog": [],
+        "totalPrice": 1800,
+        "shopItemList": [
+            {
+                "price": 200,
+                "_productInfo": null,
+                "productId": "0012-jle",
+                "amount": 2
+            },
+            {
+                "_productInfo": null,
+                "productId": "0015-qtg",
+                "price": 200,
+                "amount": 4
+            },
+            {
+                "_productInfo": null,
+                "amount": 3,
+                "price": 200,
+                "productId": "0013-4y3"
+            }
+        ],
+        "userData": {
+            "phoneNumber": "+886926923281",
+            "photoURL": "https://lh3.googleusercontent.com/a-/AOh14GgufKuvpe34oq9gzvV9CppvPhWjISRrNeF4wbdOkw=s96-c",
+            "providerId": "google.com",
+            "uid": "s5hWIA4pdQN8NGjBmPekJoOodBi2",
+            "dispalyName": null,
+            "email": "tristan829@gmail.com",
+            "userProfile": {
+                "name": "HH",
+                "address": "台北市萬華區寧波街11號XXXXXXXXXX"
+            },
+            "emailVerified": true
+        }
+    },
+    {
+        "userData": {
+            "userProfile": {
+                "address": "台北市萬華區寧波街11號XXXXXXXXXX",
+                "name": "HH"
+            },
+            "photoURL": "https://lh3.googleusercontent.com/a-/AOh14GgufKuvpe34oq9gzvV9CppvPhWjISRrNeF4wbdOkw=s96-c",
+            "uid": "s5hWIA4pdQN8NGjBmPekJoOodBi2",
+            "phoneNumber": "+886926923281",
+            "emailVerified": true,
+            "dispalyName": null,
+            "email": "tristan829@gmail.com",
+            "providerId": "google.com"
+        },
+        "orderStatus": {
+            "isCompleted": false,
+            "isCanceled": false,
+            "isDelivery": false,
+            "isPaid": true
+        },
+        "totalPrice": 2600,
+        "orderLog": [],
+        "shopItemList": [
+            {
+                "amount": 3,
+                "price": 600,
+                "productId": "0007-ovb",
+                "_productInfo": null
+            },
+            {
+                "_productInfo": null,
+                "amount": 1,
+                "productId": "0013-4y3",
+                "price": 200
+            },
+            {
+                "_productInfo": null,
+                "productId": "0016-08a",
+                "price": 200,
+                "amount": 3
+            }
+        ],
+        "orderId": "202012090002",
+        "orderAddress": "yoe",
+        "userId": "wLdBVK7ihpgmGTyt1sgeCFELS8g2",
+        "fstsCreateDateTime_server": {
+            "seconds": 1607496131,
+            "nanoseconds": 60000000
+        }
+    },
+    {
+        "orderLog": [],
+        "userId": "wLdBVK7ihpgmGTyt1sgeCFELS8g2",
+        "userData": {
+            "uid": "s5hWIA4pdQN8NGjBmPekJoOodBi2",
+            "dispalyName": null,
+            "emailVerified": true,
+            "photoURL": "https://lh3.googleusercontent.com/a-/AOh14GgufKuvpe34oq9gzvV9CppvPhWjISRrNeF4wbdOkw=s96-c",
+            "providerId": "google.com",
+            "email": "tristan829@gmail.com",
+            "userProfile": {
+                "address": "台北市萬華區寧波街11號XXXXXXXXXX",
+                "name": "HH"
+            },
+            "phoneNumber": "+886926923281"
+        },
+        "orderAddress": "g5p",
+        "shopItemList": [
+            {
+                "_productInfo": null,
+                "amount": 2,
+                "price": 0,
+                "productId": "null"
+            },
+            {
+                "amount": 3,
+                "_productInfo": null,
+                "price": 600,
+                "productId": "0005-q0b"
+            },
+            {
+                "amount": 4,
+                "_productInfo": null,
+                "price": 200,
+                "productId": "0016-08a"
+            }
+        ],
+        "totalPrice": 2600,
+        "orderStatus": {
+            "isPaid": true,
+            "isCanceled": false,
+            "isCompleted": true,
+            "isDelivery": true
+        },
+        "orderId": "202012090003",
+        "fstsCreateDateTime_server": {
+            "seconds": 1607496131,
+            "nanoseconds": 242000000
+        }
+    },
+    {
+        "fstsCreateDateTime_server": {
+            "seconds": 1607496131,
+            "nanoseconds": 449000000
+        },
+        "orderId": "202012090004",
+        "userData": {
+            "emailVerified": true,
+            "userProfile": {
+                "name": "HH",
+                "address": "台北市萬華區寧波街11號XXXXXXXXXX"
+            },
+            "phoneNumber": "+886926923281",
+            "email": "tristan829@gmail.com",
+            "dispalyName": null,
+            "photoURL": "https://lh3.googleusercontent.com/a-/AOh14GgufKuvpe34oq9gzvV9CppvPhWjISRrNeF4wbdOkw=s96-c",
+            "uid": "s5hWIA4pdQN8NGjBmPekJoOodBi2",
+            "providerId": "google.com"
+        },
+        "orderAddress": "3o0",
+        "shopItemList": [
+            {
+                "productId": "0013-4y3",
+                "amount": 2,
+                "_productInfo": null,
+                "price": 200
+            },
+            {
+                "_productInfo": null,
+                "productId": "0016-08a",
+                "amount": 1,
+                "price": 200
+            },
+            {
+                "_productInfo": null,
+                "price": 200,
+                "amount": 1,
+                "productId": "0020-jho"
+            }
+        ],
+        "userId": "wLdBVK7ihpgmGTyt1sgeCFELS8g2",
+        "orderStatus": {
+            "isCompleted": false,
+            "isDelivery": false,
+            "isCanceled": true,
+            "isPaid": false
+        },
+        "totalPrice": 800,
+        "orderLog": []
+    }
+]

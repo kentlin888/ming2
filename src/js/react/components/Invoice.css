@@ -1,0 +1,139 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: #06101b;
+  color: white;
+}
+
+.b-displayNone {
+  display: none;
+}
+
+.b-textCenter {
+  text-align: center;
+}
+
+.b-flexStart {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 5px;
+}
+
+.b-flexCenter {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.b-ulStyleNone {
+  list-style-type: none;
+}
+
+.b-imgContainer, .boxInvoice .tableItems .imgContainer {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+.b-imgContainer img, .boxInvoice .tableItems .imgContainer img {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.b-btnGolden {
+  display: block;
+  text-align: center;
+  background-color: transparent;
+  cursor: pointer;
+  /*background-color: $colorGold;
+  */
+  color: #beac74;
+  border: #beac74 2px solid;
+  font-weight: bold;
+  font-size: 1.2em;
+  border-radius: 20px;
+}
+.b-btnGolden:hover {
+  color: white;
+  background-color: #beac74;
+  transition-duration: 0.3s;
+  border-radius: 20px;
+}
+.b-btnGolden:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.bd1 {
+  border: red 2px solid;
+}
+
+.bd2 {
+  border: #f8f407 2px solid;
+}
+
+.bd3 {
+  border: #076ff8 2px solid;
+}
+
+.bd4 {
+  border: #07f877 2px solid;
+}
+
+.boxInvoice .tableHeader {
+  width: 90vw;
+  padding: 1rem;
+}
+.boxInvoice .tableHeader th,
+.boxInvoice .tableHeader td {
+  border: none;
+}
+.boxInvoice .tableHeader tr td:first-child {
+  text-align: left;
+  width: 60%;
+}
+.boxInvoice .tableHeader tr td:last-child {
+  text-align: right;
+}
+.boxInvoice .tableItems {
+  width: 90vw;
+  border: 0;
+  border-collapse: separate;
+  border-spacing: 0 1px;
+}
+.boxInvoice .tableItems th,
+.boxInvoice .tableItems td {
+  padding: 0.5rem;
+  border: none;
+}
+.boxInvoice .tableItems th {
+  border-bottom: 3px solid #beac74;
+  border-collapse: separate;
+  border-spacing: 1px 1px;
+  text-align: center;
+}
+.boxInvoice .tableItems td {
+  text-align: center;
+}
+.boxInvoice .tableItems td:nth-child(2) {
+  text-align: left;
+}
+.boxInvoice .tableItems th,
+.boxInvoice .tableItems td:nth-child(2) {
+  max-width: 30vw;
+}
+.boxInvoice .tableItems .rowProductName {
+  overflow-wrap: break-word;
+}
+.boxInvoice .tableItems .imgContainer {
+  width: 100px;
+  height: 100px;
+}

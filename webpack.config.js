@@ -11,6 +11,9 @@ const {
     merge
 } = require('webpack-merge');
 const commonConfig_func = require('./webpack.config.common.js');
+const {
+    fstat
+} = require('fs');
 //console.log(commonConfig)
 const ENUM_BUILD_SITE = {
     ming: "ming",
@@ -200,7 +203,13 @@ module.exports = (env) => {
             }
             break;
         case ENUM_BUILD_SITE.demo1:
-            //console.log(11111111111)
+            //----change test page
+            let appDefine = require('./src/pages/demo1/appDefine.js')
+            let pathAppjs = './src/pages/demo1/app.js'
+            //----change test page
+            let enum_AppPage = env.ENUM_AppPage;
+            appDefine.changeDemo1AppJSX(pathAppjs, enum_AppPage)
+
             rtnConfig = {
                 entry: {
                     demo1: './pages/demo1/demo1.js',

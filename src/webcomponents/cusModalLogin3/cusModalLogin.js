@@ -15,18 +15,18 @@ export default class cusModalLogin extends HTMLElement {
         super();
         /** {Swal , Email_ResendPassword(...)} */
         this.plugins = plugins;
-        
+
         // assign firebase
         this.firebase = null;
         this.db = null
-        
+
         if (window.firebase)
             this.setFirebase(window.firebase)
 
         // initial templateContent
         if (templateContent)
             this.appendTemplate(templateContent);
-        
+
         this.proxyUI = {
             bindIptSigninEmail: '',
             bindIptSigninPWD: '',
@@ -107,7 +107,7 @@ export default class cusModalLogin extends HTMLElement {
         this.appendChild(templateContent)
         let self = this;
 
-        
+
         //===== GOOGLE LOGIN
         this.btnGoogleSignin = this.querySelector('.signInHtm .btnGoogleSignin')
         this.btnGoogleSignin.addEventListener('click', this.Google_Register_Login.bind(this));
@@ -138,7 +138,7 @@ export default class cusModalLogin extends HTMLElement {
             //return false
         })
 
-        
+
         // Go back to Login Page
         let leftArrow = this.querySelector('.modal-header .leftArrow')
         leftArrow.addEventListener('click', (e) => {
@@ -166,8 +166,8 @@ export default class cusModalLogin extends HTMLElement {
         testArea.appendChild(htmlElement)
         //console.log(aa)
     }
-    
-    setFirebase(/**@type {import('firebase')}}*/inFirebase) {
+
+    setFirebase( /**@type {import('firebase')}}*/ inFirebase) {
         // console.log(inFirebase)
         this.firebase = inFirebase;
         this.db = this.firebase.firestore();
@@ -178,7 +178,7 @@ export default class cusModalLogin extends HTMLElement {
      */
     setAuth_getRedirectResult() {
         var self = this
-        this.firebase.auth().getRedirectResult().then(function (/**@type {any}*/result) {
+        this.firebase.auth().getRedirectResult().then(function ( /**@type {any}*/ result) {
             if (result.credential) {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 var token = result.credential.accessToken;
@@ -192,7 +192,7 @@ export default class cusModalLogin extends HTMLElement {
                 self.showModal(false)
             }
 
-        }).catch(function (/**@type {any}*/error) {
+        }).catch(function ( /**@type {any}*/ error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -281,7 +281,7 @@ export default class cusModalLogin extends HTMLElement {
                 //send verification email
 
             })
-            .catch(function (/**@type {any} */error) {
+            .catch(function ( /**@type {any} */ error) {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -314,7 +314,7 @@ export default class cusModalLogin extends HTMLElement {
             .then(() => {
 
             })
-            .catch(function (/**@type {any} */error) {
+            .catch(function ( /**@type {any} */ error) {
                 // Handle Errors here.
 
                 let errZhTw = getErrorMessageZHTW(error.code, error.message)
@@ -329,7 +329,7 @@ export default class cusModalLogin extends HTMLElement {
             });
 
     }
-    Google_Register_Login(/**@type {any} */ e) {
+    Google_Register_Login( /**@type {any} */ e) {
         var self = this;
         var provider = new this.firebase.auth.GoogleAuthProvider();
         let persistence = this.getPersistence(this.proxyUI.bindCkboxSigninKeepIn)
@@ -337,7 +337,7 @@ export default class cusModalLogin extends HTMLElement {
             .then(() => {
                 return this.firebase.auth().signInWithRedirect(provider);
             })
-            .catch(function (/**@type {any} */error) {
+            .catch(function ( /**@type {any} */ error) {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;

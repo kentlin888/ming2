@@ -448,10 +448,14 @@ if (!proxyMainPageUI.cusModalLogin) {
                 Email_ResendPassword
             }
             //class-instance APPEAR!!  you can set template now~~~
+            /**@type {cusModalLogin} */
             let newComponent = new htmlFile.ctor(htmlFile.templateContent, plugins);
+            newComponent.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
+            newComponent.proxyUI.bindIptSigninPWD = '11111111'
             proxyMainPageUI.cusModalLogin = newComponent
-
-            document.body.appendChild(newComponent)
+            /**@type {any} */
+            let node = newComponent
+            document.body.appendChild(node)
         })
 }
 //------------------- aMyProfile

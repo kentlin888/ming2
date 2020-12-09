@@ -58,6 +58,9 @@ export default class FirebaseMJS {
         lastTime: Date;
         isCrossDate: boolean;
     };
+
+
+    static getGroupedArray_ByTimes(TargetArray:*[], eachGroupCount:Number):*[];
     /**
      * @param {firebase} firebase - from firebase
      * @param {import('../lib/dataKits.js')}
@@ -94,7 +97,7 @@ export default class FirebaseMJS {
      * @param  {import("../dataDefine/index.js").OrderInfo} orderInfo
      * @param  {{beginEvent: function, endEvent: function}} [options] - callback functions
      */
-    addOrderInfo(orderInfo: import("../dataDefine/index.js").OrderInfo): any;
+    addOrderInfo(orderInfo: import("../dataDefine/index.js").OrderInfo, _: import('lodash')): any;
     /**
      *
      * @param {string} userId
@@ -114,12 +117,16 @@ export type EnumObj = {
     value: number;
     desc: string;
 };
-import {
-    ENUM_ProductCategory
-} from "../dataDefine/index.js";
-import {
-    OrderInfo as OrderInfo_1
-} from "../dataDefine/index.js";
-import {
-    ProductInfo as ProductInfo_1
-} from "../dataDefine/index.js";
+
+export function getDate_From_Firestore_TimeStamp(fsTimestamp:*):Date;
+
+
+// import {
+//     ENUM_ProductCategory
+// } from "../dataDefine/index.js";
+// import {
+//     OrderInfo as OrderInfo_1
+// } from "../dataDefine/index.js";
+// import {
+//     ProductInfo as ProductInfo_1
+// } from "../dataDefine/index.js";

@@ -142,8 +142,10 @@ export default class FirebaseMJS {
             //prodInfo.imgFileName = 'null'
             prodInfo.autoNum = newNumber
             // convert to plain object
-            prodInfo = Object.assign({}, prodInfo)
-            removeFuncProp(prodInfo)
+            prodInfo = dataKits.getPlainObject(prodInfo)
+            // prodInfo = Object.assign({}, prodInfo)
+            // dataKits.recursiveToPlainObject(prodInfo)
+            
             transaction.set(newDocRef, prodInfo)
             return newDocRef
         })
@@ -209,9 +211,9 @@ export default class FirebaseMJS {
      * add OrderInfo to firestore.OrderInfo
      * @param  {OrderInfo} orderInfo
      */
-    addOrderInfo(orderInfo) {
+    addOrderInfo(orderInfo, _) {
         this.initDB();
-        let toDb_orderInfo = window._.cloneDeep(orderInfo)
+        let toDb_orderInfo = _.cloneDeep(orderInfo)
         toDb_orderInfo = this._dataKits.getPlainObject(toDb_orderInfo)
         // if(this._dataKits.TypeOf(toDb_orderInfo) == this._dataKits.ENUM_TypeOf.objectClass)
         //     this._dataKits.recursiveToPlainObject(toDb_orderInfo)
@@ -321,8 +323,7 @@ export default class FirebaseMJS {
 
         // if(userId)
         //     fakeUid = userId
-        let rtnOrderInfo_list = []
-        let list_productId = []
+        //let rtnOrderInfo_list=[]
         let self = this
 
         /**@param {ENUM_orderStatus} inOrderStatus */
@@ -345,113 +346,187 @@ export default class FirebaseMJS {
         //return this._db.collection(FIRESTORE_COLLECTION.OrderInfo).where('userId', '==', userId).where('orderStatus.isPaid', '==', true).get()
         return getQuery(orderStatus).get() //.orderBy("fstsCreateDateTime_server","desc").get()
             .then((snapshot) => {
-                snapshot.forEach(element => {
-                    //let data = snapshot.docs[0].data()
-                    let orderInfo = new OrderInfo();
-                    orderInfo = Object.assign(orderInfo, element.data());
-                    //orderInfo.fstsCreateDateTime_server = (orderInfo.fstsCreateDateTime_server == null) ? null : orderInfo.fstsCreateDateTime_server.toDate()
 
-                    rtnOrderInfo_list.push(orderInfo)
-                    let arr = orderInfo.getShopItems_Id()
-                    list_productId.push(...arr);
-                });
-                //list_productId.push('AAA','AAA');
-                //distinct
+                let rtnOrderInfo_list = snapshot.docs.map((item) => {
+                    let data = item.data()
+                    return OrderInfo.getOrderInfo_FromDb(data)
+                })
+                // get all related product id
+                let list_productId = rtnOrderInfo_list.map((eachOrder) => {
+                    return eachOrder.getShopItems_ProdId();
+                })
+                list_productId = list_productId.flat()
+                //distinct list_productId
                 list_productId = [...new Set(list_productId)]
+                //sort
                 rtnOrderInfo_list.sort((a, b) => {
                     return b.jsdtCreateDateTime_server - a.jsdtCreateDateTime_server
                 })
-                //console.log(list_productId)
-                //console.log(rtnOrderInfo_list)
-                return [rtnOrderInfo_list, list_productId]
-                // let data = snapshot.docs[0].data()
-                // let orderInfo = new OrderInfo();
-                // orderInfo = Object.assign(orderInfo, data);
-                // orderInfo.fstsCreateDateTime_server = data.fstsCreateDateTime_server.toDate()
-                // console.log(orderInfo)
-
-
-                // let temp = new Date(data.fstsCreateDateTime_server)
-                // console.log(data.fstsCreateDateTime_server.toDate())
+                let promiseAll_loadListProductInfo = this.getArrayProductInfoFromDb_ByListProductId(list_productId);
+                return Promise.all([rtnOrderInfo_list, promiseAll_loadListProductInfo])
             })
             .then((array) => {
-                let [orderInfo_list, list_productId] = array
+                let [orderInfo_list, list_products] = array
 
-                //------- group list_productId limit -- 10
-                function getGroupedArray_ByTimes(TargetArray, eachGroupCount) {
-                    let rtnGroupedArray = []
-                    // loop times
-                    let doTimes = Math.ceil(TargetArray.length / eachGroupCount) //4
-                    for (let i = 0; i < doTimes; i++) {
-                        let newGroup = TargetArray.splice(0, eachGroupCount)
-                        rtnGroupedArray.push(newGroup)
-                    }
-                    return rtnGroupedArray
-                }
-                /**@type {Array} */
-                let listGroupProductId = getGroupedArray_ByTimes(list_productId, 10)
-                // get firestore - Products in Id
-                let newPromise = (list_Limit_10_ProductIds) => {
-                    return self._db.collection(FIRESTORE_COLLECTION.ProductInfo)
-                        .where(self._firebase.firestore.FieldPath.documentId(), 'in', list_Limit_10_ProductIds) //['02d2bss3-0012','1c718och-0001'])
-                        .get()
-                }
-                // console.log(newPromise)
-                let PromistArray = []
-                //console.log(listGroupProductId[0])
-                PromistArray.push(orderInfo_list)
-                //PromistArray.push(list_productId)
-                listGroupProductId.forEach((item) => {
-                    PromistArray.push(newPromise(item)) //listGroupProductId[0]))    
-                })
-                //PromistArray.push(newPromise(listGroupProductId[0]))
-                // PromistArray.push(newPromise(listGroupProductId[1]))
-                // for(let i=0;i<listGroupProductId.length;i++){
-                //     let list_Limit_10_ProductIds = listGroupProductId[i]
-                //     PromistArray.push(newPromise(list_Limit_10_ProductIds))
-                // }
-                return Promise.all(PromistArray) //[orderInfo_list, list_productId, newPromise()])
-            })
-            .then((array) => {
-
-                let orderInfo_list = array.shift() // pop [0]
-                //let list_productId = array.splice(0, 1)
-                //let [orderInfo_list, list_productId, snapshot] = array
-                let arraySnapshot = array
-                let rtnOrderInfo_list = orderInfo_list
-                /**
-                 * @type {ProductInfo[]} - distinct productInfo list
-                 */
-                let arrayDistinctProducts = []
-                //collect distinct productInfo array
-                //arraySnapshot = arraySnapshot.flat(1)
-                let arrayDocs = []
-                arraySnapshot.forEach(snapshot => {
-                    arrayDocs = arrayDocs.concat(snapshot.docs)
-                });
-                //arraySnapshot[0].docs, arraySnapshot[1].docs
-                //arrayDocs = arrayDocs.flat(1)
-                arrayDocs.forEach(element => {
-                    /**@type {ProductInfo} */
-                    let productInfo = element.data()
-                    productInfo = Object.assign(new ProductInfo(), productInfo)
-                    arrayDistinctProducts.push(productInfo)
-                    //console.log(productInfo)
-                });
-                //fill ShopItems - _productInfo
-
-                //console.log('-----',rtnOrderInfo_list)
-                //rtnOrderInfo_list = rtnOrderInfo_list.flat(1)
-                rtnOrderInfo_list.forEach(eachOrderInfo => {
+                let rtnOrderInfo_list = orderInfo_list.map(eachOrderInfo => {
+                
                     //console.log('---------',eachOrderInfo[0])
-                    eachOrderInfo.fillShopItems(arrayDistinctProducts)
+                    eachOrderInfo.fillShopItems(list_products)
+                    return eachOrderInfo
                     //console.log(element.orderId)
                 });
+                // rtnOrderInfo_list.forEach(eachOrderInfo => {
+                //     //console.log('---------',eachOrderInfo[0])
+                //     eachOrderInfo.fillShopItems(arrayDistinctProducts)
+                //     //console.log(element.orderId)
+                // });
                 /**@type {OrderInfo[]} */
+                console.log("LOG: ~ file: FirebaseMJS.js ~ line 371 ~ FirebaseMJS ~ .then ~ rtnOrderInfo_list", rtnOrderInfo_list)
                 return rtnOrderInfo_list
-
+                
             })
+            // .then((array) => {
+            //     let [orderInfo_list, list_productId] = array
+            //     /**@type {Array} - grouped array, ex:[ [1,3,5],[7,8,9],[13,23,54] ]*/
+            //     let listGroupProductId = FirebaseMJS.getGroupedArray_ByTimes(list_productId, 10)
+            //     // get firestore - Products in Id
+            //     let newPromise = (list_Limit_10_ProductIds) => {
+            //         return self._db.collection(FIRESTORE_COLLECTION.ProductInfo)
+            //             .where(self._firebase.firestore.FieldPath.documentId(), 'in', list_Limit_10_ProductIds) //['02d2bss3-0012','1c718och-0001'])
+            //             .get()
+            //     }
+            //     // console.log(newPromise)
+            //     let PromiseArray = []
+            //     //console.log(listGroupProductId[0])
+            //     PromiseArray.push(orderInfo_list)
+            //     //PromistArray.push(list_productId)
+            //     listGroupProductId.forEach((item) => {
+            //         PromiseArray.push(newPromise(item)) //listGroupProductId[0]))    
+            //     })
+            //     //PromistArray.push(newPromise(listGroupProductId[0]))
+            //     // PromistArray.push(newPromise(listGroupProductId[1]))
+            //     // for(let i=0;i<listGroupProductId.length;i++){
+            //     //     let list_Limit_10_ProductIds = listGroupProductId[i]
+            //     //     PromistArray.push(newPromise(list_Limit_10_ProductIds))
+            //     // }
+            //     return Promise.all(PromiseArray) //[orderInfo_list, list_productId, newPromise()])
+            // })
+            // .then((array) => {
 
+            //     let orderInfo_list = array.shift() // pop [0]
+            //     //let list_productId = array.splice(0, 1)
+            //     //let [orderInfo_list, list_productId, snapshot] = array
+            //     let arraySnapshot = array
+            //     let rtnOrderInfo_list = orderInfo_list
+            //     /**
+            //      * @type {ProductInfo[]} - distinct productInfo list
+            //      */
+            //     let arrayDistinctProducts = []
+            //     //collect distinct productInfo array
+            //     //arraySnapshot = arraySnapshot.flat(1)
+            //     let arrayDocs = []
+            //     arraySnapshot.forEach(snapshot => {
+            //         arrayDocs = arrayDocs.concat(snapshot.docs)
+            //     });
+            //     //arraySnapshot[0].docs, arraySnapshot[1].docs
+            //     //arrayDocs = arrayDocs.flat(1)
+            //     arrayDocs.forEach(element => {
+            //         /**@type {ProductInfo} */
+            //         let productInfo = element.data()
+            //         productInfo = Object.assign(new ProductInfo(), productInfo)
+            //         arrayDistinctProducts.push(productInfo)
+            //         //console.log(productInfo)
+            //     });
+            //     //fill ShopItems - _productInfo
+
+            //     //console.log('-----',rtnOrderInfo_list)
+            //     //rtnOrderInfo_list = rtnOrderInfo_list.flat(1)
+            //     rtnOrderInfo_list.forEach(eachOrderInfo => {
+            //         //console.log('---------',eachOrderInfo[0])
+            //         eachOrderInfo.fillShopItems(arrayDistinctProducts)
+            //         //console.log(element.orderId)
+            //     });
+            //     /**@type {OrderInfo[]} */
+            //     return rtnOrderInfo_list
+
+            // })
+
+    }
+    //------- group list_productId limit -- 10
+    getArrayProductInfoFromDb_ByListProductId(list_productId){
+        /**@type {Array} - grouped array, ex:[ [1,3,5],[7,8,9],[13,23,54] ]*/
+        let listGroupProductId = FirebaseMJS.getGroupedArray_ByTimes(list_productId, 10)
+        // get firestore - Products in Id
+        let self = this
+        let newPromise = (list_Limit_10_ProductIds) => {
+            return self._db.collection(FIRESTORE_COLLECTION.ProductInfo)
+                .where(self._firebase.firestore.FieldPath.documentId(), 'in', list_Limit_10_ProductIds) //['02d2bss3-0012','1c718och-0001'])
+                .get()
+                .then((snapshot) => {
+                    let arrayProductInfo = snapshot.docs.map((item) => {
+                        return item.data()
+                    })
+                
+                    
+                    return arrayProductInfo
+                })
+        }
+        // console.log(newPromise)
+        let PromiseArray = []
+        //console.log(listGroupProductId[0])
+        //PromiseArray.push(orderInfo_list)
+        //PromistArray.push(list_productId)
+        listGroupProductId.forEach((item) => {
+            PromiseArray.push(newPromise(item)) //listGroupProductId[0]))    
+        })
+        //PromistArray.push(newPromise(listGroupProductId[0]))
+        // PromistArray.push(newPromise(listGroupProductId[1]))
+        // for(let i=0;i<listGroupProductId.length;i++){
+        //     let list_Limit_10_ProductIds = listGroupProductId[i]
+        //     PromistArray.push(newPromise(list_Limit_10_ProductIds))
+        // }
+        return Promise.all(PromiseArray)
+    }
+    // static getArrayProducts_ByListProductId(arrayProductId){
+    //     //distinct list_productId
+    //     let arrayDistinctProductId = [...new Set(arrayProductId)]
+
+
+    //     /**@type {Array} */
+    //     let listGroupProductId = FirebaseMJS.getGroupedArray_ByTimes(list_productId, 10)
+    //     // get firestore - Products in Id
+    //     let newPromise = (list_Limit_10_ProductIds) => {
+    //         return self._db.collection(FIRESTORE_COLLECTION.ProductInfo)
+    //             .where(self._firebase.firestore.FieldPath.documentId(), 'in', list_Limit_10_ProductIds) //['02d2bss3-0012','1c718och-0001'])
+    //             .get()
+    //     }
+    //     // console.log(newPromise)
+    //     let PromistArray = []
+    //     //console.log(listGroupProductId[0])
+    //     PromistArray.push(orderInfo_list)
+    //     //PromistArray.push(list_productId)
+    //     listGroupProductId.forEach((item) => {
+    //         PromistArray.push(newPromise(item)) //listGroupProductId[0]))    
+    //     })
+    //     //PromistArray.push(newPromise(listGroupProductId[0]))
+    //     // PromistArray.push(newPromise(listGroupProductId[1]))
+    //     // for(let i=0;i<listGroupProductId.length;i++){
+    //     //     let list_Limit_10_ProductIds = listGroupProductId[i]
+    //     //     PromistArray.push(newPromise(list_Limit_10_ProductIds))
+    //     // }
+    //     return Promise.all(PromistArray)
+        
+    // }
+    //------- group list_productId limit -- 10
+    static getGroupedArray_ByTimes(TargetArray, eachGroupCount) {
+        let rtnGroupedArray = []
+        // loop times
+        let doTimes = Math.ceil(TargetArray.length / eachGroupCount) //4
+        for (let i = 0; i < doTimes; i++) {
+            let newGroup = TargetArray.splice(0, eachGroupCount)
+            rtnGroupedArray.push(newGroup)
+        }
+        return rtnGroupedArray
     }
     /**
      * @function
@@ -572,12 +647,12 @@ function getDateString_correctTimeZone(inDate, formatNo) {
     }
 }
 
-function getDate_From_Firestore_TimeStamp(timestamp) {
+export function getDate_From_Firestore_TimeStamp(fsTimestamp) {
     let seconds = null
-    if (timestamp.seconds)
-        seconds = timestamp.seconds
-    else if (timestamp._seconds) {
-        seconds = timestamp._seconds
+    if (fsTimestamp.seconds)
+        seconds = fsTimestamp.seconds
+    else if (fsTimestamp._seconds) {
+        seconds = fsTimestamp._seconds
     }
     if (seconds === null)
         return null
@@ -585,13 +660,13 @@ function getDate_From_Firestore_TimeStamp(timestamp) {
         return new Date(seconds * 1000)
 }
 
-function removeFuncProp(obj) {
-    for (let propName in obj) {
-        if (typeof obj[propName] === 'function')
-            delete obj[propName]
-        //if(${typeof arry1[0][keyName]} == )
-    }
-}
+// function removeFuncProp(obj) {
+//     for (let propName in obj) {
+//         if (typeof obj[propName] === 'function')
+//             delete obj[propName]
+//         //if(${typeof arry1[0][keyName]} == )
+//     }
+// }
 
 export function Email_ResendPassword(emailAddress, inFirebase, swal, funcCloseModal) {
     var auth = inFirebase.auth();

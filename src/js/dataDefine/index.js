@@ -1,6 +1,8 @@
 //@ts-check
 //Inside of settings.json, add the following:{ "javascript.implicitProjectConfig.checkJs": true }
 
+import FirebaseMJS, {getDate_From_Firestore_TimeStamp} from '../firebase/FirebaseMJS.js';
+
 /**
  * @class
  * @desc ming1 project ShopItem.jsx
@@ -214,9 +216,10 @@ export const LogType = {
 
     }
     /**
+     * get listProductId
      * @returns {string[]}
      */
-    getShopItems_Id = function () {
+    getShopItems_ProdId = function () {
         let list_productId = this.shopItemList.map((item) => {
             return item.productId
         })
@@ -279,23 +282,23 @@ export const LogType = {
     //     "providerId": "google.com",
     //     "email": "tristan829@gmail.com"
     // }
-    /**
-     * @type {UserProfile} 
-     * @description - from firestore.Users.UserProfile
-     */
-    // userProfile = {
-    //     uid: "XXXXXXX",
-    //     sendEmail: "XXXXXXX",
-    //     name: "XXXXXXX",
-    //     phoneNumber: "XXXXXXX",
-    //     address: "XXXXXXX",
-    //     // address1: "XXXXXXX",
-    //     // address2: "XXXXXXX",
-    //     // address3: "XXXXXXX",
-    //     // addressSelectNo: 1,
-    //     //getSelectedAddress: (e) => {}
 
-    // }
+    
+    convertDbFields(){
+        if(!this.fstsCreateDateTime_server.toDate){
+            function toDate2(){
+                return getDate_From_Firestore_TimeStamp(this)
+                
+            }
+            this.fstsCreateDateTime_server.toDate = toDate2;
+        }
+    }
+    static getOrderInfo_FromDb(db_orderInfo){
+        let newOrderInfo = new OrderInfo();
+        newOrderInfo = Object.assign(newOrderInfo, db_orderInfo)
+        newOrderInfo.convertDbFields();
+        return newOrderInfo
+    }
 }
 /**@class 
  * @desc firestore.Users
@@ -324,6 +327,7 @@ export class UserData{
             return null;
         //find google providerId
         let findGoogle = this.listProviderId.find((item) => {
+        
             if(item === UserData.ENUM_ProviderType.google)//'google.com')
                 return true // return 'google.com'
         })
@@ -331,6 +335,9 @@ export class UserData{
             return UserData.ENUM_ProviderType.google//'google.com'
         else//undefined
             return UserData.ENUM_ProviderType.password//'password'
+    }
+    set providerId(value) {
+        this.listProviderId = [value]
     }
     /**@prop {string} */
     email= ""

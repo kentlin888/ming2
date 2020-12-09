@@ -37,8 +37,19 @@ export type plugins = {
     Swal: typeof import('sweetalert2').default;
     Email_ResendPassword: typeof import('../../js/firebase/FirebaseMJS').Email_ResendPassword;
 }
-declare export default class cusModalLogin{
-    showModal:(isShow:boolean)=>void;
+declare
+export default class cusModalLogin {
+    proxyUI: {
+        bindIptSigninEmail: string;
+        bindIptSigninPWD: string;
+        bindCkboxSigninKeepIn: boolean;
+        bindIptRegisterEmail: string;
+        bindIptRegisterPWD1: string;
+        bindIptRegisterPWD2: string;
+        bindIptResentPwdEmail: string;
+        switchPage: ENUM_switchPage;
+    }
+    showModal: (isShow: boolean) => void;
 }
 // export declare module JQuery{
 //     function modal(cmd:string);

@@ -77,7 +77,7 @@ class ShopCart extends Component {
                 // let enumType = TypeOf(orderInfo)
                 // let toDb_orderInfo = (enumType == ENUM_TypeOf.objectClass)?recursiveToPlainObject(orderInfo): orderInfo;
                 // console.log('toDb_orderInfo-->',toDb_orderInfo)
-                return window.FirebaseMJS.addOrderInfo(orderInfo)
+                return window.FirebaseMJS.addOrderInfo(orderInfo, window._)
             })
             .then(() => {
                 return Swal.fire({
