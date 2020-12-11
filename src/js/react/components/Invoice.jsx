@@ -32,7 +32,7 @@ export default class Invoice extends Component {
                     <tbody>
                         <tr>
                             <td>訂單編號： {orderId}</td>
-                            <td>訂單日期 : {jsdtCreateDateTime_server}</td>
+                            <td>訂單成立日期 : {jsdtCreateDateTime_server}</td>
                         </tr>
                         <tr>
                             <td>姓名: {userData.userProfile.name}</td>

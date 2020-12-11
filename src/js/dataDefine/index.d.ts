@@ -157,7 +157,7 @@ export class OrderInfo {
     /**Convert props from db to local js fields */
     convertDbFields():void;
 
-    static getOrderInfo_FromDb(db_orderInfo:*):OrderInfo;
+    static getOrderInfo_FromDbFormat(db_orderInfo:*):OrderInfo;
 }
 /**@class
  * @desc firestore.Users

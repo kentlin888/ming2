@@ -349,7 +349,7 @@ export default class FirebaseMJS {
 
                 let rtnOrderInfo_list = snapshot.docs.map((item) => {
                     let data = item.data()
-                    return OrderInfo.getOrderInfo_FromDb(data)
+                    return OrderInfo.getOrderInfo_FromDbFormat(data)
                 })
                 // get all related product id
                 let list_productId = rtnOrderInfo_list.map((eachOrder) => {

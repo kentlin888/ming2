@@ -72,20 +72,9 @@ body {
   box-shadow: none;
 }
 
-.bd1 {
-  border: red 2px solid;
-}
-
-.bd2 {
-  border: #f8f407 2px solid;
-}
-
-.bd3 {
-  border: #076ff8 2px solid;
-}
-
-.bd4 {
-  border: #07f877 2px solid;
+.boxViewProductList {
+  display: flex;
+  justify-content: center;
 }
 
 .boxProductListSearch {
@@ -94,6 +83,14 @@ body {
 
 .boxDeliveryTimeAddress {
   margin-top: 5rem;
+}
+.boxDeliveryTimeAddress span {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  opacity: 1;
+}
+.boxDeliveryTimeAddress input {
+  width: 70%;
 }
 
 .ulScrollButtons {
@@ -155,16 +152,14 @@ body {
 }
 
 .boxShopCart {
-  display: inline-block;
+  position: sticky;
+  top: 80px;
   border: 2px solid #beac74;
   padding: 1rem;
   margin: 10px;
   width: 300px;
   max-height: 80vh;
   overflow: auto;
-  position: fixed;
-  top: 60px;
-  left: 970px;
 }
 
 .tableShopcart {
@@ -218,23 +213,4 @@ body {
   bottom: -9px;
   left: 0px;
   right: 0px;
-}
-
-:local(.modal-dialog) {
-  width: 100vw;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  color: black;
-}
-
-:local(.modal-content) {
-  width: 100vw;
-  height: auto;
-  min-height: 100%;
-  border-radius: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
 }

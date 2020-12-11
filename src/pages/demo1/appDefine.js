@@ -3,6 +3,7 @@
 const ENUM_AppPath = {
     T1:"./T1.jsx",
     Invoice:"./Invoice.use.jsx",
+    PopModal1:"./PopModal1.use.jsx",
 }
 /**
  * @param {string} pathAppjs - full path of app.js

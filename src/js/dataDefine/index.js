@@ -293,7 +293,7 @@ export const LogType = {
             this.fstsCreateDateTime_server.toDate = toDate2;
         }
     }
-    static getOrderInfo_FromDb(db_orderInfo){
+    static getOrderInfo_FromDbFormat(db_orderInfo){
         let newOrderInfo = new OrderInfo();
         newOrderInfo = Object.assign(newOrderInfo, db_orderInfo)
         newOrderInfo.convertDbFields();

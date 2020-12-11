@@ -24,7 +24,7 @@ describe('dataDefine.test.js', () => {
 
         let arrayFakeOrderData = require('../../../adminData/fakeData/OrderInfo.json');
         let order1 = arrayFakeOrderData[0];
-        let orderInfo = OrderInfo.getOrderInfo_FromDb(order1)//Object.assign(new OrderInfo(), order1)
+        let orderInfo = OrderInfo.getOrderInfo_FromDbFormat(order1)//Object.assign(new OrderInfo(), order1)
         // test data
         let expect_fsTimeStamp = {
             seconds: 1607496130,

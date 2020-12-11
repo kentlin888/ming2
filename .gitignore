@@ -18,10 +18,12 @@ adminTools/*
 dist/*
 docs/*
 host/*
+issues/*
 jsdoc/*
 node_modules/*
 src/js/firebase/Firebase.js
 wtemp/*
+
 
 # 該如何清除忽略的檔案？
 # $ git clean -fX 

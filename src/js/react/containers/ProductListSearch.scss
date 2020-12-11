@@ -14,6 +14,10 @@ $colorWhite:white;
 $colorWhite:base.$colorWhite;
 $colorGold:base.$colorGold;
 
+.boxViewProductList{
+    display: flex;
+    justify-content: center;
+}
 // =================== boxProductListSearch
 .boxProductListSearch{
     max-width: 970px;
@@ -22,6 +26,15 @@ $colorGold:base.$colorGold;
 .boxDeliveryTimeAddress {
     // margin: 10px;
     margin-top: base.$navbarHeight;
+    span{
+        font-size: 1.5rem;
+        padding: .5rem;
+        //color: $colorWhite;
+        opacity: 1;
+    }
+    input{
+        width: 70%;
+    }
 }
 // =================== ulScrollButtons
 .ulScrollButtons {
@@ -115,18 +128,19 @@ $colorGold:base.$colorGold;
 }
 // =================== Shopcart
 .boxShopCart {
-    display: inline-block;
+    //z-index: 11;
+    position: sticky;
+    top: 80px;
+    //display: inline-block;
     border: 2px solid $colorGold;
     padding: 1rem;
     margin: 10px;
     width: 300px;
     max-height: 80vh;
     overflow: auto;
-
-
-    position: fixed;
-    top: 60px;
-    left: 970px;
+    // position: fixed;
+    // top: 60px;
+    // left: 970px;
 
 }
 
@@ -166,51 +180,6 @@ $colorGold:base.$colorGold;
                         margin: auto 5px;
                         /* margin: auto; */
                     }
-                    // .btnAdd {
-                    //     // display: inline-flex;
-                    //     // justify-content: center;
-                    //     // /* center the content horizontally */
-                    //     // align-items: center;
-                    //     // position: relative;
-                    //     display: flex;
-                    //     justify-content: center;
-                    //     align-items: center;
-                    //     color: $colorGold;
-                    //     cursor: pointer;
-                    //     width: 1em;
-                    //     height: 1em;
-                    //     // .btnContent{
-                    //     //   width: .5em;
-                    //     //   height: .5em;
-                    //     //   position: absolute;  
-                    //     //   //top:-.4em;
-                    //     //   margin: auto 0 ;
-                    //     //   // left:-1px;
-                    //     // }
-                    //     background-color: $colorRoyalBlue;
-                    //     border: $colorGold 3px solid;
-                    //     margin: 6px;
-                    //     // ::before{
-                    //     //   position: absolute;
-
-                    //     //   content: '+++++++++++++++++++++++';
-
-                    //     //   top: -17px;
-                    //     //   left:0;
-                    //     // }
-
-                    //     -webkit-box-shadow: 2px 2px 3px 2px $colorGold;
-                    //     box-shadow: 2px 2px 3px 2px $colorGold;
-
-                    //     // font-size: 1.5em;
-                    //     border-radius: 9px;
-                    //     -webkit-border-radius: 9px;
-                    //     -moz-border-radius: 9px;
-                    //     -ms-border-radius: 9px;
-                    //     -o-border-radius: 9px;
-                    // }
-
-                    
 
                 }
 
@@ -246,24 +215,24 @@ $colorGold:base.$colorGold;
 
 
 
-:local(.modal-dialog) {
-    width: 100vw;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    color: black;
-}
+// :local(.modal-dialog) {
+//     width: 100vw;
+//     height: 100%;
+//     margin: 0;
+//     padding: 0;
+//     color: black;
+// }
 
-:local(.modal-content) {
-    width: 100vw;
-    height: auto;
-    min-height: 100%;
-    border-radius: 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    -ms-border-radius: 0;
-    -o-border-radius: 0;
-}
+// :local(.modal-content) {
+//     width: 100vw;
+//     height: auto;
+//     min-height: 100%;
+//     border-radius: 0;
+//     -webkit-border-radius: 0;
+//     -moz-border-radius: 0;
+//     -ms-border-radius: 0;
+//     -o-border-radius: 0;
+// }
 
 
 

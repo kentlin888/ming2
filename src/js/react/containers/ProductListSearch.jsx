@@ -40,47 +40,6 @@ export class App extends Component {
 
         this.refBeef = React.createRef();
 
-        let self = this
-
-        if (window.app.arrayGroupedCategories)
-            self.setState({ arrayGroupedCategories: window.app.arrayGroupedCategories });
-        else {
-            //async methods
-            window.firebase.firestore().collection(FIRESTORE_COLLECTION.ProductInfo).get()
-                .then((/**@type {any}*/querySnapshot) => {
-                    let arrayFilteredDbProducts = querySnapshot.docs.filter((/**@type {any}*/item) => {
-                        //console.log("LOG:: App -> constructor -> item", item)
-                        return item.id !== "--AutoNum--"
-                    })
-                    return arrayFilteredDbProducts
-                })
-                .then((/**@type {any[]}*/arrayFilteredDbProducts) => {
-                    let arrayDbProductInfo = arrayFilteredDbProducts.map((item) => {
-                        //console.log("LOG:: App -> constructor -> item", item)
-
-                        if (item.id !== "--AutoNum--")
-                            return item.data()
-                    })
-                    return arrayDbProductInfo
-                })
-                .then((/**@type {any[]}*/arrayDbProducts) => {
-                    // console.log("LOG:: App -> componentDidMount -> arrayDbProducts", arrayDbProducts)
-                    //let window2 = /**@type {import('../../../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
-                    self.state.arrayGroupedCategories = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(window._, arrayDbProducts);
-
-                    /**@type {import('../../firebase/FirebaseMJS.js').groupedCategory[]} */
-                    let arrayGroupedCategories = self.state.arrayGroupedCategories.map((/**@type {any}*/item) => {
-                        // add React.createRef()
-                        item.ref = React.createRef();// React.createRef() -- for scrollTo purpose
-                        return item
-                    })
-                    window.app.arrayGroupedCategories = arrayGroupedCategories;
-                    console.log('SET window.app.arrayGroupedCategories ---->', arrayGroupedCategories)
-                    self.setState({ arrayGroupedCategories: arrayGroupedCategories });
-                })
-        }
-
-
         //console.log(this.arrayGroupedCategories)
     }
     // static propTypes = {
@@ -162,11 +121,10 @@ export class App extends Component {
     }
     componentDidMount() {
         let self = this
-        window.app.openModalShopCart = () => {
-            $('#modalShopcart').modal('show')
-        }
-
-
+        if(!window.app.openModalShopCart)
+            window.app.openModalShopCart = () => {
+                $('#modalShopcart').modal('show')
+            }
         //========detect screen size
         function debounce(/**@type {any}*/fun, /**@type {Number} - miliseconds*/delay) {
             return /**@this {any}*/function (/**@type {any}*/args) {
@@ -204,7 +162,80 @@ export class App extends Component {
         window.addEventListener("resize", debounceResize);
         switchWindowSize();
 
+        //------------- load categories
+        //let self = this
+        //fix issue, load categories can not be put in constructor
+        if (window.app.arrayGroupedCategories)
+            self.setState({ arrayGroupedCategories: window.app.arrayGroupedCategories });
+        else {
+            //async methods
+            window.firebase.firestore().collection(FIRESTORE_COLLECTION.ProductInfo).get()
+                .then((/**@type {any}*/querySnapshot) => {
+                    let arrayFilteredDbProducts = querySnapshot.docs.filter((/**@type {any}*/item) => {
+                        //console.log("LOG:: App -> constructor -> item", item)
+                        return item.id !== "--AutoNum--"
+                    })
+                    return arrayFilteredDbProducts
+                })
+                .then((/**@type {any[]}*/arrayFilteredDbProducts) => {
+                    let arrayDbProductInfo = arrayFilteredDbProducts.map((item) => {
+                        //console.log("LOG:: App -> constructor -> item", item)
 
+                        if (item.id !== "--AutoNum--")
+                            return item.data()
+                    })
+                    return arrayDbProductInfo
+                })
+                .then((/**@type {any[]}*/arrayDbProducts) => {
+                    // console.log("LOG:: App -> componentDidMount -> arrayDbProducts", arrayDbProducts)
+                    //let window2 = /**@type {import('../../../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
+                    self.state.arrayGroupedCategories = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(window._, arrayDbProducts);
+
+                    /**@type {import('../../firebase/FirebaseMJS.js').groupedCategory[]} */
+                    let arrayGroupedCategories = self.state.arrayGroupedCategories.map((/**@type {any}*/item) => {
+                        // add React.createRef()
+                        item.ref = React.createRef();// React.createRef() -- for scrollTo purpose
+                        return item
+                    })
+                    window.app.arrayGroupedCategories = arrayGroupedCategories;
+                    console.log('SET window.app.arrayGroupedCategories ---->', arrayGroupedCategories)
+                    self.setState({ arrayGroupedCategories: arrayGroupedCategories });
+                })
+            }
+        setTimeout(() => {
+            reloadState_orderAddress();
+        }, 500);
+        setTimeout(() => {
+            reloadState_orderAddress();
+        }, 5000);
+        function reloadState_orderAddress(){
+            //authUser not Exist
+            if(!window.firebase.auth().currentUser){
+                console.log('skip reloadState_orderAddress() - authUser not sign in.')
+                return;
+            }
+            console.log(11111)
+            //state.orderAddress already exist
+            if(self.state.orderAddress)
+                return;
+                console.log(22222)
+            //authUser Exist
+            if(window.app.userData){
+                self.setState({orderAddress:window.app.userData.userProfile.address})
+                return
+            }
+            console.log(33333)
+            //this.state.orderAddress == null
+            if(!window.app.userData){
+                let authUser = window.firebase.auth().currentUser
+                let self = this
+                window.firebase.firestore().collection(FIRESTORE_COLLECTION.Users).doc(authUser.uid).get()
+                .then((snapshot) => {
+                    let data = snapshot.data()
+                    self.setState({orderAddress:data.userProfile.address})
+                })
+            }
+        }
     }
     componentWillUnmount(/**@type {any}*/e) {
         console.log('component will unmount--', e)
@@ -268,48 +299,17 @@ export class App extends Component {
         // console.log(arrayMap_ProductCategory);
 
         return (
-            <main>
+            <main className="boxViewProductList">
                 <article className="boxProductListSearch bd1">
                     <section>
                         {/* =============== HEADER ================== */}
-                        <div className="boxDeliveryTimeAddress inputField1 bd4">
-                            <span>地址</span>
+                        <div className="boxDeliveryTimeAddress b-flexCenter inputField1 bd4">
+                            <span>運送地址</span>
                             {/* <div>{this.state.orderAddress}</div> */}
                             <input type="text" placeholder="個人檔案中可以預設地址" defaultValue={this.state.orderAddress} onChange={this.handleInputChange}></input>
                         </div>
-                        {/* <button onClick={this.loadProducts}>Load Products</button> */}
-                        {/* <div className="boxDeliveryTimeAddress bd4">
-                            地址 時間<br />
-                            <div>
-                                <label htmlFor="iptDebounce">防抖函數</label>
-                                <input id="iptDebounce" type="text" />
-                                <button onClick={() => {
-                                    this.setState({ screenSize: ENUM_screenSize.desktop })
-                                }}>ShopCart right</button>
-                                <button onClick={() => {
-                                    this.setState({ screenSize: ENUM_screenSize.phone })
-                                }}>ShopCart inside</button>
-                                <button onClick={this.initLoad}>initLoad</button>
-                                <button onClick={this.test1}>test1</button>
-                                <button onClick={this.test2}>test2</button>
-                                <button onClick={this.loadProducts}>Load Products</button>
-                                <div id="result" />
-                            </div>
-                        </div> */}
-
-
-                        {/* <div className="menu" ref={this.reStickyHeader}>
-                            <a href="#soybean" className="categoryItem" onClick={this.scrollToCategory}>豆類製品</a>
-                            <a href="#duck" className="categoryItem" onClick={this.scrollToCategory}>鴨類</a>
-                            <a href="#chicken" className="categoryItem" onClick={this.scrollToCategory}>雞肉</a>
-                            <a href="#beef" className="categoryItem" onClick={this.scrollToCategory}>牛肉</a>
-                            <a href="#pork" className="categoryItem" onClick={this.scrollToCategory}>豬肉</a>
-                            <a href="#others" className="categoryItem" onClick={this.scrollToCategory}>其他</a>
-                            
-                            
-                        </div> */}
                         {/* ============ Category Buttons ============== */}
-                        <ul className="b-flexStart ulScrollButtons bd3" ref={this.reStickyHeader}>
+                        <ul className="b-flexCenter ulScrollButtons bd3" ref={this.reStickyHeader}>
                             {/* <li className="Category">
                                     <div>牛肉</div>
                                 </li> */}
@@ -353,33 +353,12 @@ export class App extends Component {
                                 </div>
                             </div>
                         </div>
-                        {/* =============== XS HIDE SHOP MODAL ==================== */}
-                        {/* <div className="modal fade " tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <div className={` modal-dialog ` + ProductListSearch['modal-dialog']} role="document">
-                                <div className={`modal-content ` + ProductListSearch['modal-content']}>
-                                    <div className="modal-header">
-                                        <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
-                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div className="modal-body">
-                                        fdsafsadf
-                                        
-                                    </div>
-                                    <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" className="btn btn-primary" onClick={this.test1}>Save changes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
                     </section>
 
 
                 </article>
                 {/* ============= 2.Aside (RIGHT) ============= */}
-                <aside ref={this.refShopcartBox} className="boxShopCart bd4">
+                <aside ref={this.refShopcartBox} className={`boxShopCart bd4 d-none d-lg-block`}>
                     <div ref={this.refShopCart}>
                         <ShopCart data-orderAddress={this.state.orderAddress}></ShopCart>
                     </div>

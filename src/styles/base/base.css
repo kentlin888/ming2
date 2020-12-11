@@ -71,19 +71,3 @@ body {
   outline: none;
   box-shadow: none;
 }
-
-.bd1 {
-  border: red 2px solid;
-}
-
-.bd2 {
-  border: #f8f407 2px solid;
-}
-
-.bd3 {
-  border: #076ff8 2px solid;
-}
-
-.bd4 {
-  border: #07f877 2px solid;
-}

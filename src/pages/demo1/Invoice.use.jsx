@@ -6,7 +6,7 @@ import { OrderInfo } from '../../js/dataDefine/index.js';
 
 let order1 = arrayFakeOrderData[0];
 
-let orderInfo = OrderInfo.getOrderInfo_FromDb(order1)//Object.assign(new OrderInfo(), order1)
+let orderInfo = OrderInfo.getOrderInfo_FromDbFormat(order1)//Object.assign(new OrderInfo(), order1)
 // convert orderInfo.fstsCreateDateTime_server (add toDate())
 orderInfo.convertDbFields();
 //userData={order1.userData} orderAddress={order1.orderAddress} totalPrice={order1.totalPrice}
