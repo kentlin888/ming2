@@ -73,22 +73,23 @@ body {
 }
 
 .boxInvoice .tableHeader {
-  width: 90vw;
+  width: 100%;
   padding: 1rem;
 }
 .boxInvoice .tableHeader th,
 .boxInvoice .tableHeader td {
   border: none;
+  vertical-align: top;
 }
 .boxInvoice .tableHeader tr td:first-child {
   text-align: left;
-  width: 60%;
+  width: 50%;
 }
 .boxInvoice .tableHeader tr td:last-child {
   text-align: right;
 }
 .boxInvoice .tableItems {
-  width: 90vw;
+  width: 100%;
   border: 0;
   border-collapse: separate;
   border-spacing: 0 1px;
@@ -112,7 +113,7 @@ body {
 }
 .boxInvoice .tableItems th,
 .boxInvoice .tableItems td:nth-child(2) {
-  max-width: 30vw;
+  max-width: 20vw;
 }
 .boxInvoice .tableItems .rowProductName {
   overflow-wrap: break-word;

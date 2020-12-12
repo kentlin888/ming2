@@ -12,8 +12,9 @@ import { load_productListAsync as load_productListAsync_act } from '../actions/p
 //import arryProductInfo from './ProductInfo.json'
 import CategoryCard from '../components/CategoryCard.jsx'
 
-import { Map_ProductCategory } from '../../../js/dataDefine/index.js'
+import { Map_ProductCategory, OrderInfo } from '../../../js/dataDefine/index.js'
 import FirebaseMJS, { FIRESTORE_COLLECTION } from '../../firebase/FirebaseMJS.js'
+import PopInvoice from '../components/PopInvoice.jsx'
 
 /**@enum {string} */
 let ENUM_screenSize = {
@@ -30,6 +31,10 @@ export class App extends Component {
         arrayGroupedCategories: [],
         /**@prop {?string} */
         orderAddress: '',
+
+        orderInfo: new OrderInfo(),
+        refPopInvoice: React.createRef(),
+
     }
     constructor(props) {
         super(props);
@@ -121,7 +126,7 @@ export class App extends Component {
     }
     componentDidMount() {
         let self = this
-        if(!window.app.openModalShopCart)
+        if (!window.app.openModalShopCart)
             window.app.openModalShopCart = () => {
                 $('#modalShopcart').modal('show')
             }
@@ -201,39 +206,42 @@ export class App extends Component {
                     console.log('SET window.app.arrayGroupedCategories ---->', arrayGroupedCategories)
                     self.setState({ arrayGroupedCategories: arrayGroupedCategories });
                 })
-            }
+        }
         setTimeout(() => {
             reloadState_orderAddress();
         }, 500);
         setTimeout(() => {
             reloadState_orderAddress();
         }, 5000);
-        function reloadState_orderAddress(){
+        function reloadState_orderAddress() {
             //authUser not Exist
-            if(!window.firebase.auth().currentUser){
+            if (!window.firebase.auth().currentUser) {
                 console.log('skip reloadState_orderAddress() - authUser not sign in.')
                 return;
             }
             console.log(11111)
             //state.orderAddress already exist
-            if(self.state.orderAddress)
+            if (self.state.orderAddress)
                 return;
-                console.log(22222)
+            console.log(22222)
             //authUser Exist
-            if(window.app.userData){
-                self.setState({orderAddress:window.app.userData.userProfile.address})
+            if (window.app.userData) {
+                self.setState({ orderAddress: window.app.userData.userProfile.address })
                 return
             }
             console.log(33333)
             //this.state.orderAddress == null
-            if(!window.app.userData){
+            if (!window.app.userData) {
                 let authUser = window.firebase.auth().currentUser
                 let self = this
                 window.firebase.firestore().collection(FIRESTORE_COLLECTION.Users).doc(authUser.uid).get()
-                .then((snapshot) => {
-                    let data = snapshot.data()
-                    self.setState({orderAddress:data.userProfile.address})
-                })
+                    .then((snapshot) => {
+                        console.log("LOG: ~ file: ProductListSearch.jsx ~ line 237 ~ .then ~ self", self)
+                        let data = snapshot.data()
+                        if (self)//initial = undefined??
+                            self.setState({ orderAddress: data.userProfile.address })
+
+                    })
             }
         }
     }
@@ -281,7 +289,11 @@ export class App extends Component {
         // 將 user 輸入的值更新回 state
         this.setState({ orderAddress: e.target.value });
     }
-
+    showInvoicePopModal = (orderInfo) => {
+        this.setState({ orderInfo: orderInfo }, (params) => {
+            this.state.refPopInvoice.current.showModal(true);
+        })
+    }
 
     render() {
         this.state.arrayGroupedCategories
@@ -308,8 +320,10 @@ export class App extends Component {
                             {/* <div>{this.state.orderAddress}</div> */}
                             <input type="text" placeholder="個人檔案中可以預設地址" defaultValue={this.state.orderAddress} onChange={this.handleInputChange}></input>
                         </div>
+                        {/* <button onClick={this.showInvoicePopModal}>open Invoice</button> */}
+                        <PopInvoice ref={this.state.refPopInvoice} orderInfo={this.state.orderInfo} dispatch={this.props.dispatch}></PopInvoice>
                         {/* ============ Category Buttons ============== */}
-                        <ul className="b-flexCenter ulScrollButtons bd3" ref={this.reStickyHeader}>
+                        <ul className="b-flexCenter ulScrollButtons bd3" tabIndex={-1} ref={this.reStickyHeader}>
                             {/* <li className="Category">
                                     <div>牛肉</div>
                                 </li> */}
@@ -360,7 +374,7 @@ export class App extends Component {
                 {/* ============= 2.Aside (RIGHT) ============= */}
                 <aside ref={this.refShopcartBox} className={`boxShopCart bd4 d-none d-lg-block`}>
                     <div ref={this.refShopCart}>
-                        <ShopCart data-orderAddress={this.state.orderAddress}></ShopCart>
+                        <ShopCart data-orderAddress={this.state.orderAddress} showInvoicePopModal={this.showInvoicePopModal}></ShopCart>
                     </div>
                 </aside>
             </main>

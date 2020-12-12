@@ -16,7 +16,7 @@
     "demo1Server": "webpack-dev-server --env.NODE_ENV=development --env.BUILD_SITE=demo1 --config ./webpack.config.js",
     "demo1T1": "webpack-dev-server --env.NODE_ENV=development --env.BUILD_SITE=demo1 --env.ENUM_AppPage=T1 --config ./webpack.config.js",
     "demo1Invoice": "webpack-dev-server --env.NODE_ENV=development --env.BUILD_SITE=demo1 --env.ENUM_AppPage=Invoice --config ./webpack.config.js",
-    "demo1PopModal1": "webpack-dev-server --env.NODE_ENV=development --env.BUILD_SITE=demo1 --env.ENUM_AppPage=PopModal1 --config ./webpack.config.js"
+    "demo1PopInvoice": "webpack-dev-server --env.NODE_ENV=development --env.BUILD_SITE=demo1 --env.ENUM_AppPage=PopInvoice --config ./webpack.config.js"
   },
   "repository": {
     "type": "git",

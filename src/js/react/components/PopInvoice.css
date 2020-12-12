@@ -35,7 +35,7 @@ body {
   list-style-type: none;
 }
 
-.b-imgContainer, .tableItems .imgContainer {
+.b-imgContainer {
   width: 200px;
   height: 200px;
   display: flex;
@@ -43,7 +43,7 @@ body {
   align-items: center;
   margin: auto;
 }
-.b-imgContainer img, .tableItems .imgContainer img {
+.b-imgContainer img {
   max-width: 90%;
   max-height: 90%;
 }
@@ -72,61 +72,13 @@ body {
   box-shadow: none;
 }
 
-.modal-dialog,
-.modal-content,
-.modal-header,
-.modal-body,
-.modal-footer {
+.boxPopInvoice .modal-header,
+.boxPopInvoice .modal-body,
+.boxPopInvoice .modal-footer {
   background-color: aquamarine;
   border: red 2px solid;
+  color: black;
 }
-
-.tableHeader {
-  width: 100%;
-  padding: 1rem;
-}
-.tableHeader th,
-.tableHeader td {
-  border: none;
-}
-.tableHeader tr td:first-child {
-  text-align: left;
-}
-.tableHeader tr td:last-child {
+.boxPopInvoice .divTotalPrice {
   text-align: right;
-}
-
-.tableItems {
-  width: 100%;
-  border: 0;
-  border-collapse: separate;
-  border-spacing: 0 1px;
-}
-.tableItems th,
-.tableItems td {
-  padding: 0.5rem;
-  border: none;
-}
-.tableItems th {
-  border-bottom: 3px solid #beac74;
-  border-collapse: separate;
-  border-spacing: 1px 1px;
-  text-align: center;
-}
-.tableItems td {
-  text-align: center;
-}
-.tableItems td:nth-child(2) {
-  text-align: left;
-}
-.tableItems th,
-.tableItems td:nth-child(2) {
-  max-width: 20vw;
-}
-.tableItems .rowProductName {
-  overflow-wrap: break-word;
-}
-.tableItems .imgContainer {
-  width: 100px;
-  height: 100px;
 }

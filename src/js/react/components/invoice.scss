@@ -1,67 +1,64 @@
 @use '../../../styles/base/base.scss';
 //@use '../form.scss';
 
-// *{
-//     background-color: black;
-//     color: white;
-// }
-// form {
-//     width: 70vw;
-// }
 $colorRoyalBlue:rgb(6, 16, 27);
 $colorRoyalBlue:base.$colorRoyalBlue;
 $colorWhite:white;
 $colorWhite:base.$colorWhite;
 $colorGold:base.$colorGold;
 
-$tableContentWidth:90vw;
+
 .boxInvoice {
 
     .tableHeader {
-        width: $tableContentWidth;
+        //width: $tableContentWidth;
+        width: 100%;
         padding: 1rem;
+    
         // border-collapse: collapse;
         // border: none;
         th,
         td {
             //border-collapse: collapse;
             border: none;
+            vertical-align: top;
         }
-
+    
         tr {
             td:first-child {
                 text-align: left;
-                width: 60%;
+                width: 50%;
                 //background-color: yellow;
             }
-
+    
             td:last-child {
                 text-align: right;
                 //background-color: greenyellow;
             }
         }
     }
-
+    
     .tableItems {
-
-        width: $tableContentWidth;
+    
+        width: 100%;
+        //width: $tableContentWidth;
         border: 0;
         border-collapse: separate; //merged
         border-spacing: 0 1px;
-
+    
         th,
         td {
             padding: .5rem;
             border: none;
         }
-
+    
         th {
             border-bottom: 3px solid $colorGold;
             border-collapse: separate;
             border-spacing: 1px 1px;
             text-align: center;
         }
-
+    
         td{
             text-align: center;
         }
@@ -71,10 +68,12 @@ $tableContentWidth:90vw;
         // td:not(:nth-child(2)) {
         //     text-align: center;
         // }
-
+    
         th,
         td:nth-child(2) {
-            max-width: 30vw;
+            max-width: 20vw;
+    
+    
             //width:50px;
             //max-width: 20vw;
             // max-width: 21vw;
@@ -82,17 +81,17 @@ $tableContentWidth:90vw;
             //overflow:hidden; 
             // text-overflow:ellipsis;
             // white-space: space wrap;; 
-
+    
             //background-color: greenyellow;
         }
-
+    
         .rowProductName {
             //width:50px;
-
+    
             //background-color: red;
             overflow-wrap: break-word;
         }
-
+    
         // td {
         //     overflow:hidden; 
         //     // white-space:nowrap; 
@@ -103,7 +102,7 @@ $tableContentWidth:90vw;
         //     width:150px;
         //     //background-color: greenyellow;
         // }
-
+    
         // thead{
         //     border-bottom: yellow 2px solid;
         // }
@@ -113,9 +112,9 @@ $tableContentWidth:90vw;
             height: 100px;
             // max-width: 90%;
             // max-height: 90%;
-
+    
         }
-
+    
     }
 
 }

@@ -11,6 +11,7 @@ import FirebaseMJS, {
     Email_ResendPassword,
     FIRESTORE_COLLECTION
 } from '../../js/firebase/FirebaseMJS.js'
+import {ENUM_switchIndexPage} from './indexESM.js'
 import _ from 'lodash'
 // import firebase from "firebase/app";
 // import "firebase/auth"
@@ -64,6 +65,7 @@ let liLogin = document.querySelector('#liLogin');
 let liUserDropdown = document.querySelector('#liUserDropdown');
 let aMyOrder = document.querySelector('#aMyOrder');
 let aMyProfile = document.querySelector('#aMyProfile');
+
 let aLogout = document.querySelector('#aLogout');
 let spanDisplayEmail = document.querySelector('#spanDisplayEmail');
 let aOpenModalShopcart = document.querySelector('#aOpenModalShopcart');
@@ -83,11 +85,7 @@ const ENUM_static_scroll_href_Id = {
 //     ProductListSearch: 'ProductListSearch',
 //     ViewOrders: 'ViewOrders',
 // }
-/**@enum {string} */
-export const ENUM_switchIndexPage = {
-    ProductListSearch: 'ProductListSearch',
-    ViewOrders: 'ViewOrders',
-}
+
 //var //---pure data
 var proxyMainPageUI = {
     /**@type {boolean} */
@@ -200,15 +198,15 @@ proxyUserMenuDropdown = new Proxy(proxyUserMenuDropdown, {
 })
 
 //test mvvm data binding
-let aTestLogin = document.querySelector('#aTestLogin');
-let aTestLogout = document.querySelector('#aTestLogout');
-aTestLogin.addEventListener('click', (e) => {
-    proxyUserMenuDropdown.isLogin = true;
-    proxyUserMenuDropdown.loginName = "John"
-})
-aTestLogout.addEventListener('click', (e) => {
-    proxyUserMenuDropdown.isLogin = false;
-})
+// let aTestLogin = document.querySelector('#aTestLogin');
+// let aTestLogout = document.querySelector('#aTestLogout');
+// aTestLogin.addEventListener('click', (e) => {
+//     proxyUserMenuDropdown.isLogin = true;
+//     proxyUserMenuDropdown.loginName = "John"
+// })
+// aTestLogout.addEventListener('click', (e) => {
+//     proxyUserMenuDropdown.isLogin = false;
+// })
 
 //------------firebase onAuthChanged
 // tset case 1: no authUser (not signin)

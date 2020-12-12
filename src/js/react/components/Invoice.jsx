@@ -40,11 +40,11 @@ export default class Invoice extends Component {
                         </tr>
                         <tr>
                             <td>電話: {userData.phoneNumber}</td>
-                            <td>訂單金額總計:NT$ {totalPrice}</td>
+                            <td>?????????</td>
                         </tr>
                         <tr>
                             <td>送貨地址: {orderAddress}</td>
-                            <td>???????????</td>
+                            <td>訂單金額總計:NT$ {totalPrice}</td>
                         </tr>
                     </tbody>
                 </table>

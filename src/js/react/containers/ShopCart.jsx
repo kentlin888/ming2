@@ -13,12 +13,19 @@ import ShopItem from '../components/ShopItem.jsx'
 //import '../../containers/ProductListSearch/ProductListSearch.css'
 import { OrderInfo, ShopItemInfo, UserData, UserProfile } from '../../dataDefine/index.js'
 import Swal from 'sweetalert2'
-import {TypeOf, ENUM_TypeOf, getPlainObject} from '../../lib/dataKits.js'
-import { ENUM_switchIndexPage } from '../../../pages/index/index.js'
+import { TypeOf, ENUM_TypeOf, getPlainObject } from '../../lib/dataKits.js'
+import { ENUM_switchIndexPage } from '../../../pages/index/indexESM.js'
+import PopInvoice from '../components/PopInvoice.jsx'
 
+//let modalPopInvoice = <PopInvoice></PopInvoice>
 class ShopCart extends Component {
     static propTypes = {
-        ['data-orderAddress']:PropTypes.string
+        ['data-orderAddress']: PropTypes.string,
+        showInvoicePopModal:PropTypes.func,
+    }
+    state = {
+        orderInfo: new OrderInfo(),
+        refPopInvoice: React.createRef(),
     }
     constructor(/**@type {any}*/props) {
         super(props)
@@ -69,6 +76,15 @@ class ShopCart extends Component {
 
 
     }
+    call_ShowInvoicePopModal = () => {
+        let {showInvoicePopModal} = this.props
+        
+        this._getOrderInfo()
+            .then((orderInfo) => {
+                showInvoicePopModal(orderInfo)
+            })
+    }
+
 
     CheckOutOrder = (/**@type {any}*/e) => {
 
@@ -95,10 +111,10 @@ class ShopCart extends Component {
             })
             .then((e) => {
                 this.boundActionCreators.clear_shopCart();
-                if(e.isConfirmed === true){
+                if (e.isConfirmed === true) {
                     window.app.switchIndexPage(ENUM_switchIndexPage.ViewOrders)
                 }
-                    
+
                 //console.log(e)
                 //     isConfirmed: true
                 // isDenied: false
@@ -108,7 +124,7 @@ class ShopCart extends Component {
             .catch((error) => {
                 console.error("LOG: ~ file: ShopCart.jsx ~ line 95 ~ ShopCart ~ error---")
                 console.dir(error)
-                if(error.message.startsWith('regeneratorRuntime is not defined'))
+                if (error.message.startsWith('regeneratorRuntime is not defined'))
                     console.error('need to require( @babel/polyfill )')
                 return Swal.fire({
                     title: '訂單送出失敗',
@@ -137,8 +153,8 @@ class ShopCart extends Component {
         //let newOrder = new OrderInfo();
         //console.log(newOrder)
     }
-    
-    
+
+
     render() {
         //console.log('---------- render ShopCart----------------')
         //const {getAllItem_PriceTotal} = this.props
@@ -150,6 +166,8 @@ class ShopCart extends Component {
         //console.log('shopItemList-> ', shopItemList)
         return (
             <div>
+                {/* <PopInvoice dispatch={dispatch}></PopInvoice> */}
+                <PopInvoice ref={this.state.refPopInvoice} orderInfo={this.state.orderInfo} dispatch={dispatch}></PopInvoice>
                 <div>
                     {/* <div>{this.props['data-orderAddress']}</div> */}
                     <div className="boxShopCard"><h1>購物車</h1></div>
@@ -169,7 +187,7 @@ class ShopCart extends Component {
                         <tfoot>
                             <tr>
                                 <td colSpan={2}>
-                                    <button className="btn btn-block btn-success" onClick={this.CheckOutOrder}>結帳</button>
+                                    <button className="btn btn-block btn-success" onClick={this.call_ShowInvoicePopModal}>結帳</button>
                                 </td>
                             </tr>
                         </tfoot>

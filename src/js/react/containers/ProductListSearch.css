@@ -94,7 +94,6 @@ body {
 }
 
 .ulScrollButtons {
-  z-index: 11;
   position: sticky;
   top: 54px;
   background-color: #06101b;

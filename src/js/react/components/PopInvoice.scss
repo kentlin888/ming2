@@ -1,0 +1,29 @@
+@use '../../../styles/base/base.scss';
+
+$colorRoyalBlue:rgb(6, 16, 27);
+$colorRoyalBlue:base.$colorRoyalBlue;
+$colorWhite:white;
+$colorWhite:base.$colorWhite;
+$colorGold:base.$colorGold;
+
+
+.boxPopInvoice{
+    // .modal-dialog,
+    // .modal-content,
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        background-color: aquamarine;
+        border: red 2px solid;
+        color: black;
+    }
+
+    .divTotalPrice{
+        text-align: right;
+    }
+}
+
+
+
+
+
