@@ -12,7 +12,7 @@ import { load_productListAsync as load_productListAsync_act } from '../actions/p
 //import arryProductInfo from './ProductInfo.json'
 import CategoryCard from '../components/CategoryCard.jsx'
 
-import { Map_ProductCategory, OrderInfo } from '../../../js/dataDefine/index.js'
+import { Map_ProductCategory, OrderInfo, ProductInfo } from '../../../js/dataDefine/index.js'
 import FirebaseMJS, { FIRESTORE_COLLECTION } from '../../firebase/FirebaseMJS.js'
 import PopInvoice from '../components/PopInvoice.jsx'
 
@@ -194,6 +194,10 @@ export class App extends Component {
                 .then((/**@type {any[]}*/arrayDbProducts) => {
                     // console.log("LOG:: App -> componentDidMount -> arrayDbProducts", arrayDbProducts)
                     //let window2 = /**@type {import('../../../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
+        
+                    window.app.arrayProductInfo = arrayDbProducts.map((item) => {
+                        return Object.assign(new ProductInfo(), item)
+                    })
                     self.state.arrayGroupedCategories = FirebaseMJS.getProductInfo_GroupedItems_ByCategory(window._, arrayDbProducts);
 
                     /**@type {import('../../firebase/FirebaseMJS.js').groupedCategory[]} */
@@ -245,9 +249,10 @@ export class App extends Component {
             }
         }
     }
-    componentWillUnmount(/**@type {any}*/e) {
-        console.log('component will unmount--', e)
-    }
+    
+    // componentWillUnmount(/**@type {any}*/e) {
+    //     console.log('component will unmount--', e)
+    // }
     scrollToCategory = (/**@type {any}*/e) => {
         e.preventDefault();
         // e.stopPropagation();

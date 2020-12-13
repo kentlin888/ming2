@@ -8,16 +8,22 @@ $colorGold:base.$colorGold;
 
 
 .boxPopInvoice{
+    .modal-content{
+        border: 3px solid $colorGold;
+        box-shadow: 0px 0px 10px 10px black;
+    }
+
+    
     // .modal-dialog,
     // .modal-content,
     .modal-header,
     .modal-body,
     .modal-footer {
-        background-color: aquamarine;
-        border: red 2px solid;
-        color: black;
+        background-color: lighten($color: $colorRoyalBlue, $amount: 7%); //rgb(0, 78, 48);
+        //border: red 2px solid;
+        //color: black;
     }
-
+    
     .divTotalPrice{
         text-align: right;
     }

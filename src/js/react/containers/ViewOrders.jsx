@@ -12,7 +12,7 @@ export default class ViewOrders extends PureComponent {
         super(props);
         this.state = {
             /**@type {OrderInfo[]} */
-            orderInfo_list: []
+            arrayOrderInfo: []
         }
     }
 
@@ -48,9 +48,18 @@ export default class ViewOrders extends PureComponent {
             if(uid){
                 window.FirebaseMJS.getOrderInfo(uid, element_orderStatus)//'canceled'
                 .then((orderInfo_list) => {
+                    
                     //let sJson = JSON.stringify(orderInfo_list[0], null, 4)
                     //console.log(sJson)
-                    self.setState({ orderInfo_list: orderInfo_list });
+
+                    // let arrayOrderInfo = orderInfo_list.map((eachDbOrder) => {
+                    //     let jsOrderInfo = OrderInfo.getOrderInfo_FromDbFormat(eachDbOrder)
+                    //     jsOrderInfo.fillShopItems(window.app.arrayProductInfo)
+                    //     jsOrderInfo.convertDbFields();
+                    //     return arrayOrderInfo
+                    // })
+                    self.setState({ arrayOrderInfo: orderInfo_list });
+                    
                 })
             }
             
@@ -97,7 +106,7 @@ export default class ViewOrders extends PureComponent {
 
                         <div className="boxTable bd1">
                             {/* <button onClick={this.loadOrders}>Load Orders</button> */}
-                            <ViewOrdersItem data-arrayOrder={this.state.orderInfo_list}></ViewOrdersItem>
+                            <ViewOrdersItem data-arrayOrder={this.state.arrayOrderInfo}></ViewOrdersItem>
                         </div>
 
                     </section>

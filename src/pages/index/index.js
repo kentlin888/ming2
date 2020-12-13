@@ -125,6 +125,7 @@ window.app = {
     history: null,
     switchIndexPage: switchIndexPage,
     arrayGroupedCategories:null,
+    arrayProductInfo:null,
 }
 
 function switchIndexPage (enum_switchIndexPage) {

@@ -367,9 +367,8 @@ export default class FirebaseMJS {
             })
             .then((array) => {
                 let [orderInfo_list, list_products] = array
-
+                list_products = list_products.flat()
                 let rtnOrderInfo_list = orderInfo_list.map(eachOrderInfo => {
-                
                     //console.log('---------',eachOrderInfo[0])
                     eachOrderInfo.fillShopItems(list_products)
                     return eachOrderInfo

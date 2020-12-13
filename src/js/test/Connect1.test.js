@@ -33,7 +33,7 @@ describe('Connect1.test.js', () => {
             })
     })
 
-    it('firestore.set save-fakeData', () => {
+    it('firestore.get save-fakeData OrderInfo', () => {
         let testData = require('../../../adminData/testdata.json')
         let db = firebase.firestore()
         let collectionName = 'OrderInfo'
@@ -47,6 +47,27 @@ describe('Connect1.test.js', () => {
             })
             let fs = require('fs')
             let json = JSON.stringify(arrayOrderInfo,null,4)
+            let path = require('path')
+            let filePath = path.resolve(__dirname,`../../../adminData/fakeData/${collectionName}.json`)
+            fs.writeFileSync(filePath,json)
+            console.warn('okokok')
+        })
+    })
+    it('firestore.get save-fakeData ProductInfo', () => {
+        //let testData = require('../../../adminData/testdata.json')
+        let db = firebase.firestore()
+        let collectionName = 'ProductInfo'
+        //let uid = testData.userId;
+        return db.collection(collectionName).get()//.where("userId", "==", uid).get()
+        .then((snapshot) => {
+            //console.log(snapshot.docs)
+            let arrayProductInfo = snapshot.docs.map((item) => {
+                let data = item.data()
+                if(data.productId)//exist => not AutoNum
+                    return data
+            })
+            let fs = require('fs')
+            let json = JSON.stringify(arrayProductInfo,null,4)
             let path = require('path')
             let filePath = path.resolve(__dirname,`../../../adminData/fakeData/${collectionName}.json`)
             fs.writeFileSync(filePath,json)

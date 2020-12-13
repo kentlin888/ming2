@@ -136,6 +136,10 @@ body {
 .boxViewOrders .expandingRowBackground {
   background-color: #0c2138;
 }
+.boxViewOrders .expandedInvoice {
+  margin: auto;
+  width: 80%;
+}
 
 /* * {
     padding: 0;

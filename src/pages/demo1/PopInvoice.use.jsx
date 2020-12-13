@@ -1,7 +1,6 @@
 import PopInvoice from '../../js/react/components/PopInvoice.jsx'
 import React from 'react'
-import arrayFakeOrderData from '../../../adminData/fakeData/OrderInfo.json'
-import { OrderInfo } from '../../js/dataDefine/index.js';
+import { OrderInfo, ProductInfo } from '../../js/dataDefine/index.js';
 import 'jquery'
 import 'bootstrap'
 import FirebaseMJS from '../../js/firebase/FirebaseMJS.js'
@@ -14,6 +13,10 @@ import reducer from "../../js/react/reducers";
 import * as shopCart_actions from '../../js/react/actions/shopCart.js'
 //--------- Swal
 import Swal from 'sweetalert2'
+//--------- Fake Data
+import arrayFakeOrderData from '../../../adminData/fakeData/OrderInfo.json'
+import arrayFakeProductData from '../../../adminData/fakeData/ProductInfo.json'
+
 
 window.Swal = Swal;
 // import './ShopCart.css'
@@ -36,12 +39,18 @@ window.FirebaseMJS = firebaseMJS
 //get fake data
 let order1 = arrayFakeOrderData[0];
 let orderInfo = OrderInfo.getOrderInfo_FromDbFormat(order1)//Object.assign(new OrderInfo(), order1)
+let list_products = arrayFakeProductData.map((item) => {
+    return Object.assign(new ProductInfo(),item)
+})
+orderInfo.fillShopItems(list_products)
+
 // convert orderInfo.fstsCreateDateTime_server (add toDate())
 orderInfo.convertDbFields();
 //userData={order1.userData} orderAddress={order1.orderAddress} totalPrice={order1.totalPrice}
 
 
 class UsePopInvoice extends React.Component {
+
     state={
         refPopInvoice : React.createRef()
     }

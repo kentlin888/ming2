@@ -8,7 +8,7 @@ $colorRoyalBlue:base.$colorRoyalBlue; //rgb(6, 16, 27);
 $colorWhite:base.$colorWhite; //white;
 //$colorGold:gold;
 $colorGold:base.$colorGold; //rgb(190, 172, 116);
-
+//$colorDarkSeaGreen:base.$colorDarkSeaGreen;
 
 
 
@@ -115,7 +115,22 @@ $colorGold:base.$colorGold; //rgb(190, 172, 116);
 
     .expandingRowBackground {
         background-color: lighten($color: $colorRoyalBlue, $amount: 7%); //rgb(0, 78, 48);
+        //background-color: darken($color: $colorGold, $amount: 55%); //rgb(0, 78, 48);
+        
+        //background-color: $colorDarkSeaGreen;
+        //background-color:darken($color: lightseagreen, $amount: 30%);
+        
+        // background-color:#17A080;
+        // background-color:darken($color: #17A080, $amount: 30%);
+        
         //darken($color: $colorGold, $amount: 60%);//rgb(0, 78, 48);
+    }
+    .expandedInvoice{
+        // display: flex;
+        // justify-content: center;
+        margin: auto;
+        
+        width: 80%;
     }
 }
 

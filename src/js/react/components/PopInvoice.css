@@ -72,12 +72,14 @@ body {
   box-shadow: none;
 }
 
+.boxPopInvoice .modal-content {
+  border: 3px solid #beac74;
+  box-shadow: 0px 0px 10px 10px black;
+}
 .boxPopInvoice .modal-header,
 .boxPopInvoice .modal-body,
 .boxPopInvoice .modal-footer {
-  background-color: aquamarine;
-  border: red 2px solid;
-  color: black;
+  background-color: #0c2138;
 }
 .boxPopInvoice .divTotalPrice {
   text-align: right;

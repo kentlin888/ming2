@@ -22,6 +22,7 @@ export default class PopInvoice extends Component {
     }
     componentDidMount() {
         //$(this.refModal.current).modal('show')
+        //this.showModal(true)
     }
     showModal(isShow) {
         let sOption = (isShow === true)?'show':'hide';
@@ -104,7 +105,8 @@ export default class PopInvoice extends Component {
     }
     
     render() {
-        let { userData, orderAddress, totalPrice, orderId, sOrderStatus } = this.props.orderInfo
+        let { userData, orderAddress, totalPrice, orderId, sOrderStatus, } = this.props.orderInfo
+        
         //let jsdtCreateDateTime_server = (this.props.orderInfo.jsdtCreateDateTime_server) ? this.props.orderInfo.jsdtCreateDateTime_server.toLocaleString() : 'XXXXX';
         return (
             (
@@ -121,7 +123,7 @@ export default class PopInvoice extends Component {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <Invoice orderInfo={this.props.orderInfo}></Invoice>
+                                    <Invoice orderInfo={this.props.orderInfo} IsOrderExisted={false}></Invoice>
                                 </div>
                                 <div className="modal-footer">
                                     <div>

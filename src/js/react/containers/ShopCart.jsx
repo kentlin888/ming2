@@ -81,78 +81,79 @@ class ShopCart extends Component {
         
         this._getOrderInfo()
             .then((orderInfo) => {
+                orderInfo.fillShopItems(window.app.arrayProductInfo)
                 showInvoicePopModal(orderInfo)
             })
     }
 
 
-    CheckOutOrder = (/**@type {any}*/e) => {
+    // CheckOutOrder = (/**@type {any}*/e) => {
 
-        this._getOrderInfo()
-            .then((orderInfo) => {
-                // let enumType = TypeOf(orderInfo)
-                // let toDb_orderInfo = (enumType == ENUM_TypeOf.objectClass)?recursiveToPlainObject(orderInfo): orderInfo;
-                // console.log('toDb_orderInfo-->',toDb_orderInfo)
-                return window.FirebaseMJS.addOrderInfo(orderInfo, window._)
-            })
-            .then(() => {
-                return Swal.fire({
-                    title: '訂單已成功送出',
-                    text: '若要取消訂單，請至我的訂單頁面中查看',
-                    icon: 'success',
-                    confirmButtonText: '檢視我的訂單',
-                    // denyButtonText: 'Cool',
-                    cancelButtonText: '返回',
-                    showConfirmButton: true,
-                    // showDenyButton:true,
-                    showCancelButton: true,
+    //     this._getOrderInfo()
+    //         .then((orderInfo) => {
+    //             // let enumType = TypeOf(orderInfo)
+    //             // let toDb_orderInfo = (enumType == ENUM_TypeOf.objectClass)?recursiveToPlainObject(orderInfo): orderInfo;
+    //             // console.log('toDb_orderInfo-->',toDb_orderInfo)
+    //             return window.FirebaseMJS.addOrderInfo(orderInfo, window._)
+    //         })
+    //         .then(() => {
+    //             return Swal.fire({
+    //                 title: '訂單已成功送出',
+    //                 text: '若要取消訂單，請至我的訂單頁面中查看',
+    //                 icon: 'success',
+    //                 confirmButtonText: '檢視我的訂單',
+    //                 // denyButtonText: 'Cool',
+    //                 cancelButtonText: '返回',
+    //                 showConfirmButton: true,
+    //                 // showDenyButton:true,
+    //                 showCancelButton: true,
 
-                })
-            })
-            .then((e) => {
-                this.boundActionCreators.clear_shopCart();
-                if (e.isConfirmed === true) {
-                    window.app.switchIndexPage(ENUM_switchIndexPage.ViewOrders)
-                }
+    //             })
+    //         })
+    //         .then((e) => {
+    //             this.boundActionCreators.clear_shopCart();
+    //             if (e.isConfirmed === true) {
+    //                 window.app.switchIndexPage(ENUM_switchIndexPage.ViewOrders)
+    //             }
 
-                //console.log(e)
-                //     isConfirmed: true
-                // isDenied: false
-                // isDismissed: false  cancel
-                // value: true
-            })
-            .catch((error) => {
-                console.error("LOG: ~ file: ShopCart.jsx ~ line 95 ~ ShopCart ~ error---")
-                console.dir(error)
-                if (error.message.startsWith('regeneratorRuntime is not defined'))
-                    console.error('need to require( @babel/polyfill )')
-                return Swal.fire({
-                    title: '訂單送出失敗',
-                    text: `${error.message}`,
-                    icon: 'error',
-                    //confirmButtonText: '檢視我的訂單',
-                    // denyButtonText: 'Cool',
-                    cancelButtonText: '返回',
-                    showConfirmButton: false,
-                    // showDenyButton:true,
-                    showCancelButton: true,
+    //             //console.log(e)
+    //             //     isConfirmed: true
+    //             // isDenied: false
+    //             // isDismissed: false  cancel
+    //             // value: true
+    //         })
+    //         .catch((error) => {
+    //             console.error("LOG: ~ file: ShopCart.jsx ~ line 95 ~ ShopCart ~ error---")
+    //             console.dir(error)
+    //             if (error.message.startsWith('regeneratorRuntime is not defined'))
+    //                 console.error('need to require( @babel/polyfill )')
+    //             return Swal.fire({
+    //                 title: '訂單送出失敗',
+    //                 text: `${error.message}`,
+    //                 icon: 'error',
+    //                 //confirmButtonText: '檢視我的訂單',
+    //                 // denyButtonText: 'Cool',
+    //                 cancelButtonText: '返回',
+    //                 showConfirmButton: false,
+    //                 // showDenyButton:true,
+    //                 showCancelButton: true,
 
-                })
-            })
+    //             })
+    //         })
 
-        //console.log(orderInfo)
-        //console.log(this.props.shopItemList)
-        // this.props.shopItemList.forEach((item) => {
-        //     let newItem = Object.assign({},item)
-        //     newItem._productInfo = null
-        //     console.log(item)
-        //     console.log(newItem)
-        // }
-        // )
-        //console.log(this.props.AllItems_Price)
-        //let newOrder = new OrderInfo();
-        //console.log(newOrder)
-    }
+    //     //console.log(orderInfo)
+    //     //console.log(this.props.shopItemList)
+    //     // this.props.shopItemList.forEach((item) => {
+    //     //     let newItem = Object.assign({},item)
+    //     //     newItem._productInfo = null
+    //     //     console.log(item)
+    //     //     console.log(newItem)
+    //     // }
+    //     // )
+    //     //console.log(this.props.AllItems_Price)
+    //     //let newOrder = new OrderInfo();
+    //     //console.log(newOrder)
+    // }
 
 
     render() {

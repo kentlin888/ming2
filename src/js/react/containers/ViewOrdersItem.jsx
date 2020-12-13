@@ -31,20 +31,20 @@ function dateFormatter1(cell, row, rowIndex, formatExtraData) {
 const columns = [
     {
         dataField: 'jsdtCreateDateTime_server',
-        text: 'Create Date',
+        text: '訂單日期',
         formatter: dateFormatter1
     }, {
         dataField: 'orderId',
-        text: 'Order ID'
+        text: '訂單編號'
     }, {
         dataField: 'orderProductName',
-        text: 'Product Name'
+        text: '名稱/規格'
     }, {
         dataField: 'totalPrice',
-        text: 'Order Price'
+        text: '訂單總金額'
     }, {
         dataField: 'sOrderStatus',
-        text: 'Order Status'
+        text: '訂單狀態'
     }];
 
 const rowStyle = { backgroundColor: '#c8e6c9' };
@@ -77,7 +77,9 @@ const expandRow = {
         // let userInfo = new UserProfile();
         // userInfo = Object.assign(userInfo, row.userProfile)
         // let sendAddress = userInfo.address//.getSelectedAddress();
-        return <Invoice orderInfo={orderInfo}></Invoice>
+        return <div className="expandedInvoice">
+            <Invoice orderInfo={orderInfo} IsOrderExisted={true}></Invoice>
+        </div>
         // <Invoice orderInfo={orderInfo}></Invoice>
             
         // <div>
