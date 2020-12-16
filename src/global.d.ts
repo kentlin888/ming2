@@ -7,6 +7,7 @@ interface $ {
 }
 interface JQuery {
     modal: (strShow: string) => void;
+    scrollspy:(options:*)=>void;
 }
 interface History {
     push: (url: string) => void;

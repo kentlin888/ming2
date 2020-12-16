@@ -61,18 +61,18 @@ module.exports = (devMode) => {
 
         // },
         optimization: {
-            moduleIds: devMode? 'named': 'deterministic',
-            chunkIds: devMode? 'named': 'deterministic',
-            mangleExports: devMode?false:'deterministic',
-            nodeEnv: devMode?'development':'production',
-            flagIncludedChunks: devMode?false:true,
+            moduleIds: devMode ? 'named' : 'deterministic',
+            chunkIds: devMode ? 'named' : 'deterministic',
+            mangleExports: devMode ? false : 'deterministic',
+            nodeEnv: devMode ? 'development' : 'production',
+            flagIncludedChunks: devMode ? false : true,
             //occurrenceOrder: devMode?false:true,
-            concatenateModules: devMode?false:true,
+            concatenateModules: devMode ? false : true,
 
             // 在這裡使用 SplitChunksPlugin
             splitChunks: {
-                hidePathInfo: devMode?false:true,
-                
+                hidePathInfo: devMode ? false : true,
+
                 // cacheGroups: {
                 //     // 把所有 node_modules 內的程式碼打包成一支 vendors.bundle.js
                 //     vendors: {
@@ -95,7 +95,7 @@ module.exports = (devMode) => {
                 //從抽取出來的文件自動抓取檔名，而檔名和檔名之間默認的連接符號為~
                 automaticNameDelimiter: '_'
             },
-            emitOnErrors: devMode?true:false,
+            emitOnErrors: devMode ? true : false,
             // 把 webpack runtime 也打包成一支 runtime.bundle.js
             runtimeChunk: {
                 name: 'runtime',
@@ -167,10 +167,13 @@ module.exports = (devMode) => {
                 server: path.join(__dirname, "../src/server")
             },
             // Add `.ts` and `.tsx` as a resolvable extension.
-            extensions: [".ts", ".tsx", ".js",".json", ".css", ".scss"]
+            extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"]
 
             //extensions: [".wasm", ".ts", ".tsx", ".mjs", ".cjs", ".js", ".json"],
         },
+        // resolveLoader: {
+        //     moduleExtensions: ['-loader']
+        // },
         module: {
             rules: [{
                     test: /\.css$/,
@@ -243,6 +246,7 @@ module.exports = (devMode) => {
                     }
 
                 },
+                
                 // {
                 //     test: /\.(jpe?g|png|gif|svg)$/i,
                 //     /* Exclude fonts while working with images, e.g. .svg can be both image or font. */
@@ -280,6 +284,19 @@ module.exports = (devMode) => {
                         // publicPath: '',
                         publicPath: './',
                         // postTransformPublicPath: (p) => `__webpack_public_path__ + ${p}`,
+                    },
+                },
+                {
+                    test: /\.(htm|html)$/i,
+                    //use:['file-loader','extract-loader', 'html-loader'],
+                    loader: 'html-loader',
+                    options: {
+                        // Disables attributes processing
+                        attributes: true,
+                        //outputPath: 'assets',
+                        // attributes: {
+                        //     root: './assets/',
+                        // },
                     },
                 },
                 // for bootstrap

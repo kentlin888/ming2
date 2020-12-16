@@ -1,6 +1,13 @@
 module.exports = {
     "presets": [
-        "@babel/preset-env",
+        [
+            "@babel/preset-env",
+            // {
+            //     targets: {
+            //         node: 'current', // for jest use es6 import
+            //     },
+            // }
+        ],
         [
             "@babel/preset-react",
             {

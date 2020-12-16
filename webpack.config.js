@@ -149,6 +149,7 @@ module.exports = (env) => {
                     path: path.resolve(__dirname, 'dist', 'ConsoleApp'),
                     filename: devMode ? 'js/[name].bundle.js' : 'js/[chunkhash].bundle.js',
                     //filename: 'bundle.js',
+                    // publicPath: '',
                 },
                 plugins: [
                     new HtmlWebpackPlugin({
@@ -218,6 +219,7 @@ module.exports = (env) => {
                 output: {
                     path: path.resolve(__dirname, 'dist', 'demo1'),
                     filename: devMode ? 'js/[name].bundle.js' : 'js/[chunkhash].bundle.js',
+                    //publicPath: '',
                     //filename: 'bundle.js',
                 },
                 plugins: [

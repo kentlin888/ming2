@@ -1,4 +1,4 @@
-import cart from './cart'
+import cart from './shopCart.js'
 
 describe('reducers', () => {
   describe('cart', () => {

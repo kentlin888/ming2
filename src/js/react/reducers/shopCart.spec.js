@@ -1,7 +1,7 @@
 import shopCart, {
   initState
 } from "./shopCart.js";
-import * as dataDefine from "../dataDefine/index.js";
+import * as dataDefine from "../../dataDefine/index.js";
 import * as shopCart_act from "../actions/shopCart.js";
 
 import _ from "lodash";
@@ -32,11 +32,11 @@ describe("shopCart reducer()", () => {
   product2.imgFileName = "xad-2.jpg"; //白斬雞.jpg
 
   function GetNewShopItems() {
-    let shotItem_1 = new dataDefine.ShopItem();
+    let shotItem_1 = new dataDefine.ShopItemInfo();
     shotItem_1.productInfo = product1;
     shotItem_1.productId = product1.productId;
     shotItem_1.amount = 1;
-    let shotItem_2 = new dataDefine.ShopItem();
+    let shotItem_2 = new dataDefine.ShopItemInfo();
     shotItem_2.productInfo = product2;
     shotItem_2.productId = product2.productId;
     shotItem_2.amount = 1;

@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import ShopCart from './ShopCart.jsx'
 import { countAllItems_Price } from '../reducers/shopCart.js'
 import './ProductListSearch.css'
-//import { HashLink as Link } from 'react-router-hash-link';
+import { HashLink as Link } from 'react-router-hash-link';
 import { load_productListAsync as load_productListAsync_act } from '../actions/productList.js'
 //import arryProductInfo from './ProductInfo.json'
 import CategoryCard from '../components/CategoryCard.jsx'
@@ -15,6 +15,7 @@ import CategoryCard from '../components/CategoryCard.jsx'
 import { Map_ProductCategory, OrderInfo, ProductInfo } from '../../../js/dataDefine/index.js'
 import FirebaseMJS, { FIRESTORE_COLLECTION } from '../../firebase/FirebaseMJS.js'
 import PopInvoice from '../components/PopInvoice.jsx'
+import Scrollspy from 'react-scrollspy'
 
 /**@enum {string} */
 let ENUM_screenSize = {
@@ -38,6 +39,7 @@ export class App extends Component {
     }
     constructor(props) {
         super(props);
+        this.refBoxProductListSearch = React.createRef();
         this.refShopCart = React.createRef();
         this.refShopcartBox = React.createRef();
         this.refInsideShop = React.createRef();
@@ -166,6 +168,10 @@ export class App extends Component {
         }
         window.addEventListener("resize", debounceResize);
         switchWindowSize();
+        //------------- scrollspy.js
+        let refBoxProductListSearch = this.refBoxProductListSearch.current
+        //console.log('scrollspy---->',$(refBoxProductListSearch).scrollspy )
+
 
         //------------- load categories
         //let self = this
@@ -194,7 +200,7 @@ export class App extends Component {
                 .then((/**@type {any[]}*/arrayDbProducts) => {
                     // console.log("LOG:: App -> componentDidMount -> arrayDbProducts", arrayDbProducts)
                     //let window2 = /**@type {import('../../../../js/dataDefine/index.js').ExtendedWindow}*/ (window);
-        
+
                     window.app.arrayProductInfo = arrayDbProducts.map((item) => {
                         return Object.assign(new ProductInfo(), item)
                     })
@@ -249,7 +255,7 @@ export class App extends Component {
             }
         }
     }
-    
+
     // componentWillUnmount(/**@type {any}*/e) {
     //     console.log('component will unmount--', e)
     // }
@@ -264,6 +270,7 @@ export class App extends Component {
             if (item.category === dataHref)
                 return item
         })
+        console.log("LOG: ~ file: ProductListSearch.jsx ~ line 273 ~ findCategory ~ findCategory", findCategory)
         let scrollTo_Ref = findCategory.ref
 
         //console.log(scrollTo_Ref)
@@ -299,6 +306,9 @@ export class App extends Component {
             this.state.refPopInvoice.current.showModal(true);
         })
     }
+    // preventDefault = (e) => {
+    //     e.preventDefault();
+    // }
 
     render() {
         this.state.arrayGroupedCategories
@@ -314,10 +324,14 @@ export class App extends Component {
 
         let arrayMap_ProductCategory = Object.entries(Map_ProductCategory);
         // console.log(arrayMap_ProductCategory);
+        let arrayCategories = arrayMap_ProductCategory.map((item) => {
+            return `category-${item[0]}`;
+        })
 
+        console.log("LOG: ~ file: ProductListSearch.jsx ~ line 423 ~ render ~ arrayMap_ProductCategory", arrayMap_ProductCategory[0])
         return (
-            <main className="boxViewProductList">
-                <article className="boxProductListSearch bd1">
+            <main className="boxViewProductList" >
+                <article className="boxProductListSearch bd1" ref={this.refBoxProductListSearch}>
                     <section>
                         {/* =============== HEADER ================== */}
                         <div className="boxDeliveryTimeAddress b-flexCenter inputField1 bd4">
@@ -329,16 +343,24 @@ export class App extends Component {
                         <PopInvoice ref={this.state.refPopInvoice} orderInfo={this.state.orderInfo} dispatch={this.props.dispatch}></PopInvoice>
                         {/* ============ Category Buttons ============== */}
                         <ul className="b-flexCenter ulScrollButtons bd3" tabIndex={-1} ref={this.reStickyHeader}>
-                            {/* <li className="Category">
-                                    <div>牛肉</div>
-                                </li> */}
-                            {/*中英對照 item[0] = Object.Key 英文, item[1] = Object.value 中文  */}
                             {arrayMap_ProductCategory.map((item, index) => {
                                 return <li className="btnCategory" key={index}>
+                                    
+                                    {/* <Link to={`/ProductListSearch/#category-${item[0]}`}>{item[1]}</Link>
+                                    <a href={`#category-${item[0]}`} >{item[1]}</a> */}
                                     <div data-href={`#${item[0]}`} onClick={this.scrollToCategory}>{item[1]}</div>
                                 </li>
                             })}
                         </ul>
+                        {/* <Scrollspy className="b-flexCenter ulScrollButtons bd3" offset={-200} items={arrayCategories} currentClassName="active" ref={this.reStickyHeader}>
+                            {arrayMap_ProductCategory.map((item, index) => {
+                                return <li className="btnCategory" key={index}>
+                                    <Link to={`/ProductListSearch/#category-${item[0]}`} data-href={`${item[0]}`} onClick={this.scrollToCategory}>{item[1]}</Link>
+                                </li>
+                            })}
+                        </Scrollspy> */}
+                        {/* ============= Scrollspy ================= */}
+                        
                         {/* ============ Category - Product Cards ============== */}
                         <div className="boxCategoryCard bd2">
                             {this.state.arrayGroupedCategories.map((/**@type {any}*/item, /**@type {Number}*/index) => (
@@ -385,6 +407,7 @@ export class App extends Component {
             </main>
         );
     }
+
 }
 
 const mapStateToProps = (/**@type {any}*/state) => {

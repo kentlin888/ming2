@@ -1,2 +1,2 @@
-import App from './PopInvoice.use.jsx';
+import App from './T1.jsx';
     export default App;

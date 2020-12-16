@@ -36,6 +36,10 @@ $colorGold:base.$colorGold;
         width: 70%;
     }
 }
+%hoverBtnGolden{
+    color: $colorWhite;
+    background-color: $colorGold;
+}
 // =================== ulScrollButtons
 .ulScrollButtons {
     @extend .b-ulStyleNone;
@@ -51,8 +55,31 @@ $colorGold:base.$colorGold;
         width: 7rem;
         padding: .3rem;
         margin: .7rem;
+        // & .a{
+        //     color: $colorGold;
+        // }
+        // .a{
+        //     color: $colorGold;
+        // }
     }
-
+    // .active{
+    //     @extend %hoverBtnGolden;
+    // }
+    // .active a{
+    //     &:hover {
+    //         color: $colorWhite;
+    //         background-color: $colorGold;
+    
+    //         transition-duration: .3s;
+    //         border-radius: 20px;
+    //     }
+    
+    //     &:focus {
+    //         outline: none;
+    //         box-shadow: none;
+    //     }
+        
+    // }
 }
 // =================== Category Card
 // .boxCategoryCard{

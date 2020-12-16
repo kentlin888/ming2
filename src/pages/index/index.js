@@ -86,6 +86,7 @@ const ENUM_static_scroll_href_Id = {
 //     ViewOrders: 'ViewOrders',
 // }
 
+
 //var //---pure data
 var proxyMainPageUI = {
     /**@type {boolean} */

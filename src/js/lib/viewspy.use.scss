@@ -1,0 +1,31 @@
+// body {
+//     position: relative;
+// }
+
+.head1 {
+    position: sticky;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100px;
+    background-color: rgb(0, 44, 187);
+    //border: 2px solid red;
+    color: white;
+    font-size: 3rem;
+
+}
+
+#rect1,
+#rect2,
+#rect3,
+#rect4 {
+    width: 300px;
+    height: 200px;
+    border: 2px solid yellow;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: 600;
+    font-size: 3rem;
+}
