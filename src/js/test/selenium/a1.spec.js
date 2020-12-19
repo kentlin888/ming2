@@ -6,6 +6,7 @@ const {
     Key,
     until
 } = webdriver//require('selenium-webdriver')
+
 const assert = require('assert')
 let fs = require('fs')
 let path = require('path')
@@ -55,16 +56,27 @@ describe('A1333', function() {
     //await driver.quit();
   })
   it('A1444', async function() {
+    const TIMEOUT = 300000000
+    //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    await driver.manage().setTimeouts( { implicit: TIMEOUT, pageLoad: 
+      TIMEOUT, script: TIMEOUT } )
+    console.info( await driver.manage().getTimeouts() )
+
+    // driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
     await driver.get("https://ming2-dad1d.firebaseapp.com/#/ProductListSearch")
-    await driver.sleep(1000)
+    //await driver.sleep(1000)
     
     //await driver.manage().window().setRect(1900, 1020)
     await driver.findElement(By.linkText("登入")).click()
-    await driver.sleep(1000)
+    //await driver.sleep(1000)
     await driver.findElement(By.css(".btnEmailSignin:nth-child(6)")).click()
-    await driver.sleep(1000)
+    await driver.sleep(5000)
     //await driver.findElement(By.id("spanDisplayEmail")).click()
-    assert(await driver.findElement(By.id("spanDisplayEmail")).getText() == "ice4kimo@yahoo.com.tw")
+    let aaa = await driver.findElement(By.id("spanDisplayEmail")).getText()
+    console.log("LOG: ~ file: a1.spec.js ~ line 76 ~ it ~ aaa", aaa)
+    
+    //assert(await driver.findElement(By.id("spanDisplayEmail")).getText() == "ice4kimo@yahoo.com.tw")
+
     // await driver.findElement(By.id("aLogout")).click()
     
   })

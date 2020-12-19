@@ -9,6 +9,7 @@ const {
 const assert = require('assert')
 let fs = require('fs')
 let path = require('path')
+
 //-------chrome options
 let chrome = require('selenium-webdriver/chrome')
 var options = new chrome.Options();
@@ -48,7 +49,7 @@ options.addArguments("disable-extensions");
 //let WebDriver = new ChromeDriver(chromeDriverService, options);
 
 
-this.timeout(30000)
+//this.timeout(30000)
     let driver = new webdriver.Builder()
         .setChromeOptions(options)
         .withCapabilities(webdriver.Capabilities.chrome())
@@ -59,13 +60,20 @@ this.timeout(30000)
     
     gogogo();
     async function gogogo(){
-        await driver.get("https://ming2-dad1d.firebaseapp.com/#/ProductListSearch")
-        await driver.manage().window().setRect(1900, 1020)
+        const TIMEOUT = 300000000
+        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        await driver.manage().setTimeouts({
+            implicit: TIMEOUT,
+            pageLoad: TIMEOUT,
+            script: TIMEOUT
+        })
+        await driver.get("http://localhost:3000/")
+        //await driver.manage().window().setRect(1900, 1020)
         await driver.findElement(By.linkText("登入")).click()
-        await driver.findElement(By.css(".btnEmailSignin:nth-child(6)")).click()
-        await driver.findElement(By.id("spanDisplayEmail")).click()
-        assert(await driver.findElement(By.id("spanDisplayEmail")).getText() == "ice4kimo@yahoo.com.tw")
-        await driver.findElement(By.id("aLogout")).click()
+        // await driver.findElement(By.css(".btnEmailSignin:nth-child(6)")).click()
+        // await driver.findElement(By.id("spanDisplayEmail")).click()
+        // assert(await driver.findElement(By.id("spanDisplayEmail")).getText() == "ice4kimo@yahoo.com.tw")
+        // await driver.findElement(By.id("aLogout")).click()
     }
     
 

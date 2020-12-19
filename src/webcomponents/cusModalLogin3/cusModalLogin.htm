@@ -79,18 +79,18 @@
 
                             <div class="form-group inputField1">
                                 <span>Email</span>
-                                <input type="email" placeholder="example@yourdomain.com" bindIptSigninEmail required autocomplete="username">
+                                <input type="email" placeholder="example@yourdomain.com" data-testid="iptSignInEmail" bindIptSigninEmail required autocomplete="username">
                                 <i class="fas fa-check-circle" style="color:lime;"></i>
                             </div>
 
                             <div class="form-group inputField1">
                                 <span>Password</span>
-                                <input type="password" placeholder="英文字母或數字，至少8位數" pattern="^[0-9a-zA-Z]{8,}$"
+                                <input type="password" placeholder="英文字母或數字，至少8位數" data-testid="iptSignInPassword" pattern="^[0-9a-zA-Z]{8,}$"
                                     bindIptSigninPWD required autocomplete="current-password">
                                 <i class="fas fa-check-circle" style="color:lime;"></i>
                             </div>
 
-                            <label class="ckboxKeepSignin">
+                            <label class="ckboxKeepSignin" data-testid="ckboxKeepSignin">
                                 <input type="checkbox" name="remember" bindCkboxSigninKeepIn checked>持續保持登入
                             </label>
                             <!-- <div id="linkForgetPassword"><label for="ckboxForgetPwdHtm">Forget password?</label></div>
@@ -99,10 +99,10 @@
                             <div class="divSignupHtm">註冊新Email帳號</div>
                             <div class="divForgetPassword">忘記密碼?</div>
 
-                            <button class="btnEmailSignin">
+                            <button class="btnEmailSignin" data-testid="btnEmailSignin">
                                 Email Sign In
                             </button>
-                            <button type="button" class="btnGoogleSignin">
+                            <button type="button" class="btnGoogleSignin" data-testid="btnGoogleSignin">
                                 Google Sign In
                             </button>
 
