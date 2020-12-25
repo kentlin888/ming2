@@ -1,5 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
+const WebpackDefinePlugin = require('./src/js/dataDefine/webpackDefinePlugin.js')
 // const ASSET_PATH = process.env.ASSET_PATH || '/';
 // console.log(ASSET_PATH);
 // 這邊使用 HtmlWebpackPlugin，將 bundle 好得 <script> 插入到 body
@@ -29,7 +30,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 //http://localhost:8080/webpack-dev-server/index.html
 //const pathJS = path.join('src','js','index.js');
-module.exports = (devMode) => {
+module.exports = (devMode, options) => {
+    console.log('common devMOde', devMode, options.mode)
     return {
         context: path.resolve(__dirname, 'src'),
         output: {
@@ -372,6 +374,9 @@ module.exports = (devMode) => {
             new webpack.ProvidePlugin({
                 $: "jquery",
                 jQuery: "jquery"
+            }),
+            new webpack.DefinePlugin({
+                WebpackDefinePlugin:new WebpackDefinePlugin(devMode)
             }),
             // new UglifyJsPlugin({
             //     uglifyOptions: {

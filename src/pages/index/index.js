@@ -13,6 +13,7 @@ import FirebaseMJS, {
 } from '../../js/firebase/FirebaseMJS.js'
 import {ENUM_switchIndexPage} from './indexESM.js'
 import _ from 'lodash'
+let assertLog = require('../../js/test/selenium/MDPages/index/index.assertLog.js')
 // import firebase from "firebase/app";
 // import "firebase/auth"
 // import 'firebase/firestore'
@@ -187,9 +188,11 @@ proxyUserMenuDropdown = new Proxy(proxyUserMenuDropdown, {
                     liLogin.classList.remove('displayNone')
                     liUserDropdown.classList.add('displayNone')
                 }
+                console.log(assertLog.loginSuccess(value))
                 break;
             case "loginName":
                 spanDisplayEmail.textContent = value;
+                console.log(assertLog.displayLoginName(value))
                 break;
             default:
                 break;
@@ -450,8 +453,12 @@ if (!proxyMainPageUI.cusModalLogin) {
             //class-instance APPEAR!!  you can set template now~~~
             /**@type {cusModalLogin} */
             let newComponent = new htmlFile.ctor(htmlFile.templateContent, plugins);
-            newComponent.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
-            newComponent.proxyUI.bindIptSigninPWD = '11111111'
+            // newComponent.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
+            // newComponent.proxyUI.bindIptSigninPWD = '11111111'
+            // newComponent.proxyUI.bindIptRegisterEmail = 'ice4kimo@yahoo.com.tw'
+            // newComponent.proxyUI.bindIptRegisterPWD1= '11111111'
+            // newComponent.proxyUI.bindIptRegisterPWD2= '11111111'
+            
             proxyMainPageUI.cusModalLogin = newComponent
             /**@type {any} */
             let node = newComponent

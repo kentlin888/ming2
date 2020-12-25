@@ -30,6 +30,11 @@ module.exports = CopyPatterns = [
         force: false
     },
     // {
+    //     from: 'webcomponents/cusDemo/cusDemo.htm',
+    //     to: './webcomponents/cusDemo/cusDemo.htm',
+    //     force: false
+    // },
+    // {
     //     from: 'webcomponents/cusModalLogin3/cusModalLogin.*',
     //     to: './',
     //     force: false,

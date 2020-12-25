@@ -66,7 +66,7 @@
         <a id="aOpenModalShopcart" href="#" class="navbar-brand mx-auto text-center d-lg-none">
             <span class="fa-stack">
                 <i class="fas fa-shopping-cart" data-count="99"></i>
-                <span class="numberBadge nbg1">99</span>
+                <span class="numberBadge nbg1" data-testid="spanNumberBadge1">99</span>
             </span>
             <!-- <span class="fa-stack fa-1x d-lg-none">
                 <i class="fa fa-shopping-cart fa-stack-2x"></i>
@@ -87,19 +87,19 @@
             <!-- <a href="#" class="navbar-brand">Hidden Brand</a> -->
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0" >
                 <li class="nav-item">
-                    <a href="#history" class="nav-link">老店歷史</a>
+                    <a href="#history" class="nav-link" data-testid="navitemHistory">老店歷史</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#news" class="nav-link">最新消息</a>
+                    <a href="#news" class="nav-link" data-testid="navitemNews">最新消息</a>
                 </li>
                 <li class="nav-item" id="liOrderProducts">
-                    <a href="#page-react" class="nav-link" id="aOrderProducts">產品訂購</a>
+                    <a href="#page-react" class="nav-link" id="aOrderProducts" data-testid="navitemOrderProducts">產品訂購</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#qanda" class="nav-link">常見問題(購物)</a>
+                    <a href="#qanda" class="nav-link" data-testid="navitemQandA">常見問題(購物)</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#contactus" class="nav-link">聯絡我們</a>
+                    <a href="#contactus" class="nav-link" data-testid="navitemContactus">聯絡我們</a>
                 </li>
                 <!-- ========== test =========== -->
                 <!-- <li class="nav-item dropdown d-none">
@@ -132,10 +132,10 @@
                         <i class="fas fa-user"></i><span id="spanDisplayEmail" data-testid="spanDisplayEmail">tristan829@gmail.com</span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" id="aMyOrder" href="#">我的訂單</a>
-                        <a class="dropdown-item" id="aMyProfile" href="#">個人資料</a>
+                        <a class="dropdown-item" id="aMyOrder" data-testid="aMyOrder" href="#">我的訂單</a>
+                        <a class="dropdown-item" id="aMyProfile" data-testid="aMyProfile" href="#">個人資料</a>
                         <!-- <a class="dropdown-item" id="aChangePWD" href="#">修改密碼</a> -->
-                        <a class="dropdown-item" id="aLogout" href="#">登出</a>
+                        <a class="dropdown-item" id="aLogout" data-testid="aLogout" href="#">登出</a>
                     </div>
                 </li>
                 <li class="nav-item d-none d-lg-inline">
@@ -154,7 +154,7 @@
 
                         <span class="fa-stack displayInline">
                             <i class="fas fa-shopping-cart fa-stack-1x" data-count="99"></i>
-                            <span class="numberBadge nbg2">
+                            <span class="numberBadge nbg2" data-testid="spanNumberBadge2">
                                 99
                             </span>
                         </span>
@@ -166,7 +166,8 @@
             </ul>
         </div>
     </nav>
-
+    <!-- <input type="text" id="aa" class="mt-5" style="margin-top: 160px; height: 100px;">
+    <input type="email" id="bb" class="mt-5" style="margin-top: 160px; height: 100px;"> -->
 
     <!-- =============== page-static ================= -->
     <div id="page-static" class="mt-5" >

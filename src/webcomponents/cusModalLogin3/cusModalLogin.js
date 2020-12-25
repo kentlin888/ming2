@@ -125,8 +125,16 @@ export default class cusModalLogin extends HTMLElement {
             return false
         })
         //===== EMAIL REGISTER
+        let signUpHtm = this.querySelector('.signUpHtm');
+        signUpHtm.addEventListener('submit', (e) => {
+            e.preventDefault()
+            //console.log(5555)
+            self.Email_Register();
+        })
         this.btnEmailRegister = this.querySelector('.signUpHtm .btnEmailSignin')
-        this.btnEmailRegister.addEventListener('click', this.Email_Register.bind(this));
+        this.btnEmailRegister.addEventListener('click', (e) => {
+            //submit to Form ('.signUpHtm')
+        });
         //===== EMAIL RESEND PASSWORD -- form onSubmit
         let forgetPwdHtm = this.querySelector('.forgetPwdHtm');
         forgetPwdHtm.addEventListener('submit', (e) => {
@@ -235,7 +243,7 @@ export default class cusModalLogin extends HTMLElement {
         let self = this
         return this.plugins.Email_ResendPassword(
             emailAddress,
-            window.firebase,
+            this.firebase,
             self.plugins.Swal,
             () => {
                 self.showModal(false)
@@ -260,9 +268,10 @@ export default class cusModalLogin extends HTMLElement {
         let email = this.proxyUI.bindIptRegisterEmail;
         let password = this.proxyUI.bindIptRegisterPWD1;
         let persistence = this.getPersistence(this.proxyUI.bindCkboxSigninKeepIn)
+        let self = this
         this.firebase.auth().setPersistence(persistence)
             .then(() => {
-                return this.firebase.auth().createUserWithEmailAndPassword(email, password)
+                return self.firebase.auth().createUserWithEmailAndPassword(email, password)
             })
             // .then(() => {
             //     let user = this.firebase.auth().currentUser;
@@ -271,13 +280,9 @@ export default class cusModalLogin extends HTMLElement {
             //     else
             //         return false //oldUser = false
             // })
-            .then(() => {
-                // if (isNewUser === false)
-                //     return null // no need to send email verification
-                // if account is stolen by someone, real owner can register again to get EmailVerification,
-                // so anyone can sendEmailVerification (no need to check isNewUser)
-                let user = this.firebase.auth().currentUser;
-                return user.sendEmailVerification()
+            .then((user) => {
+                //let user = self.firebase.auth().currentUser;
+                return user.sendEmailVerification() // no return
                 //send verification email
 
             })
@@ -285,6 +290,7 @@ export default class cusModalLogin extends HTMLElement {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
+                console.log(errorCode, errorMessage)
                 // ...
             });
     }
@@ -296,9 +302,9 @@ export default class cusModalLogin extends HTMLElement {
     getPersistence(isCkboxSigninKeepIn) {
         let persistence;
         if (isCkboxSigninKeepIn)
-            persistence = window.firebase.auth.Auth.Persistence.LOCAL
+            persistence = this.firebase.auth.Auth.Persistence.LOCAL
         else
-            persistence = window.firebase.auth.Auth.Persistence.NONE
+            persistence = this.firebase.auth.Auth.Persistence.NONE
         return persistence
     }
     Email_Login() {
@@ -320,6 +326,7 @@ export default class cusModalLogin extends HTMLElement {
                 let errZhTw = getErrorMessageZHTW(error.code, error.message)
 
                 self.plugins.Swal.fire({
+                
                     title: '注意',
                     text: `${errZhTw.errCodeZHTW},${errZhTw.errMessageZHTW}`,
                     icon: 'warning',

@@ -22,7 +22,10 @@ const ENUM_BUILD_SITE = {
     demo2: "demo2",
 }
 
-module.exports = (env) => {
+// options mapping to command `webpack --mode production`
+// get mode --> options.mode
+module.exports = (env, options) => {
+    console.log('using mode = ',options.mode) // options.mode == 'development'
     const devMode = (env.NODE_ENV === 'development') ? true : false
     const enum_BUILD_SITE = ENUM_BUILD_SITE[env.BUILD_SITE]
     let rtnConfig = {}
@@ -252,13 +255,7 @@ module.exports = (env) => {
                         chunksSortMode: 'none',
                     }),
                     // new CopyWebpackPlugin({
-                    //     patterns: [
-                    //         {
-                    //             from: 'js/dataDefine/',
-                    //             to: './js/dataDefine',
-                    //             force: false
-                    //         },
-                    //     ],
+                    //     patterns: CopyPatterns
                     // }),
                 ],
                 devServer: {
@@ -373,7 +370,7 @@ module.exports = (env) => {
     }
 
     rtnConfig = merge(rtnConfig, getConfig_devMode())
-    let commonConfig = commonConfig_func(devMode)
+    let commonConfig = commonConfig_func(devMode,options)
     rtnConfig = merge(commonConfig, rtnConfig)
     return rtnConfig
 }

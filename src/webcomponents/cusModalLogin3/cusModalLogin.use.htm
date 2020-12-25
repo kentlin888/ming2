@@ -26,7 +26,8 @@
     <!-- <link rel="stylesheet" href="../../styles/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="../../styles/fontawesome/css/solid.min.css">
     <link rel="stylesheet" href="../../styles/fontawesome/css/brands.min.css"> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <!-- ============ sweetAlert2 ============ -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- <link rel="stylesheet" href="../../template/style.css"> -->
@@ -123,6 +124,12 @@
                         //class-instance APPEAR!!  you can set template now~~~
                         let newComponent = new htmlFile.ctor(htmlFile.templateContent,plugins);
                         document.body.appendChild(newComponent)
+                        newComponent.proxyUI.bindIptSigninEmail = testData.email
+                        newComponent.proxyUI.bindIptSigninPWD = testData.password
+                        newComponent.proxyUI.bindIptRegisterEmail = testData.email//'ice4kimo@yahoo.com.tw'
+                        newComponent.proxyUI.bindIptRegisterPWD1= testData.password//'11111111'
+                        newComponent.proxyUI.bindIptRegisterPWD2= testData.password//'11111111'
+
                         //newComponent.setAuth_getRedirectResult();
                         // newComponent.setDataDefine({
                         //     UserProfile: UserProfile

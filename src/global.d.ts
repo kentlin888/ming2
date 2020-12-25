@@ -46,6 +46,7 @@ interface History {
 //     firebase:typeof firebase;
 // }
 //declare var $: typeof JQuery;
+declare var WebpackDefinePlugin:import('./js/dataDefine/webpackDefinePlugin.js')
 declare var Swal: typeof import("sweetalert2").default;
 declare var firebase: firebase;
 declare interface Window {

@@ -1,5 +1,29 @@
-
+let projectConfig = require('../../projectConfig/firebaseProj.config.json')
+let {databaseURL} = projectConfig
 describe('Connect2.spec.js', () => {
+    it('Prod.admin.auth.getUserByEmail', () => {
+        let admin = require('firebase-admin');
+        admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount),
+            databaseURL: databaseURL
+        });
+        let email_KT = 'ice4kimo@yahoo.com.tw';
+        return admin.auth().getUserByEmail(email_KT)
+            .then(function (userRecord) {
+                let boolResult = false;
+                if (userRecord)
+                    boolResult = true
+                chai.expect(boolResult).to.be.equal(true);
+            })
+
+        function DeleteUser(in_uid) {
+            admin.auth().deleteUser(in_uid)
+                .then(function () {
+                    process.exit(0); //success and exit
+                })
+                .catch(function (error) {});
+        }
+    })
 
     it('plain object vs class object', () => {
         class A {
