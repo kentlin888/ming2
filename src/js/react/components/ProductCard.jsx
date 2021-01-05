@@ -7,6 +7,7 @@ import * as shopCart_actions from '../actions/shopCart.js'
 //import ProductCard_css from './ProductCard.css'
 //import '../CategoryCard/CategoryCard.css'
 import '../containers/ProductListSearch.css'
+import { ProductInfo } from "../../dataDefine/index.js";
 
 export default class ProductCard extends PureComponent {
     static propTypes = {
@@ -39,10 +40,12 @@ export default class ProductCard extends PureComponent {
         
     }
     render() {
-        const { productInfo } = this.props
+        /**@type {ProductInfo} */
+        let productInfo= this.props.productInfo
+        //const { productInfo } = this.props
         return (
             <React.Fragment>
-                <li className="bd1 productCard">
+                <li className="bd1 productCard" data-testid={`prodName-${productInfo.name}`}>
                     <figure>
                         <figcaption className="b-textCenter">
                             <div >{productInfo.name}</div>

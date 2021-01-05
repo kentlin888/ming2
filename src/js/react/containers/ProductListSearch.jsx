@@ -337,7 +337,7 @@ export class App extends Component {
                         <div className="boxDeliveryTimeAddress b-flexCenter inputField1 bd4">
                             <span>運送地址</span>
                             {/* <div>{this.state.orderAddress}</div> */}
-                            <input type="text" placeholder="個人檔案中可以預設地址" defaultValue={this.state.orderAddress} onChange={this.handleInputChange}></input>
+                            <input type="text" placeholder="個人檔案中可以預設地址" data-testid="plsDeliveryAddress" defaultValue={this.state.orderAddress} onChange={this.handleInputChange}></input>
                         </div>
                         {/* <button onClick={this.showInvoicePopModal}>open Invoice</button> */}
                         <PopInvoice ref={this.state.refPopInvoice} orderInfo={this.state.orderInfo} dispatch={this.props.dispatch}></PopInvoice>

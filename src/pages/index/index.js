@@ -11,9 +11,12 @@ import FirebaseMJS, {
     Email_ResendPassword,
     FIRESTORE_COLLECTION
 } from '../../js/firebase/FirebaseMJS.js'
-import {ENUM_switchIndexPage} from './indexESM.js'
+import {
+    ENUM_switchIndexPage
+} from './indexESM.js'
 import _ from 'lodash'
-let assertLog = require('../../js/test/selenium/MDPages/index/index.assertLog.js')
+import assertLog from './index.assertLog.js'
+import {getPlainObject} from '../../js/lib/dataKits.js'
 // import firebase from "firebase/app";
 // import "firebase/auth"
 // import 'firebase/firestore'
@@ -126,11 +129,11 @@ window.app = {
     userData: null,
     history: null,
     switchIndexPage: switchIndexPage,
-    arrayGroupedCategories:null,
-    arrayProductInfo:null,
+    arrayGroupedCategories: null,
+    arrayProductInfo: null,
 }
 
-function switchIndexPage (enum_switchIndexPage) {
+function switchIndexPage(enum_switchIndexPage) {
     switch (enum_switchIndexPage) {
         case ENUM_switchIndexPage.ProductListSearch:
             proxyMainPageUI.isReactPage = true;
@@ -271,8 +274,8 @@ firebase.auth().onAuthStateChanged(function ( /**@type {any}*/ authUser) {
         //----window.app.userData not exist!
         if (!window.app.userData) {
             console.log('load user data from firestore...')
-            
-            function getDbUser(/**@type {string} */uid) {
+
+            function getDbUser( /**@type {string} */ uid) {
                 return db.collection(FIRESTORE_COLLECTION.Users).doc(uid).get()
                     .then(( /**@type {any}*/ querySnapshot) => {
                         if (querySnapshot.exists === false)
@@ -326,7 +329,8 @@ firebase.auth().onAuthStateChanged(function ( /**@type {any}*/ authUser) {
                         let userInfo = getUserInfo(authUser);
                         window.app.userData = userInfo;
                         //save info to db (First time)
-                        SetUserData(userInfo);
+                        let userData_fs = getPlainObject(userInfo)
+                        SetUserData(userData_fs);
                         // return true //new user
                     }
 
@@ -453,12 +457,17 @@ if (!proxyMainPageUI.cusModalLogin) {
             //class-instance APPEAR!!  you can set template now~~~
             /**@type {cusModalLogin} */
             let newComponent = new htmlFile.ctor(htmlFile.templateContent, plugins);
-            // newComponent.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
-            // newComponent.proxyUI.bindIptSigninPWD = '11111111'
-            // newComponent.proxyUI.bindIptRegisterEmail = 'ice4kimo@yahoo.com.tw'
-            // newComponent.proxyUI.bindIptRegisterPWD1= '11111111'
-            // newComponent.proxyUI.bindIptRegisterPWD2= '11111111'
             
+            // if (WebpackDefinePlugin.devMode) {
+            //     newComponent.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
+            //     newComponent.proxyUI.bindIptSigninPWD = '11111111'
+            //     newComponent.proxyUI.bindIptRegisterEmail = 'ice4kimo@yahoo.com.tw'
+            //     newComponent.proxyUI.bindIptRegisterPWD1 = '11111111'
+            //     newComponent.proxyUI.bindIptRegisterPWD2 = '11111111'
+            //     newComponent.proxyUI.bindIptResentPwdEmail = 'ice4kimo@yahoo.com.tw'
+            // }
+
+
             proxyMainPageUI.cusModalLogin = newComponent
             /**@type {any} */
             let node = newComponent

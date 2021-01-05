@@ -676,6 +676,11 @@ export function Email_ResendPassword(emailAddress, inFirebase, swal, funcCloseMo
                 title: '提醒',
                 text: '密碼已寄出，請至信箱收信',
                 icon: 'success',
+                didOpen: (htmlElement) => {
+                    $('.swal2-confirm').attr('data-testid','btnSwalConfirm');
+                    //console.log(assertLog.registerSuccess(true))
+                    //console.log("LOG: ~ file: cusModalLogin.js ~ line 311 ~ .then ~ htmlElement", htmlElement)
+                }
             })
             .then(() => {
                 //self.showModal(false)

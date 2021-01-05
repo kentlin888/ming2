@@ -1,3 +1,6 @@
+import assertLog from './cusModalLogin.assertLog.js'
+//const {duplicatedRegisterAccount, registerSuccess } = assertLog
+
 //@ts-check
 /**@enum {string} */
 const ENUM_switchPage = {
@@ -211,6 +214,14 @@ export default class cusModalLogin extends HTMLElement {
             // ...
         });
     }
+    clearAllInputs() {
+        this.proxyUI.bindIptSigninEmail = '';
+        this.proxyUI.bindIptSigninPWD = '';
+        this.proxyUI.bindIptRegisterEmail = '';
+        this.proxyUI.bindIptRegisterPWD1 = '';
+        this.proxyUI.bindIptRegisterPWD2 = '';
+        this.proxyUI.bindIptResentPwdEmail = '';
+    }
     /**
      * @function - show modal self
      * @param {boolean} isShow 
@@ -227,10 +238,24 @@ export default class cusModalLogin extends HTMLElement {
             keyboard: true
         }
         let strShow = null;
-        if (isShow == true)
+        if (isShow == true) {
+            this.proxyUI.switchPage = ENUM_switchPage.radioSignin;
+            this.clearAllInputs();
+            if (WebpackDefinePlugin && WebpackDefinePlugin.devMode) {
+                this.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
+                this.proxyUI.bindIptSigninPWD = '11111111'
+                this.proxyUI.bindIptRegisterEmail = 'ice4kimo@yahoo.com.tw'
+                this.proxyUI.bindIptRegisterPWD1 = '11111111'
+                this.proxyUI.bindIptRegisterPWD2 = '11111111'
+                this.proxyUI.bindIptResentPwdEmail = 'ice4kimo@yahoo.com.tw'
+            }
             strShow = 'show';
-        else
+        } else {
+            this.proxyUI.switchPage = ENUM_switchPage.radioSignin;
+            this.clearAllInputs();
             strShow = 'hide';
+        }
+
 
         $('#modalLogin').modal(strShow)
 
@@ -265,6 +290,7 @@ export default class cusModalLogin extends HTMLElement {
     //     );
     // }
     Email_Register() {
+        //ice4kimo@yahoo.com.tw
         let email = this.proxyUI.bindIptRegisterEmail;
         let password = this.proxyUI.bindIptRegisterPWD1;
         let persistence = this.getPersistence(this.proxyUI.bindCkboxSigninKeepIn)
@@ -275,22 +301,51 @@ export default class cusModalLogin extends HTMLElement {
             })
             // .then(() => {
             //     let user = this.firebase.auth().currentUser;
-            //     if (user)
+            //     if (user) // ice4kimo@yahoo.com.tw  11111111
             //         return this.checkDB_User(user); //newUser = true
             //     else
             //         return false //oldUser = false
             // })
-            .then((user) => {
-                //let user = self.firebase.auth().currentUser;
+            .then(() => {
+                let user = self.firebase.auth().currentUser;
                 return user.sendEmailVerification() // no return
                 //send verification email
 
             })
+            .then(() => {
+                return self.plugins.Swal.fire({
+                    title: '提醒',
+                    text: "認證信已寄出，請至信箱收信，並點選確認連結",
+                    icon: 'success',
+                    didOpen: (htmlElement) => {
+                        $('.swal2-confirm').attr('data-testid','btnSwalConfirm');
+                        console.log(assertLog.registerSuccess(true))
+                        //console.log("LOG: ~ file: cusModalLogin.js ~ line 311 ~ .then ~ htmlElement", htmlElement)
+                    }
+                    //confirmButtonText: 'Cool'
+                })
+            })
+            .then((e) => {
+                if (e.isConfirmed === true) {
+                    //window.app.switchIndexPage(ENUM_switchIndexPage.ViewOrders)
+                    self.showModal(false)
+                }
+            })
             .catch(function ( /**@type {any} */ error) {
                 // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                console.log(errorCode, errorMessage)
+                let errZhTw = getErrorMessageZHTW(error.code, error.message)
+                self.plugins.Swal.fire({
+                    title: '注意',
+                    text: `${errZhTw.errCodeZHTW},${errZhTw.errMessageZHTW}`,
+                    icon: 'warning',
+                    didOpen: (htmlElement) => {
+                        $('.swal2-confirm').attr('data-testid','btnSwalConfirm');
+                        console.log(assertLog.duplicatedRegisterAccount(true))
+                        //console.log("LOG: ~ file: cusModalLogin.js ~ line 311 ~ .then ~ htmlElement", htmlElement)
+                    }
+                    //confirmButtonText: 'Cool'
+                })
+                //auth/email-already-in-use The email address is already in use by another account.
                 // ...
             });
     }
@@ -326,7 +381,7 @@ export default class cusModalLogin extends HTMLElement {
                 let errZhTw = getErrorMessageZHTW(error.code, error.message)
 
                 self.plugins.Swal.fire({
-                
+
                     title: '注意',
                     text: `${errZhTw.errCodeZHTW},${errZhTw.errMessageZHTW}`,
                     icon: 'warning',
@@ -390,6 +445,9 @@ function getErrorMessageZHTW(errCode, errMessage) {
             break;
         case 'auth/wrong-password':
             errCodeZHTW = '密碼錯誤'
+            break;
+        case 'auth/email-already-in-use':
+            errCodeZHTW = '這個帳號已被註冊'
             break;
         default:
             errCodeZHTW = errCode;

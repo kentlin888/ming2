@@ -40,11 +40,12 @@ export default class ShopItem extends Component {
     
     render() {
         //console.log('this.shopItem-- ', this.shopItem)
-        const { shopItem } = this.props
+        /**@type {import('../../dataDefine/index.js').ShopItemInfo} */
+        const shopItem = this.props.shopItem
         //console.log('shopItem--> ', shopItem)
         //console.log('-----------------------')
         return (
-            <tr className="bd2 trShopitem">
+            <tr className="bd2 trShopitem" data-testid={`spitem-prodName-${shopItem.productName}`}>
                 <td className="tdProductName bd3">{shopItem.productInfo.name}</td>
                 <td className="bd3 tdPriceAmount">
                     <div className="divPriceAmount">

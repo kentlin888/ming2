@@ -216,3 +216,18 @@ export function recursiveToPlainObject(leafNode) {
 //     // isDate,
 //     // CheckVarExist
 // }
+export function getRandomString(charCount){
+    let uuid = Math.random().toString(36).substring(2, 2+charCount) // 36 carry bit, ignore '0.', get 8 char
+    return uuid
+}
+export function getMatches(content, regex) {
+    var matches = [];
+    var match;
+    let iTotalMatch = 0 // af=1fdsf1
+    let iOnlyVar = 1 //fdsf
+    let displayIndex = iOnlyVar
+    while (match = regex.exec(content)) {
+        matches.push(match[displayIndex]);
+    }
+    return matches;
+}

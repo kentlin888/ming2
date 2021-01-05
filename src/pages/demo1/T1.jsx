@@ -21,12 +21,18 @@ function appendImg(){
 }
 //let React = require('react')
 class T1 extends React.Component {
+    onLog111=() => {
+        console.log(1111111)
+    }
     render() {
         let imgPath = `../../assets/`
         return (
             <div>
-                PPP2229
+                <div>PPP2229</div>
                 <img src={`${imgPath}${old_street}`} alt=""/>
+                <div>
+                    <button id="btnLog111" data-testid="btnLog111" onClick={this.onLog111}>log 111111</button>
+                </div>
                 {/* <img src={old_street} alt=""/> */}
             </div>
         )

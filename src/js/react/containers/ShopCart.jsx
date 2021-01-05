@@ -21,7 +21,7 @@ import PopInvoice from '../components/PopInvoice.jsx'
 class ShopCart extends Component {
     static propTypes = {
         ['data-orderAddress']: PropTypes.string,
-        showInvoicePopModal:PropTypes.func,
+        showInvoicePopModal: PropTypes.func,
     }
     state = {
         orderInfo: new OrderInfo(),
@@ -76,14 +76,36 @@ class ShopCart extends Component {
 
 
     }
-    call_ShowInvoicePopModal = () => {
-        let {showInvoicePopModal} = this.props
-        
-        this._getOrderInfo()
-            .then((orderInfo) => {
-                orderInfo.fillShopItems(window.app.arrayProductInfo)
-                showInvoicePopModal(orderInfo)
+    call_ShowInvoicePopModal = async () => {
+        let { totalItemCount } = this.props;
+        if (totalItemCount === 0) {
+            await window.Swal.fire({
+                title: '提示',
+                text: `您的購物車沒有任何商品`,
+                icon: 'warning',
+                //confirmButtonText: '檢視我的訂單',
+                // denyButtonText: 'Cool',
+                cancelButtonText: '返回',
+                showConfirmButton: false,
+                // showDenyButton:true,
+                showCancelButton: true,
+                didOpen: (htmlElement) => {
+                    $('.swal2-cancel').attr('data-testid', 'btnSwalCancel');
+                    //console.log(assertLog.registerSuccess(true))
+                    //console.log("LOG: ~ file: cusModalLogin.js ~ line 311 ~ .then ~ htmlElement", htmlElement)
+                }
             })
+            return //not save db
+        }
+        else {
+            let { showInvoicePopModal } = this.props
+
+            this._getOrderInfo()
+                .then((orderInfo) => {
+                    orderInfo.fillShopItems(window.app.arrayProductInfo)
+                    showInvoicePopModal(orderInfo)
+                })
+        }
     }
 
 
@@ -182,13 +204,22 @@ class ShopCart extends Component {
                             </tr> */}
                             <tr>
                                 <td>小計</td>
-                                <td>NT$  {AllItems_Price}</td>
+                                <td>
+                                    <span>
+                                        <span>
+                                            NT$&nbsp;&nbsp;
+                                        </span>
+                                        <span data-testid="spcartSpan_AllItems_Price">
+                                            {AllItems_Price}
+                                        </span>
+                                    </span>
+                                </td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td colSpan={2}>
-                                    <button className="btn btn-block btn-success" onClick={this.call_ShowInvoicePopModal}>結帳</button>
+                                    <button className="btn btn-block btn-success" data-testid="spcartBtnCheckOut" onClick={this.call_ShowInvoicePopModal}>結帳</button>
                                 </td>
                             </tr>
                         </tfoot>

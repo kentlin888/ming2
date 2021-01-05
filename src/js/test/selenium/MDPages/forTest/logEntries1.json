@@ -1,0 +1,14 @@
+[
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///../node_modules/react-dom/cjs/react-dom.development.js 24993:16 \"%cDownload the React DevTools for a better development experience: https://fb.me/react-devtools\" \"font-weight:bold\"",
+        "timestamp": 1609388427886,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./pages/ReactApp/ReactApp.js 74:8 \"development\"",
+        "timestamp": 1609388427924,
+        "type": ""
+    }
+]

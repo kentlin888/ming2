@@ -1,5 +1,6 @@
 let webdriver = require('selenium-webdriver')
-let assertLog = require('./assertLog.js')
+import assertLog from './assertLog.js'
+
 let chai = require('chai')
 describe('assertLog.spec.js', () => {
 
@@ -37,8 +38,8 @@ describe('assertLog.spec.js', () => {
     })
 
     it('assertLog.isLoginSuccess()',() => {
-        let assertIndex = require('./MDPages/index/index.assertLog.js')
-        let assertMsg=assertIndex.loginSuccess(false)
+        let assertIndex = require('../../../pages/index/index.assertLog.js')
+        let assertMsg=assertIndex.default.loginSuccess(false)
         console.log("LOG: ~ file: assertLog.spec.js ~ line 42 ~ it ~ assertMsg", assertMsg)
     })
 })

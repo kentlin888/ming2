@@ -32,7 +32,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title titleWhite" id="exampleModalLabel">個人檔案</h5>
-                            <button type="button" class="close titleWhite cancelHover" data-dismiss="modal"
+                            <button type="button" class="close titleWhite cancelHover" data-testid="UserProfile_btnCloseModal" data-dismiss="modal"
                                 aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -49,33 +49,33 @@
                             </div>
                             <div class="form-group inputField1">
                                 <span class="titleWhite">帳號</span>
-                                <input type="email" id="iptEmail" readonly>
-                                <i class="fas fa-envelope emailColor" id="iFaEnvelope" title="Email Login"></i>
-                                <i class="fab fa-google googleColor" id="iFaGoogle" title="Google Login"></i>
-                                <i class="fas fa-exclamation-triangle emailWarning" id="iFaWarningEmailNotVerified" title="Email尚未通過驗證"></i>
+                                <input type="email" id="iptEmail" data-testid="UserProfile_iptEmail" readonly>
+                                <i class="fas fa-envelope emailColor" id="iFaEnvelope" data-testid="UserProfile_iFaEnvelope" title="Email Login"></i>
+                                <i class="fab fa-google googleColor" id="iFaGoogle" data-testid="UserProfile_iFaGoogle" title="Google Login"></i>
+                                <i class="fas fa-exclamation-triangle emailWarning" id="iFaWarningEmailNotVerified" data-testid="UserProfile_iFaWarningEmailNotVerified" title="Email尚未通過驗證"></i>
                             </div>
                             <div class="form-group inputField1">
                                 <span class="titleWhite">姓名</span>
-                                <input type="text" id="iptName" bindIptRegisterEmail required autocomplete="name">
+                                <input type="text" id="iptName" data-testid="UserProfile_iptName" bindIptRegisterEmail required autocomplete="name">
                             </div>
                             <div class="form-group inputField1">
                                 <!-- <label for="iptPhone">電話</label> -->
                                 <span class="titleWhite">電話</span>
-                                <input type="text" id="iptPhone" placeholder="+886" isDisable>
+                                <input type="text" id="iptPhone" data-testid="UserProfile_iptPhone" placeholder="+886" isDisable>
                                 <div style="display: inline-block;">
-                                    <button id="btnVerifyNumber" type="button" class="btnLighten" isShow
+                                    <button id="btnVerifyNumber" data-testid="UserProfile_btnVerifyNumber" type="button" class="btnLighten" isShow
                                         isDisable>驗證電話號碼</button>
                                 </div>
                                 <!-- <input id="btn2" type="button" name="submit" value="submit" /> -->
-                                <button id="btnDeleteNumber" class="btnLighten" type="button" isShow>刪除電話號碼</button>
+                                <button id="btnDeleteNumber" data-testid="UserProfile_btnDeleteNumber" class="btnLighten" type="button" isShow>刪除電話號碼</button>
                             </div>
-                            <div id="divInputPhoneFailed" class="divMessageFailed" isShow>
+                            <div id="divInputPhoneFailed" data-testid="UserProfile_divInputPhoneFailed" class="divMessageFailed" isShow>
                                 輸入電話失敗
                             </div>
                             <div id="divVerifyCode" class="form-group divVerifyCode inputField1" isShow>
                                 <span class="titleWhite">輸入簡訊驗證碼</span>
-                                <input type="text" id="iptPhoneVerifyCode" class="width30" isDisable>
-                                <button id="btnSendVerifyCode" type="button" class="btnLighten" isDisable>送出驗證碼</button>
+                                <input type="text" id="iptPhoneVerifyCode" data-testid="UserProfile_iptPhoneVerifyCode" class="width30" isDisable>
+                                <button id="btnSendVerifyCode" data-testid="UserProfile_btnSendVerifyCode" type="button" class="btnLighten" isDisable>送出驗證碼</button>
                                 <!-- <input type="text" id="iptName" bindIptRegisterEmail required autocomplete="name"> -->
                             </div>
                             <!-- <div id="divVerifyCode" isShow>
@@ -83,20 +83,20 @@
                                 <input type="text" id="iptPhoneVerifyCode" class="input fullWidth" isDisable>
                                 <button id="btnSendVerifyCode" type="button" class="btnLighten" isDisable>送出驗證碼</button>
                             </div> -->
-                            <div id="divVerifyFailed" class="divMessageFailed" isShow>
+                            <div id="divVerifyFailed" data-testid="UserProfile_divVerifyFailed" class="divMessageFailed" isShow>
                                 驗證失敗
                             </div>
 
                             <div class="form-group inputField1">
                                 <span class="titleWhite">預設地址</span>
-                                <input type="text" id="iptAddress" bindIptAddress autocomplete="street-address">
+                                <input type="text" id="iptAddress" data-testid="UserProfile_iptAddress" bindIptAddress autocomplete="street-address">
                             </div>
                             <!-- <button style="display: inline-block;width: 100%;">ddd</button> -->
                             
-                            <button type="button" id="btnResendEmailVerify" class="btnSave emailWarning">重寄Email認證信</button>
-                            <button type="submit" id="btnSaveProfile" class="btnSave">儲存</button>
+                            <button type="button" id="btnResendEmailVerify" data-testid="UserProfile_btnResendEmailVerify" class="btnSave emailWarning">重寄Email認證信</button>
+                            <button type="submit" id="btnSaveProfile" data-testid="UserProfile_btnSaveProfile" class="btnSave">儲存</button>
                             <!-- <button type="button" id="btnModifyPassword" class="btnSave">修改密碼(Email帳號)</button> -->
-                            <button type="button" id="btnResendPassword" class="btnSave">重寄密碼</button>
+                            <button type="button" id="btnResendPassword" data-testid="UserProfile_btnResendPassword" class="btnSave">重寄密碼</button>
                             <div class="footerHeight"></div>
                         </div>
 

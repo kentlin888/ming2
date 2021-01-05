@@ -1,0 +1,302 @@
+[
+    {
+        "name": "炒米粉",
+        "addDateTime": {
+            "_seconds": 1606633003,
+            "_nanoseconds": 86000000
+        },
+        "tag": "#",
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/mainCourse%2F%E7%82%92%E7%B1%B3%E7%B2%89.jpg?alt=media&token=20533856-d1f4-4e7d-a31b-89c5d01cc17b",
+        "imgFileName": "default.png",
+        "price": 600,
+        "category": "mainCourse",
+        "productId": "0001-jqs",
+        "isActived": false,
+        "autoNum": 1
+    },
+    {
+        "autoNum": 2,
+        "tag": "#",
+        "name": "炒麵",
+        "productId": "0002-7ta",
+        "addDateTime": {
+            "_seconds": 1606633003,
+            "_nanoseconds": 251000000
+        },
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/mainCourse%2F%E7%82%92%E9%BA%B5.jpg?alt=media&token=0bcb8e5d-79c7-483a-9fec-0dd396904925",
+        "imgFileName": "default.png",
+        "category": "mainCourse",
+        "price": 600,
+        "isActived": false
+    },
+    {
+        "autoNum": 3,
+        "category": "mainCourse",
+        "name": "蝦子炒飯",
+        "isActived": false,
+        "imgFileName": "default.png",
+        "addDateTime": {
+            "_seconds": 1606633003,
+            "_nanoseconds": 449000000
+        },
+        "price": 600,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/mainCourse%2F%E8%9D%A6%E5%AD%90%E7%82%92%E9%A3%AF.jpg?alt=media&token=e9f6d34d-4d16-42ec-94ae-14a601218f39",
+        "tag": "#",
+        "productId": "0003-f9k"
+    },
+    {
+        "category": "meats",
+        "productId": "0004-dbc",
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/meats%2F%E7%89%9B%E8%85%B1%E7%89%9B%E8%82%9A.jpg?alt=media&token=dc04f59b-3946-4567-9007-b03742a63ce2",
+        "addDateTime": {
+            "_seconds": 1606633003,
+            "_nanoseconds": 651000000
+        },
+        "imgFileName": "default.png",
+        "tag": "#",
+        "autoNum": 4,
+        "price": 600,
+        "isActived": false,
+        "name": "滷牛腱牛肚"
+    },
+    {
+        "addDateTime": {
+            "_seconds": 1606633003,
+            "_nanoseconds": 841000000
+        },
+        "tag": "#",
+        "isActived": false,
+        "imgFileName": "default.png",
+        "price": 600,
+        "category": "meats",
+        "productId": "0005-q0b",
+        "name": "冰釀雞腿",
+        "autoNum": 5,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/meats%2F%E5%86%B0%E9%87%80%E9%9B%9E%E8%85%BF.png?alt=media&token=1361077e-fd48-4677-8106-4d77f0c16577"
+    },
+    {
+        "tag": "#",
+        "price": 600,
+        "isActived": false,
+        "productId": "0006-yzc",
+        "addDateTime": {
+            "_seconds": 1606633004,
+            "_nanoseconds": 39000000
+        },
+        "category": "meats",
+        "name": "燻鴨",
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/meats%2F%E7%87%BB%E9%B4%A8.jpg?alt=media&token=73b231d3-461f-480e-86f6-85d31abaf51f",
+        "autoNum": 6,
+        "imgFileName": "default.png"
+    },
+    {
+        "category": "meats",
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/meats%2F%E7%87%BB%E9%9B%9E.jpg?alt=media&token=93589cd6-ea48-499b-b904-45ec719d27a4",
+        "tag": "#",
+        "name": "燻雞",
+        "autoNum": 7,
+        "isActived": false,
+        "price": 600,
+        "addDateTime": {
+            "_seconds": 1606633004,
+            "_nanoseconds": 242000000
+        },
+        "imgFileName": "default.png",
+        "productId": "0007-ovb"
+    },
+    {
+        "tag": "#",
+        "name": "客家鹹湯圓",
+        "addDateTime": {
+            "_seconds": 1606633004,
+            "_nanoseconds": 408000000
+        },
+        "price": 600,
+        "category": "soups",
+        "isActived": false,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/soups%2F%E5%AE%A2%E5%AE%B6%E9%B9%B9%E6%B9%AF%E5%9C%93.jpg?alt=media&token=87266fa6-d271-4b1c-a791-f15e94799cec",
+        "imgFileName": "default.png",
+        "autoNum": 8,
+        "productId": "0008-8nx"
+    },
+    {
+        "addDateTime": {
+            "_seconds": 1606633004,
+            "_nanoseconds": 547000000
+        },
+        "category": "soups",
+        "tag": "#",
+        "price": 600,
+        "isActived": false,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/soups%2F%E9%A6%99%E8%8F%87%E9%9B%9E%E6%B9%AF.jpg?alt=media&token=d0d0a497-13e7-4384-92c5-b663529ac121",
+        "name": "香菇雞湯",
+        "productId": "0009-h7x",
+        "autoNum": 9,
+        "imgFileName": "default.png"
+    },
+    {
+        "price": 600,
+        "isActived": false,
+        "imgFileName": "default.png",
+        "productId": "0010-wkp",
+        "autoNum": 10,
+        "addDateTime": {
+            "_seconds": 1606633004,
+            "_nanoseconds": 702000000
+        },
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/soups%2F%E7%B4%85%E8%B1%86%E6%B9%AF%E5%9C%93.jpg?alt=media&token=8c958f17-6e66-4ad6-8577-84de81d8a27c",
+        "name": "紅豆湯圓",
+        "category": "soups",
+        "tag": "#"
+    },
+    {
+        "productId": "0011-ni8",
+        "isActived": false,
+        "name": "綠豆薏仁",
+        "price": 600,
+        "imgFileName": "default.png",
+        "addDateTime": {
+            "_seconds": 1606633004,
+            "_nanoseconds": 856000000
+        },
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/soups%2F%E7%B6%A0%E8%B1%86%E8%96%8F%E4%BB%81.jpg?alt=media&token=54260253-5b13-4048-b6fb-8e506b287859",
+        "autoNum": 11,
+        "category": "soups",
+        "tag": "#"
+    },
+    {
+        "autoNum": 12,
+        "category": "stirFired",
+        "tag": "#",
+        "price": 200,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/stireFired%2F%E9%B9%B9%E8%9B%8B%E8%8B%A6%E7%93%9C.jpg?alt=media&token=86df2d96-bfb7-47cd-a157-86aa0a30e5d8",
+        "name": "鹹蛋苦瓜",
+        "addDateTime": {
+            "_seconds": 1606633004,
+            "_nanoseconds": 960000000
+        },
+        "productId": "0012-jle",
+        "imgFileName": "default.png",
+        "isActived": false
+    },
+    {
+        "category": "stirFired",
+        "addDateTime": {
+            "_seconds": 1606633005,
+            "_nanoseconds": 50000000
+        },
+        "productId": "0013-4y3",
+        "isActived": false,
+        "tag": "#",
+        "imgFileName": "default.png",
+        "autoNum": 13,
+        "name": "辣子雞丁",
+        "price": 200,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/stireFired%2F%E8%BE%A3%E5%AD%90%E9%9B%9E%E4%B8%81.jpg?alt=media&token=b02693f0-a928-445c-afbe-803d337d01ee"
+    },
+    {
+        "addDateTime": {
+            "_seconds": 1606633005,
+            "_nanoseconds": 172000000
+        },
+        "price": 200,
+        "tag": "#",
+        "imgFileName": "default.png",
+        "isActived": false,
+        "autoNum": 14,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/stireFired%2F%E8%9C%9C%E6%B1%81%E8%B1%86%E5%B9%B2.jpg?alt=media&token=b28c050f-6656-4cee-bd87-801ff7f347d3",
+        "productId": "0014-33a",
+        "category": "stirFired",
+        "name": "蜜汁豆干"
+    },
+    {
+        "autoNum": 15,
+        "isActived": false,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/stireFired%2F%E7%82%92%E9%AB%98%E9%BA%97%E8%8F%9C.jpg?alt=media&token=988cb623-e70e-446f-b346-d73b1f20f2b2",
+        "name": "炒高麗菜",
+        "price": 200,
+        "addDateTime": {
+            "_seconds": 1606633005,
+            "_nanoseconds": 286000000
+        },
+        "tag": "#",
+        "productId": "0015-qtg",
+        "category": "stirFired",
+        "imgFileName": "default.png"
+    },
+    {
+        "imgFileName": "default.png",
+        "isActived": false,
+        "autoNum": 16,
+        "price": 200,
+        "tag": "#",
+        "productId": "0016-08a",
+        "category": "stirFired",
+        "name": "炒青花菜",
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/stireFired%2F%E7%82%92%E9%9D%92%E8%8A%B1%E8%8F%9C.jpg?alt=media&token=e00b1e0e-3f2a-498a-8ac1-7caf07fe40ba",
+        "addDateTime": {
+            "_seconds": 1606633005,
+            "_nanoseconds": 447000000
+        }
+    },
+    {
+        "imgFileName": "default.png",
+        "price": 200,
+        "name": "炒生鮮菇",
+        "tag": "#",
+        "isActived": false,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/stireFired%2F%E7%82%92%E7%94%9F%E9%AE%AE%E8%8F%87.png?alt=media&token=9620b255-8bd5-4702-ac00-014ff386c570",
+        "addDateTime": {
+            "_seconds": 1606633005,
+            "_nanoseconds": 534000000
+        },
+        "category": "stirFired",
+        "productId": "0017-1q6",
+        "autoNum": 17
+    },
+    {
+        "tag": "#",
+        "productId": "0018-zgl",
+        "category": "stirFired",
+        "isActived": false,
+        "name": "三杯中卷",
+        "imgFileName": "default.png",
+        "autoNum": 18,
+        "addDateTime": {
+            "_seconds": 1606633005,
+            "_nanoseconds": 625000000
+        },
+        "price": 600,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/stireFired%2F%E4%B8%89%E6%9D%AF%E4%B8%AD%E5%8D%B7.jpg?alt=media&token=38b62b7e-5e51-444b-9ef6-fabf2d54d0b7"
+    },
+    {
+        "addDateTime": {
+            "_seconds": 1606633005,
+            "_nanoseconds": 749000000
+        },
+        "price": 200,
+        "name": "涼拌海蜇皮小黃瓜",
+        "isActived": false,
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/coldPlates%2F%E6%B5%B7%E8%9C%87%E7%9A%AE%E5%B0%8F%E9%BB%83%E7%93%9C.jpg?alt=media&token=d2648f12-5cc1-47d2-b0c0-2e8084a7f2b8",
+        "category": "coldPlates",
+        "imgFileName": "default.png",
+        "productId": "0019-xes",
+        "tag": "#",
+        "autoNum": 19
+    },
+    {
+        "category": "coldPlates",
+        "autoNum": 20,
+        "imgFileName": "default.png",
+        "tag": "#",
+        "price": 200,
+        "name": "蒜香黑胡椒毛豆",
+        "productId": "0020-jho",
+        "imgUrl": "https://firebasestorage.googleapis.com/v0/b/ming2-1a7e1.appspot.com/o/coldPlates%2F%E8%92%9C%E9%A6%99%E9%BB%91%E8%83%A1%E6%A4%92%E6%AF%9B%E8%B1%86.jpg?alt=media&token=dd593d1e-c0a4-42c2-a5fb-ac63d68a41e5",
+        "addDateTime": {
+            "_seconds": 1606633005,
+            "_nanoseconds": 844000000
+        },
+        "isActived": false
+    }
+]

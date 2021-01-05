@@ -4,6 +4,10 @@ const {
         until
     } = require('selenium-webdriver')
 module.exports = {
+    // REVIEW btnCloseModal
+    //![](imgs/btnCloseModal.png)
+    btnCloseModal:By.css("[data-testid='btnCloseModal']"),
+    //
     // REVIEW iptSignInEmail
     //![](imgs/iptSignInEmail.png)
     iptSignInEmail:By.css("[data-testid='iptSignInEmail']"),
@@ -55,5 +59,9 @@ module.exports = {
     // REVIEW btnResentPassword
     //![](imgs/btnResentPassword.png)
     btnResentPassword:By.css("[data-testid='btnResentPassword']"),
+    //
+    // REVIEW btnSwalConfirm
+    //![](imgs/btnSwalConfirm.png)
+    btnSwalConfirm:By.css("[data-testid='btnSwalConfirm']"),
     //
 }

@@ -1,0 +1,20 @@
+[
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/components/Invoice.jsx 158:14 \"LOG: ~ file: Invoice.jsx ~ line 28 ~ Invoice ~ render ~ shopItemList\" Array(0)",
+        "timestamp": 1609388428044,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./pages/index/index.js 235:16 \"assertLog:[index-loginSuccess]  false\"",
+        "timestamp": 1609388428081,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./pages/index/index.js 240:16 \"assertLog:[index-displayLoginName]  null\"",
+        "timestamp": 1609388428081,
+        "type": ""
+    }
+]
