@@ -1,18 +1,8 @@
 import assertLog from '../assertLog.js'
-import assertIndex from '../../../../pages/index/index.assertLog.js'
-import assertcusModalLogin from '../../../../webcomponents/cusModalLogin3/cusModalLogin.assertLog.js'
 import EntryManager from '../entryManager.js'
-import {
-    getRandomString
-} from '../../../lib/dataKits.js'
-import {
-    resolve
-} from 'dns'
-import {
-    ProductInfo,
-    UserData
-} from '../../../dataDefine/index.js'
+
 let seleniumKits = require('./seleniumKits.js')
+
 /**@type {index} */
 let index = require('../MDPages/index/index.md');
 /**@type {cusModalLogin} */
@@ -27,18 +17,11 @@ let ShopCart = require('../MDPages/ShopCart/ShopCart.md');
 let ShopItem = require('../MDPages/ShopItem/ShopItem.md');
 /**@type {Invoice} */
 let Invoice = require('../MDPages/Invoice/Invoice.md');
+/**@type {ProductCard} */
+let ProductCard = require('../MDPages/ProductCard/ProductCard.md');
 
-
-//let {assert} = require('chai')
-//let assertIndex = require('../../../../pages/index/index.assertLog.js')
 let webdriver = require('selenium-webdriver')
-const {
-    Builder,
-    By,
-    Key,
-    until
-} = webdriver //require('selenium-webdriver')
-//const assert = require('assert')
+
 const {
     assert
 } = require('chai')
@@ -50,54 +33,26 @@ const {
 } = assertLog
 
 const testdata = require('../../../../../adminData/testdata.json')
-//-------chrome options
-let chrome = require('selenium-webdriver/chrome')
-const {
-    doesNotReject
-} = require('assert')
-
-
-var options = new chrome.Options();
-options.addArguments("--start-maximized"); // 启动就最大化，而不是像后面再使用 maximize() 那样之后再最大化
-//options.addArguments("disable-extensions");
-var prefs = new webdriver.logging.Preferences();
-prefs.setLevel(webdriver.logging.Type.BROWSER, webdriver.logging.Level.ALL);
-options.setLoggingPrefs(prefs);
-
-let service;
-let pathDriver = path.join(__dirname, '../chromedriver.exe')
-
-
 
 
 describe('login2.spec.js', async function () {
-
-
+    this.timeout(15 * 1000)
+    let pathDriver = path.join(__dirname, '../chromedriver.exe')
+    let chromeOptions = null; //new chrome.Options();
     /**@type {webdriver.ThenableWebDriver} */
-    let driver //= new webdriver.Builder().forBrowser('chrome').build();
-    let vars
-    vars = {}
-
+    let driver
     let entryManager = new EntryManager();
-    
-
+    /**@type {seleniumKits.getBrowserConsoleLog} */
+    let getBrowserConsoleLog
+    let monitorEntries
     before(async function () {
 
-        // exe 安装之后在根目录找到chromedriver.exe
-        if (fs.existsSync(pathDriver)) {
-            //console.log(path.join(__dirname, 'chromedriver.exe'));
-            service = new chrome.ServiceBuilder(pathDriver).build();
-        }
-        chrome.setDefaultService(service);
-        this.timeout(15 * 1000)
-        driver = new webdriver.Builder()
-            .setChromeOptions(options)
-            .withCapabilities(webdriver.Capabilities.chrome())
-            .forBrowser('chrome')
-            .build();
-
-        seleniumKits.bindBy(driver)
+        /**@type {webdriver.ThenableWebDriver} */
+        driver = seleniumKits.buildDriver(pathDriver, chromeOptions);
+        getBrowserConsoleLog = seleniumKits.getBrowserConsoleLog.bind(null, driver)
         
+        monitorEntries = entryManager.monitorEntries.bind(entryManager, getBrowserConsoleLog)
+
 
         const TIMEOUT = 9 * 1000 * 1000 // seconds
         await driver.manage().setTimeouts({
@@ -116,50 +71,26 @@ describe('login2.spec.js', async function () {
         //await driver.sleep(1000)
     })
 
+
     beforeEach(async function () {
-        // driver = new webdriver.Builder()
-        //     .setChromeOptions(options)
-        //     .withCapabilities(webdriver.Capabilities.chrome())
-        //     .forBrowser('chrome')
-        //     .build();
-        // vars = {}
+
     })
     afterEach(async function () {
         //await driver.quit();
     })
 
-
     /**@type {webdriver.WebElement} */
     let elem
     let elemTimeout = 5000;
-    
-    let sAssertText = ''
-    /**@type {webdriver.logging.Entry[]} */
-    let logs
-    /**@type {webdriver.logging.Entry[]} */
-    let findEntries
-    let assertMsg = ''
-
-    function getBrowserConsoleLog() {
-        return driver.manage().logs().get(webdriver.logging.Type.BROWSER)
-    }
-
-
-
 
     async function _loginEmail() {
-        //(await cusModalLogin.iptSignInEmail.findElement()).
-        
         (await index.btnLogin.findElement()).click();
-        //(await getElement(index.btnLogin)).click();
-        //(await cusModalLogin.iptSignInEmail.findElement()).
         await driver.sleep(1000); //wait for css animation
-        (await (cusModalLogin.iptSignInEmail.findElement())).clear();
-        (await (cusModalLogin.iptSignInEmail.findElement())).sendKeys(testdata.email);
-        (await (cusModalLogin.iptSignInPassword.findElement())).clear();
-        (await (cusModalLogin.iptSignInPassword.findElement())).sendKeys(testdata.password);
-        (await (cusModalLogin.btnEmailSignin.findElement())).click();
-        
+        (await cusModalLogin.iptSignInEmail.findElement()).clear();
+        (await cusModalLogin.iptSignInEmail.findElement()).sendKeys(testdata.email);
+        (await cusModalLogin.iptSignInPassword.findElement()).clear();
+        (await cusModalLogin.iptSignInPassword.findElement()).sendKeys(testdata.password);
+        (await cusModalLogin.btnEmailSignin.findElement()).click();
     }
     async function _assertDisplayEMail() {
         //assert
@@ -168,10 +99,37 @@ describe('login2.spec.js', async function () {
         elem = (await index.spanNumberBadge2.findElement());
         assert(await elem.getText() === '0');
     }
-    it('未登入 - 購物車無法 +產品 / 結帳，', async function () {
+    async function _openMyProfile() {
+        (await index.spanDisplayEmail.findElement()).click();
+        // await index.aMyProfile.until_assert_elementIsVisible(elemTimeout);
+        // await driver.sleep(3000);
+        (await index.aMyProfile.findElement()).click();
+    }
+    it('未登入 - 購物車無法 +產品 / 結帳', async function () {
+        //await _loginEmail();
+        await (await index.navitemOrderProducts.findElement()).click();
+        await driver.sleep(1000);
+        //await ProductListSearch.plsDeliveryAddress.waitUntil_ElementTextIs(userData.userProfile.address);
+        let iptValue = await ProductListSearch.plsDeliveryAddress.jsGetInputValue();
+        assert(iptValue == "");
+        //buy rice - NG
+        (await ProductListSearch.btnAddProdcardRice.findElement()).click();
+        await driver.sleep(1000);
+        (await ProductCard.btnSwalCancel.findElement()).click();
+        //login
+        //await driver.sleep(1000);
         await _loginEmail();
+        await _assertDisplayEMail();//wait for login success        
+        //buy rice - OK
+        (await ProductListSearch.btnAddProdcardRice.findElement()).click();
+        // email logout
+        (await index.spanDisplayEmail.findElement()).click();
+        (await index.aLogout.findElement()).click();
+        await driver.sleep(1000);
+        //結帳
+        (await ShopCart.spcartBtnCheckOut.findElement()).click();
+        await driver.sleep(1000);
+        (await ShopCart.btnSwalCancel.findElement()).click();
     })
-
-
-
+    
 })

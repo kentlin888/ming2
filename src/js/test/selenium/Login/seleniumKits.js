@@ -151,9 +151,50 @@ bindBy();
 
 // }
 
+/**
+ * 
+ * @param {string} pathChromedriver 
+ * @param {chrome.Options} chromeOptions
+ * @returns {webdriver.ThenableWebDriver}
+ */
+function buildDriver(pathChromedriver, chromeOptions) {
+    //-------chrome options
+    let chrome = require('selenium-webdriver/chrome')
+    const {
+        doesNotReject
+    } = require('assert')
 
 
-module.exports={
-    bindBy,
+    let options = new chrome.Options();
+    options.addArguments("--start-maximized"); // 启动就最大化，而不是像后面再使用 maximize() 那样之后再最大化
+    //options.addArguments("disable-extensions");
+    var prefs = new webdriver.logging.Preferences();
+    prefs.setLevel(webdriver.logging.Type.BROWSER, webdriver.logging.Level.ALL);
+    options.setLoggingPrefs(prefs);
+
+    let service;
+    let pathDriver = path.join(__dirname, '../chromedriver.exe')
+
+    // exe 安装之后在根目录找到chromedriver.exe
+    if (fs.existsSync(pathDriver)) {
+        //console.log(path.join(__dirname, 'chromedriver.exe'));
+        service = new chrome.ServiceBuilder(pathDriver).build();
+    }
+    chrome.setDefaultService(service);
+    /**@type {webdriver.ThenableWebDriver} */
+    let driver = new webdriver.Builder() //= new webdriver.Builder().forBrowser('chrome').build();
+        .setChromeOptions(options)
+        .withCapabilities(webdriver.Capabilities.chrome())
+        .forBrowser('chrome')
+        .build();
+    bindBy(driver)
+    return driver
+}
+async function getBrowserConsoleLog(driver) {
+    return await driver.manage().logs().get(webdriver.logging.Type.BROWSER)
+}
+module.exports = {
+    buildDriver,
+    getBrowserConsoleLog,
     //bindWebElement
 }

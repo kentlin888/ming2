@@ -28,7 +28,13 @@ export default class EntryManager {
         })
     }
 
-    async monitorEntries(assertMsg, getLog, timeoutSeconds) {
+    /**
+     * 
+     * @param {Function} getLog 
+     * @param {string} assertMsg 
+     * @param {number} timeoutSeconds - timeout seconds
+     */
+    async monitorEntries(getLog, assertMsg, timeoutSeconds) {
         let times = timeoutSeconds * 2
         for (let i = 0; i < times; i++) {
             let bl = await this.promise_findLog_withAssert(assertMsg, getLog)

@@ -78,9 +78,27 @@ class ShopCart extends Component {
     }
     call_ShowInvoicePopModal = async () => {
         let { totalItemCount } = this.props;
-        if (totalItemCount === 0) {
+        if(window.app.userData === null){
+            window.Swal.fire({
+                title: '提醒',
+                text: `請先登入您的帳號,以便結帳`,
+                icon: 'warning',
+                //confirmButtonText: '檢視我的訂單',
+                // denyButtonText: 'Cool',
+                cancelButtonText: '返回',
+                showConfirmButton: false,
+                // showDenyButton:true,
+                showCancelButton: true,
+                didOpen: (htmlElement) => {
+                    $('.swal2-cancel').attr('data-testid', 'btnSwalCancel');
+                    //console.log(assertLog.registerSuccess(true))
+                    //console.log("LOG: ~ file: cusModalLogin.js ~ line 311 ~ .then ~ htmlElement", htmlElement)
+                }
+            })
+        }
+        else if (totalItemCount === 0) {
             await window.Swal.fire({
-                title: '提示',
+                title: '提醒',
                 text: `您的購物車沒有任何商品`,
                 icon: 'warning',
                 //confirmButtonText: '檢視我的訂單',

@@ -16,7 +16,9 @@ import {
 } from './indexESM.js'
 import _ from 'lodash'
 import assertLog from './index.assertLog.js'
-import {getPlainObject} from '../../js/lib/dataKits.js'
+import {
+    getPlainObject
+} from '../../js/lib/dataKits.js'
 // import firebase from "firebase/app";
 // import "firebase/auth"
 // import 'firebase/firestore'
@@ -110,11 +112,12 @@ var proxyMainPageUI = {
     cusModalUserProfile: null,
 }
 
-/**
- * @callback pushUrlFunc
- * @param {string} url - ...
- */
+
 window.app = {
+    /**
+     * @callback pushUrlFunc
+     * @param {string} url - ...
+     */
     pushUrl: (url) => {
         /* history.push(?) */
     },
@@ -132,6 +135,33 @@ window.app = {
     arrayGroupedCategories: null,
     arrayProductInfo: null,
 }
+window.app = new Proxy(window.app, {
+    get: function ( /**@type {any} */ target, /**@type {any} */ prop) {
+        return target[prop];
+    },
+    set: function ( /**@type {any} */ target, /**@type {any} */ prop, value){
+        switch (prop) {
+            case 'userData':
+                if(value===null){
+                    proxyUserMenuDropdown.isLogin = false;
+                    proxyUserMenuDropdown.loginName = ''
+                }
+                else{
+                    let newUserData = value;//target[prop];
+                    proxyUserMenuDropdown.isLogin = true;
+                    proxyUserMenuDropdown.loginName = newUserData.email
+                }
+                break;
+        
+            default:
+                break;
+        }
+        target[prop]=value;
+        return true;
+    }
+})
+    
+    
 
 function switchIndexPage(enum_switchIndexPage) {
     switch (enum_switchIndexPage) {
@@ -457,7 +487,7 @@ if (!proxyMainPageUI.cusModalLogin) {
             //class-instance APPEAR!!  you can set template now~~~
             /**@type {cusModalLogin} */
             let newComponent = new htmlFile.ctor(htmlFile.templateContent, plugins);
-            
+
             // if (WebpackDefinePlugin.devMode) {
             //     newComponent.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
             //     newComponent.proxyUI.bindIptSigninPWD = '11111111'
@@ -578,6 +608,7 @@ aLogout.addEventListener('click', (e) => {
     e.preventDefault()
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
+        window.app.userData = null;
     }).catch(function ( /**@type {any}*/ error) {
         // An error happened.
     });

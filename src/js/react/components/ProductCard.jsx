@@ -31,13 +31,31 @@ export default class ProductCard extends PureComponent {
     }
     btnAddToCart = (/**@type {any}*/e) => {
         const { productInfo, dispatch } = this.props
-        //console.log(this.props)
-        //console.log('productInfo---> ', productInfo)
-        this.boundActionCreators.add_shopCart(1, productInfo);
-        setTimeout(() => {
-            this.refShopcartBox.current.scroll(0,this.refShopcartBox.current.scrollHeight)
-        }, 500);
-        
+        if(window.app.userData === null){
+            window.Swal.fire({
+                title: '提醒',
+                text: `請先登入您的帳號,以便開始選購商品`,
+                icon: 'warning',
+                //confirmButtonText: '檢視我的訂單',
+                // denyButtonText: 'Cool',
+                cancelButtonText: '返回',
+                showConfirmButton: false,
+                // showDenyButton:true,
+                showCancelButton: true,
+                didOpen: (htmlElement) => {
+                    $('.swal2-cancel').attr('data-testid', 'btnSwalCancel');
+                    //console.log(assertLog.registerSuccess(true))
+                    //console.log("LOG: ~ file: cusModalLogin.js ~ line 311 ~ .then ~ htmlElement", htmlElement)
+                }
+            })
+        }else{
+            //alredy login
+            this.boundActionCreators.add_shopCart(1, productInfo);
+            setTimeout(() => {
+            
+                this.refShopcartBox.current.scroll(0,this.refShopcartBox.current.scrollHeight)
+            }, 500);
+        }
     }
     render() {
         /**@type {ProductInfo} */

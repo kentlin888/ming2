@@ -15,6 +15,7 @@ let ENUM_mdId = {
     ShopCart:"ShopCart",
     ShopItem:"ShopItem",
     Invoice:"Invoice",
+    ProductCard:"ProductCard",
 }
 let generateId = null//['forTest','index','cusModalLogin']
 let data = [
@@ -55,6 +56,12 @@ let data = [
         srcMdFolder:'./MDPages/Invoice',
         filenameMdConfig:null,//不指定檔案,使用default
         srcHtml:'../../react/components/Invoice.jsx',
+    },
+    {
+        id:ENUM_mdId.ProductCard,
+        srcMdFolder:'./MDPages/ProductCard',
+        filenameMdConfig:null,//不指定檔案,使用default
+        srcHtml:'../../react/components/ProductCard.jsx',
     },
     // {
     //     id:ENUM_mdId.,
