@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { OrderInfo } from '../../dataDefine/index.js'
 import Invoice from './Invoice.jsx'
-import {ENUM_switchIndexPage} from '../../../pages/index/indexESM.js'
+import { ENUM_switchIndexPage } from '../../../pages/index/indexESM.js'
 import * as shopCart_actions from '../actions/shopCart'
 import { bindActionCreators } from 'redux'
 import './PopInvoice.css'
+import assertLog from './PopInvoice.assertLog.js'
 export default class PopInvoice extends Component {
     static propTypes = {
         orderInfo: PropTypes.instanceOf(OrderInfo).isRequired,
-        dispatch:PropTypes.any.isRequired
+        dispatch: PropTypes.any.isRequired
         // userData:PropTypes.instanceOf(OrderInfo),
         // orderAddress:PropTypes.string,
         // totalPrice:PropTypes.number,
@@ -25,10 +26,10 @@ export default class PopInvoice extends Component {
         //this.showModal(true)
     }
     showModal(isShow) {
-        let sOption = (isShow === true)?'show':'hide';
+        let sOption = (isShow === true) ? 'show' : 'hide';
         $(this.refModal.current).modal(sOption)
     }
-    
+
     // _getOrderInfo = () => {
     //     let orderInfo = this._getOrderInfo_FromShopItems(this.props.shopItemList);
     //     orderInfo.orderAddress = this.props['data-orderAddress'];
@@ -54,9 +55,12 @@ export default class PopInvoice extends Component {
 
 
     // }
+
     CheckOutOrder = (/**@type {any}*/e) => {
+        let self = this
         window.FirebaseMJS.addOrderInfo(this.props.orderInfo, window._)
-            .then(() => {
+            .then(({newDocRef, newOrderId_obj}) => {
+                console.log(assertLog.addNewOrderId_ok.log(newOrderId_obj.lastId))
                 return window.Swal.fire({
                     title: '訂單已成功送出',
                     text: '若要取消訂單，請至我的訂單頁面中查看',
@@ -68,16 +72,22 @@ export default class PopInvoice extends Component {
                     // showDenyButton:true,
                     showCancelButton: true,
                     reverseButtons: true,
+                    didOpen: (htmlElement) => {
+                        $('.swal2-confirm').attr('data-testid','btnSwalConfirm');
+                        $('.swal2-cancel').attr('data-testid', 'btnSwalCancel');
+                        //console.log(assertLog.registerSuccess(true))
+                        //console.log("LOG: ~ file: cusModalLogin.js ~ line 311 ~ .then ~ htmlElement", htmlElement)
+                    },
 
                 })
             })
             .then((e) => {
                 this.boundActionCreators.clear_shopCart();
                 this.showModal(false)
-                if(e.isConfirmed === true){
+                if (e.isConfirmed === true) {
                     window.app.switchIndexPage(ENUM_switchIndexPage.ViewOrders)
                 }
-                
+
                 //console.log(e)
                 //     isConfirmed: true
                 // isDenied: false
@@ -87,7 +97,7 @@ export default class PopInvoice extends Component {
             .catch((error) => {
                 console.log("LOG: ~ file: PopInvoice.jsx ~ line 81 ~ PopInvoice ~ error", error)
                 // console.dir(error)
-                if(error.message.startsWith('regeneratorRuntime is not defined'))
+                if (error.message.startsWith('regeneratorRuntime is not defined'))
                     console.error('need to require( @babel/polyfill )')
                 return window.Swal.fire({
                     title: '訂單送出失敗',
@@ -103,10 +113,10 @@ export default class PopInvoice extends Component {
                 })
             })
     }
-    
+
     render() {
         let { userData, orderAddress, totalPrice, orderId, sOrderStatus, } = this.props.orderInfo
-        
+
         //let jsdtCreateDateTime_server = (this.props.orderInfo.jsdtCreateDateTime_server) ? this.props.orderInfo.jsdtCreateDateTime_server.toLocaleString() : 'XXXXX';
         return (
             (
@@ -127,10 +137,15 @@ export default class PopInvoice extends Component {
                                 </div>
                                 <div className="modal-footer">
                                     <div>
-                                        <div className="divTotalPrice">訂單總金額: NT$ {totalPrice}</div>
+                                        <div className="divTotalPrice">
+                                            <span>
+                                                <span>訂單總金額: NT$&nbsp;</span>
+                                                <span data-testid="invoice_totalPrice2">{totalPrice}</span>
+                                            </span>
+                                        </div>
                                         <div>
                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">取消</button>
-                                            <button type="button" className="btn btn-primary" onClick={this.CheckOutOrder}>訂單確認送出</button>
+                                            <button type="button" className="btn btn-primary" data-testid="popinvoice_btnCheckOutOrder" onClick={this.CheckOutOrder}>訂單確認送出</button>
                                         </div>
                                     </div>
 

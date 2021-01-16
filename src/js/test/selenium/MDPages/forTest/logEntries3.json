@@ -1,13 +1,13 @@
 [
     {
         "level": "INFO",
-        "message": "webpack-internal:///./pages/index/index.js 235:16 \"assertLog:[index-loginSuccess]  true\"",
+        "message": "webpack-internal:///./pages/index/index.js 235:16 \"assertLog:[index-loginSuccess]true\"",
         "timestamp": 1609388996820,
         "type": ""
     },
     {
         "level": "INFO",
-        "message": "webpack-internal:///./pages/index/index.js 240:16 \"assertLog:[index-displayLoginName]  ice4kimo@yahoo.com.tw\"",
+        "message": "webpack-internal:///./pages/index/index.js 240:16 \"assertLog:[index-displayLoginName]ice4kimo@yahoo.com.tw\"",
         "timestamp": 1609388996820,
         "type": ""
     },

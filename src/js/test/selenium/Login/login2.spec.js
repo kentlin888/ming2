@@ -105,6 +105,10 @@ describe('login2.spec.js', async function () {
         // await driver.sleep(3000);
         (await index.aMyProfile.findElement()).click();
     }
+    it('購物結帳 - 比對資料庫訂單吻合', async() => {
+        await _loginEmail();
+        await _assertDisplayEMail();//wait for login success
+    })
     it('未登入 - 購物車無法 +產品 / 結帳', async function () {
         //await _loginEmail();
         await (await index.navitemOrderProducts.findElement()).click();
@@ -119,7 +123,7 @@ describe('login2.spec.js', async function () {
         //login
         //await driver.sleep(1000);
         await _loginEmail();
-        await _assertDisplayEMail();//wait for login success        
+        await _assertDisplayEMail();//wait for login success
         //buy rice - OK
         (await ProductListSearch.btnAddProdcardRice.findElement()).click();
         // email logout

@@ -1,23 +1,26 @@
-import assertLog from '../../js/test/selenium/assertLog.js'
 import pageConfig from '../../js/test/selenium/pages.config.js'
-const {getTitle} = assertLog
-const {ENUM_mdId} = pageConfig
+import RdQaLog from '../../js/lib/RdQaLog.js'
 
-//let assertTitle = 'assertLog:'
-// let getTitle = (mdId, arguments_callee_name) => {
-//     return `${assertTitle}[${mdId}-${arguments_callee_name}]  `
-// }
+const {ENUM_mdId} = pageConfig
 let mdID = ENUM_mdId.index
 
-function loginSuccess(funcName, isSuccess) {
-    //arguments.callee.name
-    return `${getTitle(mdID, funcName)}${isSuccess}`
-}
+let displayLoginName = new RdQaLog(mdID);
+displayLoginName.setLogFunction((loginName) => {
+    return `${displayLoginName.prefix}${loginName}`
+})
 
-function displayLoginName(funcName, loginName) {
-    return `${getTitle(mdID, funcName)}${loginName}`
+let loginSuccess = new RdQaLog(mdID);
+loginSuccess.setLogFunction((isSuccess) => {
+    return `${loginSuccess.prefix}${isSuccess}`
+})
+
+//---------------Export
+let ExportRdQA = {
+    loginSuccess,
+    displayLoginName,
 }
-export default {
-    loginSuccess: loginSuccess.bind(null, loginSuccess.name),
-    displayLoginName: displayLoginName.bind(null, displayLoginName.name),
+//fill name
+for(let keyname in ExportRdQA){
+    ExportRdQA[keyname].name = keyname
 }
+export default ExportRdQA

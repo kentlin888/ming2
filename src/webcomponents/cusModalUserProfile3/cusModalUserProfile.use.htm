@@ -122,7 +122,9 @@
                 let btnSignout = document.querySelector('#btnSignout');
                 btnSignout.addEventListener('click',(e) => {
                     e.preventDefault()
-                    FirebaseMJS.SignOut()
+                    //console.log(FirebaseMJS)
+                    firebase.auth().signOut();
+                    //FirebaseMJS.SignOut()
                 });
 
                 var newComponent

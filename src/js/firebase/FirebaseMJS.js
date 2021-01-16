@@ -303,7 +303,10 @@ export default class FirebaseMJS {
                     // console.log('sss-->',sss)
                     // toDb_orderInfo.fstsCreateDateTime_server = sss;
                     transaction.set(newDocRef, toDb_orderInfo)
-                    return newDocRef
+                    return {
+                        newDocRef,
+                        newOrderId_obj
+                    }
                 })
                     
 
@@ -670,7 +673,8 @@ export function getDate_From_Firestore_TimeStamp(fsTimestamp) {
 export function Email_ResendPassword(emailAddress, inFirebase, swal, funcCloseModal) {
     var auth = inFirebase.auth();
     //var emailAddress = this.proxyUI.bindIptResentPwdEmail;
-    return auth.sendPasswordResetEmail(emailAddress).then(function () {
+    return auth.sendPasswordResetEmail(emailAddress)
+        .then(function () {
         // Email sent.
         swal.fire({
                 title: '提醒',

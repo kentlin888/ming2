@@ -1,5 +1,10 @@
 let projectConfig = require('../../projectConfig/firebaseProj.config.json')
 let {databaseURL} = projectConfig
+let adminKeyJsonPath = '../../../adminKeys/ming2-dad1d-firebase-adminsdk-5wmli-9c686eda26.json';
+let adminKeyJson = require(adminKeyJsonPath)
+let serviceAccountJsonPath = adminKeyJsonPath
+let serviceAccount = adminKeyJson
+
 describe('Connect2.spec.js', () => {
     it('Prod.admin.auth.getUserByEmail', () => {
         let admin = require('firebase-admin');

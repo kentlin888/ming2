@@ -160,8 +160,8 @@ describe('Connect1.spec.js', () => {
         let orderInfo = new OrderInfo();
         let firebaseMJS = new FirebaseMJS(firebase,dataKits);
         return firebaseMJS.addOrderInfo(orderInfo)
-            .then((newDocRef) => {
-                return newDocRef.get()
+            .then((newOrder) => {
+                return newOrder.newDocRef.get()
             })
             .then((docSnapShot) => {
                 let docData = docSnapShot.data()

@@ -221,11 +221,11 @@ proxyUserMenuDropdown = new Proxy(proxyUserMenuDropdown, {
                     liLogin.classList.remove('displayNone')
                     liUserDropdown.classList.add('displayNone')
                 }
-                console.log(assertLog.loginSuccess(value))
+                console.log(assertLog.loginSuccess.log(value))
                 break;
             case "loginName":
                 spanDisplayEmail.textContent = value;
-                console.log(assertLog.displayLoginName(value))
+                console.log(assertLog.displayLoginName.log(value))
                 break;
             default:
                 break;
@@ -285,6 +285,8 @@ firebase.auth().onAuthStateChanged(function ( /**@type {any}*/ authUser) {
         proxyUserMenuDropdown.isLogin = true;
         proxyUserMenuDropdown.loginName = authUser.email
 
+        // let uid = authUser.uid
+        // let emailVerified = authUser.emailVerified
         let {
             uid,
             emailVerified: emailVerified_auth

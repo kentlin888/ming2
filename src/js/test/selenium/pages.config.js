@@ -16,6 +16,7 @@ let ENUM_mdId = {
     ShopItem:"ShopItem",
     Invoice:"Invoice",
     ProductCard:"ProductCard",
+    PopInvoice:"PopInvoice",
 }
 let generateId = null//['forTest','index','cusModalLogin']
 let data = [
@@ -87,6 +88,12 @@ let data = [
         srcMdFolder:'./MDPages/cusModalUserProfile',
         filenameMdConfig:null,//不指定檔案,使用default
         srcHtml:'../../../webcomponents/cusModalUserProfile3/cusModalUserProfile.htm',
+    },
+    {
+        id:ENUM_mdId.PopInvoice,
+        srcMdFolder:'./MDPages/PopInvoice',
+        filenameMdConfig:null,//不指定檔案,使用default
+        srcHtml:'../../react/components/PopInvoice.jsx',
     },
     
 

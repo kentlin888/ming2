@@ -12,4 +12,6 @@ interface ProductListSearch {
     shopitem_Prodname_Noodle:By2;
     shopitem_amount_Rice:By2;
     shopitem_amount_Noodle:By2;
+    shopitem_price_Rice:By2;
+    shopitem_price_Noodle:By2;
 }

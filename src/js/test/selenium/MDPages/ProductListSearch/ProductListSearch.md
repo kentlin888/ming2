@@ -48,4 +48,12 @@ module.exports = {
     //![](imgs/btnAddProdcard1.png)
     shopitem_amount_Noodle:By.css("[data-testid='spitem-prodName-炒麵'] .divCellAmount"),
     //
+    // REVIEW shopitem_price_Rice
+    //![](imgs/btnAddProdcard1.png)
+    shopitem_price_Rice:By.css("[data-testid='spitem-prodName-炒米粉'] [data-testid='spitem_prodPrice']"),
+    //
+    // REVIEW shopitem_price_Noodle
+    //![](imgs/btnAddProdcard1.png)
+    shopitem_price_Noodle:By.css("[data-testid='spitem-prodName-炒麵'] [data-testid='spitem_prodPrice']"),
+    //
 }

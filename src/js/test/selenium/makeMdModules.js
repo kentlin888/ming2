@@ -95,7 +95,8 @@ class MdModule {
 
         let htmlConfig = {}
         arrayTestId.forEach(dataTestId => {
-
+            if(dataTestId.includes('-'))
+                throw new Error(`dash - appear in [data-TestId]-> ${dataTestId}`)
             htmlConfig[dataTestId] = null;
         });
         //2.--- load custom config

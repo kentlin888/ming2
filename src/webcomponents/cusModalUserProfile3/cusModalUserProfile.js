@@ -1,7 +1,7 @@
 //@ts-check
 
 import { UserData } from '../../js/dataDefine/index.js'
-import {FIRESTORE_COLLECTION} from '../../js/firebase/FirebaseMJS'
+import {FIRESTORE_COLLECTION} from '../../js/firebase/FirebaseMJS.js'
 
 /**@class */
 class ProxyFormData {

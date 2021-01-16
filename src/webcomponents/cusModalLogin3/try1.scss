@@ -1,0 +1,69 @@
+html,
+body {
+    background-color: black;
+    color: white;
+
+}
+
+.iptform {
+    border: 2px solid yellow;
+    width: 200px;
+    height: 200px;
+    background-color: rgb(20, 44, 181);
+}
+
+
+.signInHtm,
+.signUpHtm,
+.forgetPwdHtm {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    //position: absolute;
+    transform: rotateY(180deg);
+    //backface-visibility: hidden;
+    transition: all .4s linear;
+}
+
+//signInHtm
+//signUpHtm
+// .signInHtm{
+//     transform: rotateY(0deg);
+//     -webkit-transform: rotateY(0deg);
+//     -moz-transform: rotateY(0deg);
+//     -ms-transform: rotateY(0deg);
+//     -o-transform: rotateY(0deg);
+// }
+
+.cssStateChange:hover{
+    background-color: yellowgreen;
+    transition: all .4s linear;
+}
+
+#ckbox1:checked +.signInHtm{
+    transform: rotateY(0deg);
+}
+
+#ckbox2:checked +.signUpHtm{
+    transform: rotateY(0deg);
+}
+
+// input{
+//     visibility: collapse;
+// }
+
+// 。
+.iptEMAIL{
+    background-color: red;
+    &:valid{
+        background-color: lime;
+    }
+}
+
+// #iptPWD{
+//     background-color: red;
+//     &:valid{
+//         background-color: lime;
+//     }
+// }

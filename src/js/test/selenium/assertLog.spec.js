@@ -1,10 +1,12 @@
+import EntryManager from './entryManager.js'
 let webdriver = require('selenium-webdriver')
-import assertLog from './assertLog.js'
+// import assertLog from './assertLog.js'
 
-let chai = require('chai')
+
+let {assert} = require('chai')
 describe('assertLog.spec.js', () => {
-
-    it('EntryManager 1', () => {
+    let sampleEntries=[]
+    before(() => {
         let ety1 = new webdriver.logging.Entry('', '');
         ety1 = Object.assign(ety1, {
             "level": "INFO",
@@ -26,20 +28,23 @@ describe('assertLog.spec.js', () => {
             "timestamp": 1608547033152,
             "type": ""
         })
-
-        let mgr = new assertLog.EntryManager();
-        mgr.pushEntry(ety1)
-        mgr.pushEntry(ety2)
-        mgr.pushEntry(ety3)
-        mgr.filterAssertTitle()
-        chai.assert(mgr.arrayEntries.length == 2)
-        // let arrayFind = mgr.findEntries('aa1')
-        // chai.assert(arrayFind.length == 1)
+        sampleEntries = [ety1,ety2,ety3]
+    })
+    it('EntryManager 1', async () => {
+        
+        let getBrowserConsoleLog = function(){
+            return sampleEntries
+        }
+        let entryManager = new EntryManager();
+        let monitorEntries = entryManager.monitorEntries.bind(entryManager, getBrowserConsoleLog)
+        let bl = await monitorEntries("assertLog: webpack-int aa1", 2);
+        assert(bl===true)
     })
 
     it('assertLog.isLoginSuccess()',() => {
         let assertIndex = require('../../../pages/index/index.assertLog.js')
-        let assertMsg=assertIndex.default.loginSuccess(false)
+        let assertMsg=assertIndex.default.loginSuccess.log(false)
         console.log("LOG: ~ file: assertLog.spec.js ~ line 42 ~ it ~ assertMsg", assertMsg)
     })
+    
 })

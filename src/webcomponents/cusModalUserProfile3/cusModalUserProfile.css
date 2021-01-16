@@ -148,10 +148,6 @@ body {
 }
 
 /* bootstrapLogin.scss */
-* {
-  box-sizing: border-box;
-}
-
 .formModifyPassword .inputCheckValid {
   width: calc(100% - 1.4rem);
 }
@@ -206,41 +202,6 @@ body {
   color: white;
 }
 .boxUserProfile [name=sign] {
-  display: none;
-}
-.boxUserProfile .signInHtm,
-.boxUserProfile .signUpHtm,
-.boxUserProfile .forgetPwdHtm {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  position: absolute;
-  transform: rotateY(180deg);
-  backface-visibility: hidden;
-  transition: all 0.4s linear;
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  -ms-transform: rotateY(180deg);
-  -o-transform: rotateY(180deg);
-  -webkit-transition: all 0.4s linear;
-  -moz-transition: all 0.4s linear;
-  -ms-transition: all 0.4s linear;
-  -o-transition: all 0.4s linear;
-}
-.boxUserProfile .modal-header .leftArrow {
-  cursor: pointer;
-}
-.boxUserProfile .modal-header input[name=headerSign] {
-  display: none;
-}
-.boxUserProfile .modal-header .radioSignin:checked ~ .leftArrow, .boxUserProfile .modal-header .radioSignin:checked ~ .labelSignup, .boxUserProfile .modal-header .radioSignin:checked ~ .labelForgetPwd {
-  display: none;
-}
-.boxUserProfile .modal-header .radioSignup:checked ~ .labelSignin, .boxUserProfile .modal-header .radioSignup:checked ~ .labelForgetPwd {
-  display: none;
-}
-.boxUserProfile .modal-header .radioForgetPwd:checked ~ .labelSignin, .boxUserProfile .modal-header .radioForgetPwd:checked ~ .labelSignup {
   display: none;
 }
 .boxUserProfile .modal-body .uiCkbox-emailVerified:checked ~ .inputField1 .emailWarning, .boxUserProfile .modal-body .uiCkbox-emailVerified:checked ~ .emailWarning {

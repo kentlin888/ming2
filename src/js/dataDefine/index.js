@@ -383,7 +383,7 @@ export class UserProfile {
     // address3 = "XXXXXXX"
     // /**@type {(1|2|3)} */
     // addressSelectNo = 1
-    /**@function */
+    ///**@function */
     // getSelectedAddress() {
     //     let propName = `address${this.addressSelectNo}`
     //     return this[propName]

@@ -39,4 +39,12 @@ module.exports = {
         "byCss": "[data-testid='spitem-prodName-炒麵'] .divCellAmount",//:nth-of-type(1) also work
         "imgName": "btnAddProdcard1.png"
     },
+    shopitem_price_Rice: {
+        "byCss": "[data-testid='spitem-prodName-炒米粉'] [data-testid='spitem_prodPrice']",//:nth-of-type(1) also work
+        "imgName": "btnAddProdcard1.png"
+    },
+    shopitem_price_Noodle: {
+        "byCss": "[data-testid='spitem-prodName-炒麵'] [data-testid='spitem_prodPrice']",//:nth-of-type(1) also work
+        "imgName": "btnAddProdcard1.png"
+    },
 }

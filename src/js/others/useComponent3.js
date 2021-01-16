@@ -1,8 +1,9 @@
 
 /**
  * 
- * @param {string} componentPath 
  * @param {string} newTagName 
+ * @param {string} htmlPath 
+ * @param {any} compClass 
  */
 export function useComponent(newTagName, htmlPath, compClass) {
     return fetch(htmlPath)

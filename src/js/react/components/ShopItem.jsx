@@ -49,7 +49,12 @@ export default class ShopItem extends Component {
                 <td className="tdProductName bd3">{shopItem.productInfo.name}</td>
                 <td className="bd3 tdPriceAmount">
                     <div className="divPriceAmount">
-                        <div className="bd2 divCellPrice">NT$ {shopItem.amount * shopItem.productInfo.price}</div>
+                        <div className="bd2 divCellPrice">
+                            <span>
+                                <span>NT$&nbsp;</span>
+                                <span data-testid="spitem_prodPrice">{shopItem.amount * shopItem.productInfo.price}</span>
+                            </span>
+                            </div>
                         <div className="bd4 divboxHorizontal">
                             <button className="btnAdd" onClick={this.btnDecrease_onClick}>
                                 <div className="btnContent">-</div>

@@ -1,6 +1,7 @@
 import assertLog from '../assertLog.js'
 import assertIndex from '../../../../pages/index/index.assertLog.js'
-import assertcusModalLogin from '../../../../webcomponents/cusModalLogin3/cusModalLogin.assertLog.js'
+import assertCusModalLogin from '../../../../webcomponents/cusModalLogin3/cusModalLogin.assertLog.js'
+import assertCusPopInvoice from '../../../../js/react/components/PopInvoice.assertLog.js'
 import EntryManager from '../entryManager.js'
 import {
     getRandomString
@@ -26,6 +27,8 @@ let ShopCart = require('../MDPages/ShopCart/ShopCart.md');
 let ShopItem = require('../MDPages/ShopItem/ShopItem.md');
 /**@type {Invoice} */
 let Invoice = require('../MDPages/Invoice/Invoice.md');
+/**@type {PopInvoice} */
+let PopInvoice = require('../MDPages/PopInvoice/PopInvoice.md');
 
 let webdriver = require('selenium-webdriver')
 
@@ -52,14 +55,44 @@ describe('login1.spec.js', async function () {
     /**@type {seleniumKits.getBrowserConsoleLog} */
     let getBrowserConsoleLog
     let monitorEntries
+
+    /**@enum {any}} */
+    let ENUM_windowType = {
+        iphone: {
+            width: 414,
+            height: 736
+        },
+        desktop: "max",
+    }
+    /**
+     * @param {webdriver.ThenableWebDriver} indriver 
+     * @param {ENUM_windowType} enum_windowType 
+     */
+    async function _setWindow(indriver, enum_windowType) {
+        if(enum_windowType!=ENUM_windowType.desktop){
+            enum_windowType.x = 0;
+            enum_windowType.y = 0;
+        }
+        switch (enum_windowType) {
+            case ENUM_windowType.desktop:
+                await indriver.manage().window().maximize();
+                break;
+            case ENUM_windowType.iphone:
+                await indriver.manage().window().setRect(enum_windowType);
+                break;
+            default:
+                break;
+        }
+    }
+    /**@type {Function} */
+    let setWindow //= _setWindow.bind(null, driver)
     before(async function () {
 
         /**@type {webdriver.ThenableWebDriver} */
         driver = seleniumKits.buildDriver(pathDriver, chromeOptions);
         getBrowserConsoleLog = seleniumKits.getBrowserConsoleLog.bind(null, driver)
-        
         monitorEntries = entryManager.monitorEntries.bind(entryManager, getBrowserConsoleLog)
-
+        setWindow = _setWindow.bind(null, driver)
 
         const TIMEOUT = 9 * 1000 * 1000 // seconds
         await driver.manage().setTimeouts({
@@ -108,9 +141,9 @@ describe('login1.spec.js', async function () {
         (await cusModalLogin.btnSwalConfirm.findElement()).click();
 
         entryManager.clearEntries();
-        let bl = await monitorEntries(assertIndex.displayLoginName(testdata.email), 2);
+        let bl = await monitorEntries(assertIndex.displayLoginName.log(testdata.email), 2);
         assert(bl === true);
-        bl = await monitorEntries(assertIndex.loginSuccess(true), 2);
+        bl = await monitorEntries(assertIndex.loginSuccess.log(true), 2);
         assert(bl === true);
         // await index.spanDisplayEmail.until_assert_elementTextIs(testdata.email, elemTimeout);
         // await index.spanNumberBadge1.until_assert_elementTextIs('0', elemTimeout);
@@ -139,7 +172,7 @@ describe('login1.spec.js', async function () {
         await driver.sleep(2000); //wait for css animation
         (await cusModalLogin.btnSendRegister.findElement()).click();
         entryManager.clearEntries();
-        let bl = await monitorEntries(assertcusModalLogin.duplicatedRegisterAccount(true), 4);
+        let bl = await monitorEntries(assertCusModalLogin.duplicatedRegisterAccount.log(true), 4);
         assert(bl === true);
         entryManager.clearEntries();
         //await driver.sleep(2000);//wait for css animation
@@ -159,12 +192,19 @@ describe('login1.spec.js', async function () {
         (await cusModalLogin.iptSignInPassword.findElement()).sendKeys(testdata.password);
         (await cusModalLogin.btnEmailSignin.findElement()).click();
     }
+    async function _assertShopcartBadge(expectNumber){
+        elem = (await index.spanNumberBadge2.findElement());
+        assert(await elem.getText() == expectNumber);
+        await setWindow(ENUM_windowType.iphone)
+        elem = (await index.spanNumberBadge1.findElement());
+        assert(await elem.getText() == expectNumber);
+        await setWindow(ENUM_windowType.desktop)
+    }
     async function _assertDisplayEMail() {
         //assert
         await index.spanDisplayEmail.until_assert_elementTextIs(testdata.email, elemTimeout);
-        //購物車 數量0
-        elem = (await index.spanNumberBadge2.findElement());
-        assert(await elem.getText() === '0');
+        //購物車badge 數量==0
+        await _assertShopcartBadge(0);
     }
     it('登入Email帳號 - display correct name, badge2=0', async function () {
         await _loginEmail();
@@ -263,11 +303,11 @@ describe('login1.spec.js', async function () {
         let userData = Object.assign(new UserData(), array_FS_USERs[0])
         console.log(userData.uid)
         await _loginEmail();
-        (await index.navitemOrderProducts.findElement()).click();
+        await (await index.navitemOrderProducts.findElement()).click();
         await driver.sleep(4000);
         //await ProductListSearch.plsDeliveryAddress.waitUntil_ElementTextIs(userData.userProfile.address);
-        let iptValue = await ProductListSearch.plsDeliveryAddress.jsGetInputValue();
-        assert(iptValue === userData.userProfile.address);
+        let plsDeliveryAddress = await ProductListSearch.plsDeliveryAddress.jsGetInputValue();
+        assert(plsDeliveryAddress === userData.userProfile.address);
         await driver.sleep(1000);
         (await ProductListSearch.btnMeats.findElement()).click();
         await driver.sleep(1000);
@@ -276,8 +316,15 @@ describe('login1.spec.js', async function () {
         //.productCard
         //.addButton
     })
-
+    
+    this.timeout(25 * 1000)
     it('開始購物 1&2 - 購物車功能正常', async () => {
+        let adminAPI = require('../../../../../adminAPI/adminAPI');
+        //let fAuthUser = await adminAPI.getUser(testdata.email);
+        let array_FS_USERs = await adminAPI.fStore_GetUsers_byMail(testdata.email);
+        let userData = Object.assign(new UserData(), array_FS_USERs[0])
+        console.log(userData.uid)
+        
         let pathDownload_ProductInfo = path.join(__dirname, '../../../../../adminData/downloads/ProductInfo.json')
         let sJson = fs.readFileSync(pathDownload_ProductInfo, 'utf8')
         /**@type {any[]} */
@@ -298,46 +345,73 @@ describe('login1.spec.js', async function () {
         (await index.navitemOrderProducts.findElement()).click();
         //await driver.sleep(1000);
         await driver.sleep(4000); //wait for address
+        
         //await ProductListSearch.plsDeliveryAddress.waitUntil_ElementTextIs(userData.userProfile.address);
-        let iptValue = await ProductListSearch.plsDeliveryAddress.jsGetInputValue();
-        assert(iptValue != "");
+        let plsDeliveryAddress = await ProductListSearch.plsDeliveryAddress.jsGetInputValue();
+        assert(plsDeliveryAddress === userData.userProfile.address);
+        
+        //assert(plsDeliveryAddress != "");
         // (await ProductListSearch.btnAddProdcard1)).click();
         // (await ProductListSearch.btnAddProdcard2)).click();
+        // +炒米粉 +炒麵
         (await ProductListSearch.btnAddProdcardRice.findElement()).click();
         (await ProductListSearch.btnAddProdcardNoodle.findElement()).click();
         (await ProductListSearch.btnAddProdcardRice.findElement()).click();
         (await ProductListSearch.btnAddProdcardNoodle.findElement()).click();
         await ProductListSearch.shopitem_Prodname_Rice.waitUntil_ElementIsVisible(elemTimeout);
         await ProductListSearch.shopitem_Prodname_Noodle.waitUntil_ElementIsVisible(elemTimeout);
-        await driver.sleep(1000); //數字會有延遲
-        let shopitem_Prodname_Rice = await (await ProductListSearch.shopitem_Prodname_Rice.findElement()).getText();
-        let shopitem_Prodname_Noodle = await (await ProductListSearch.shopitem_Prodname_Noodle.findElement()).getText();
-        /**@type {any} */
-        let shopitem_amount_Rice = await (await ProductListSearch.shopitem_amount_Rice.findElement()).getText();
-        shopitem_amount_Rice = Number(shopitem_amount_Rice)
-        /**@type {any} */
-        let shopitem_amount_Noodle = await (await ProductListSearch.shopitem_amount_Noodle.findElement()).getText();
-        shopitem_amount_Noodle = Number(shopitem_amount_Noodle)
-        assert(shopitem_Prodname_Rice == findRice.name)
-        assert(shopitem_Prodname_Noodle == findNoodle.name)
-        let expectPrice_Rice = findRice.price * 2
-        let expectPrice_Noodle = findNoodle.price * 2
-
-        assert(expectPrice_Rice == findRice.price * shopitem_amount_Rice)
-        assert(expectPrice_Noodle == findNoodle.price * shopitem_amount_Noodle)
+        //await driver.sleep(1000); //數字會有延遲
+        // shopcart badge == 4
+        _assertShopcartBadge(4);
+        await driver.sleep(1000);
+        await ProductListSearch.shopitem_Prodname_Rice.until_assert_elementTextIs(findRice.name,elemTimeout);
+        await ProductListSearch.shopitem_Prodname_Noodle.until_assert_elementTextIs(findNoodle.name,elemTimeout);
+        // assert 數量 == 2數量 == 2
+        await ProductListSearch.shopitem_amount_Rice.until_assert_elementTextIs("2",elemTimeout);
+        await ProductListSearch.shopitem_amount_Noodle.until_assert_elementTextIs("2",elemTimeout);
+        // 單品價格小計
+        let expectPrice_Rice = findRice.price * 2;
+        let expectPrice_Noodle = findNoodle.price * 2;
+        let shopitem_price_Rice = await(await ProductListSearch.shopitem_price_Rice.findElement()).getText();
+        let shopitem_price_Noodle = await(await ProductListSearch.shopitem_price_Noodle.findElement()).getText();
+        assert(shopitem_price_Rice == expectPrice_Rice.toString())
+        assert(shopitem_price_Noodle == expectPrice_Noodle.toString())
+        // 總價
         let expectTotalPrice = expectPrice_Rice + expectPrice_Noodle;
-        //let shopitem_price_Noodle = await (await ProductListSearch.)).getText();
         let spcartSpan_AllItems_Price = await (await ShopCart.spcartSpan_AllItems_Price.findElement()).getText();
         assert(expectTotalPrice.toString() == spcartSpan_AllItems_Price);
         //let aa = await driver.executeScript(`return arguments[0].innerHTML; `, elem)
         //console.log("LOG: ~ file: login1.spec.js ~ line 484 ~ it ~ aa", aa)
+        //change order address
+        let newAddress = getRandomString(5);
+        (await ProductListSearch.plsDeliveryAddress.findElement()).clear();
+        (await ProductListSearch.plsDeliveryAddress.findElement()).sendKeys(newAddress);
+
         (await ShopCart.spcartBtnCheckOut.findElement()).click();
         await driver.sleep(1000);
-        elem = (await Invoice.invoice_orderAddress.findElement())
-        let aa = await elem.getText();
-        console.log("LOG: ~ file: login1.spec.js ~ line 516 ~ it ~ aa", aa)
-        // iptValue = await (await ProductListSearch.plsDeliveryAddress)).jsGetInputValue();
-        assert(aa != "");
+        let invoice_userName = await (await Invoice.invoice_userName.findElement()).getText();
+        let invoice_orderAddress = await (await Invoice.invoice_orderAddress.findElement()).getText();
+        assert(invoice_userName === userData.userProfile.name);
+        assert(invoice_orderAddress === newAddress);
+        //total price
+        let invoice_totalPrice = await (await Invoice.invoice_totalPrice.findElement()).getText();
+        let invoice_totalPrice2 = await (await PopInvoice.invoice_totalPrice2.findElement()).getText();
+        assert(invoice_totalPrice == expectTotalPrice.toString());
+        assert(invoice_totalPrice2 == expectTotalPrice.toString());
+        //click btn CheckOut
+        await (await PopInvoice.popinvoice_btnCheckOutOrder.findElement()).click();
+        
+        //clear log
+        await getBrowserConsoleLog();
+        let promise_getLogMatches = entryManager.promise_getLogMatches.bind(entryManager, getBrowserConsoleLog,assertCusPopInvoice.addNewOrderId_ok)
+        let matches = await EntryManager.waitLog(promise_getLogMatches, 3000,500) //entryManager.waitLog(getResult, 3000,500)
+        console.log("LOG: ~ file: login1.spec.js ~ line 411 ~ it ~ matches", matches)
+        let lastOrderId = matches[0]
+        console.log("LOG: ~ file: login1.spec.js ~ line 412 ~ it ~ lastOrderId", lastOrderId)
+        
+        
+        //return getBrowserConsoleLog()
+
     })
     it('購物車沒商品,結帳 - 跳出警示框', async () => {
         await _loginEmail();

@@ -2,10 +2,11 @@ import {
     recursiveToPlainObject,
     getPlainObject,
     getMatches,
+    getFunctionParameters,
 } from '../lib/dataKits.js'
 let _ = require('lodash')
 let chai = require('chai')
-
+const {assert} = chai
 
 class AA {
     name = "John"
@@ -71,7 +72,7 @@ describe('dataKits.spec.js', () => {
         let isTheSame
         //case 1
         isTheSame = _.isEqual(cc, expectResult)
-        chai.assert(isTheSame === true)
+        assert(isTheSame === true)
         console.dir(cc)
         //recursiveToPlainObject(cc)
     })
@@ -82,20 +83,20 @@ describe('dataKits.spec.js', () => {
         let isTheSame
         //case 1
         isTheSame = _.isEqual(cc, expectResult)
-        chai.assert(isTheSame === false)
+        assert(isTheSame === false)
         //chai.assert(cc.arry1[0].func1 === undefined)
-        chai.assert(cc.bb.addressGET_B === undefined)
-        chai.assert(cc.bb.aa.ageGET_A === undefined)
-        chai.assert(cc.bb.aa.aFunc === undefined)
+        assert(cc.bb.addressGET_B === undefined)
+        assert(cc.bb.aa.ageGET_A === undefined)
+        assert(cc.bb.aa.aFunc === undefined)
         //should remove arry1[0].func1
         let keys_arry1_0 = Object.keys(cc.arry1[0])
         let hasKey_func1 = keys_arry1_0.includes('func1')
-        chai.assert(hasKey_func1 === false)
+        assert(hasKey_func1 === false)
         //case 2
         cc = Object.assign({}, cc)
         console.dir(cc)
         isTheSame = _.isEqual(cc, expectResult)
-        chai.assert(isTheSame === true)
+        assert(isTheSame === true)
 
     })
 
@@ -107,7 +108,7 @@ describe('dataKits.spec.js', () => {
         let mats = getMatches(content2, reg);
         console.log(mats)
         let expect = ['fdsf', 'hgfh']
-        chai.assert(_.isEqual(mats, expect))
+        assert(_.isEqual(mats, expect))
 
         // reg = new RegExp("af=1(?<name>.[^1]*)1", "g")
         // let aa = reg.exec(content2)
@@ -116,5 +117,34 @@ describe('dataKits.spec.js', () => {
         // console.log(aa)
         // aa = reg.exec(content2)
         // console.log(aa)
+    })
+
+    it('getFunctionParameters()',() => {
+        let _ = require('lodash')
+        //----1 function XX(XX){}
+        function f1(p1,p2) {
+            console.log(p1,p2)
+        }
+        let matches = getFunctionParameters(f1)
+        assert(_.isEqual(matches,['p1','p2']))
+        //----2 XX = function XX(XX){}
+        let a2 = function f2(p1,p2) {
+            console.log(p1,p2)
+        }
+        matches = getFunctionParameters(a2)
+        console.log('a2--->',a2.toString())
+        assert(_.isEqual(matches,['p1','p2']))
+        //----3 XX= arrow function
+        let a3 = (p1,p2) => {
+            console.log(p1,p2)
+        }
+        matches = getFunctionParameters(a3)
+        console.log('a3--->',a3.toString())
+        assert(_.isEqual(matches,['p1','p2']))
+
+        //console.log("LOG: ~ file: dataKits.spec.js ~ line 127 ~ it ~ matches", matches)
+        // displayLoginName.log=function cc(a1,a2) {
+            
+        // }
     })
 })

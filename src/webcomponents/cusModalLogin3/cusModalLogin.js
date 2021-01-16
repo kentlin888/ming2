@@ -1,4 +1,5 @@
 import assertLog from './cusModalLogin.assertLog.js'
+import RdQaLog from '../../js/lib/RdQaLog.js'
 //const {duplicatedRegisterAccount, registerSuccess } = assertLog
 
 //@ts-check
@@ -238,10 +239,11 @@ export default class cusModalLogin extends HTMLElement {
             keyboard: true
         }
         let strShow = null;
+        
+        this.proxyUI.switchPage = ENUM_switchPage.radioSignin;
+        this.clearAllInputs();
         if (isShow == true) {
-            this.proxyUI.switchPage = ENUM_switchPage.radioSignin;
-            this.clearAllInputs();
-            if (WebpackDefinePlugin && WebpackDefinePlugin.devMode) {
+            if (typeof WebpackDefinePlugin !== 'undefined' && WebpackDefinePlugin.devMode) {
                 this.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
                 this.proxyUI.bindIptSigninPWD = '11111111'
                 this.proxyUI.bindIptRegisterEmail = 'ice4kimo@yahoo.com.tw'
@@ -251,8 +253,7 @@ export default class cusModalLogin extends HTMLElement {
             }
             strShow = 'show';
         } else {
-            this.proxyUI.switchPage = ENUM_switchPage.radioSignin;
-            this.clearAllInputs();
+
             strShow = 'hide';
         }
 
@@ -318,8 +319,8 @@ export default class cusModalLogin extends HTMLElement {
                     text: "認證信已寄出，請至信箱收信，並點選確認連結",
                     icon: 'success',
                     didOpen: (htmlElement) => {
-                        $('.swal2-confirm').attr('data-testid','btnSwalConfirm');
-                        console.log(assertLog.registerSuccess(true))
+                        $('.swal2-confirm').attr('data-testid', 'btnSwalConfirm');
+                        console.log(assertLog.registerSuccess.log(true))
                         //console.log("LOG: ~ file: cusModalLogin.js ~ line 311 ~ .then ~ htmlElement", htmlElement)
                     }
                     //confirmButtonText: 'Cool'
@@ -339,8 +340,8 @@ export default class cusModalLogin extends HTMLElement {
                     text: `${errZhTw.errCodeZHTW},${errZhTw.errMessageZHTW}`,
                     icon: 'warning',
                     didOpen: (htmlElement) => {
-                        $('.swal2-confirm').attr('data-testid','btnSwalConfirm');
-                        console.log(assertLog.duplicatedRegisterAccount(true))
+                        $('.swal2-confirm').attr('data-testid', 'btnSwalConfirm');
+                        console.log(assertLog.duplicatedRegisterAccount.log(true))
                         //console.log("LOG: ~ file: cusModalLogin.js ~ line 311 ~ .then ~ htmlElement", htmlElement)
                     }
                     //confirmButtonText: 'Cool'

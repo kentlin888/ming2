@@ -1,4 +1,3 @@
-                
 //const { WebDriver } = require('selenium-webdriver')
 import assertLog from './assertLog.js'
 let {
@@ -44,6 +43,65 @@ export default class EntryManager {
         }
         return false; //finally
     }
+    static async sleep(interval) {
+        return new Promise(async (resolve, reject) => {
+            setTimeout(async () => {
+                //console.log(`sleep(${interval})....`)
+                resolve()
+            }, interval); //500
+
+        })
+    }
+    
+    static async waitLog(getMatchResult, timeout, interval) {
+        return new Promise(async(resolve) => {
+            let times = Math.ceil(timeout / interval);
+            for (let i = 0; i < times; i++) {
+                // console.log('i-->', i)
+                let result = await getMatchResult(interval);
+                if (result !== null) {
+                    resolve(result)
+                }else{
+                    //wait 500
+                    await EntryManager.sleep(interval)
+                }
+            }
+            resolve(null); //finally not found
+        })
+    }
+    /**
+     * 
+     * @param {function} getLog 
+     * @param {import('../../lib/RdQaLog.js').default} rdqaLog 
+     */
+    async promise_getLogMatches(getLog, rdqaLog) {
+        let self = this
+        return new Promise(async (resolve, reject) => {
+            let arrayLogEntries = await getLog();
+            //console.log("LOG: ~ file: entryManager.js ~ line 91 ~ setTimeout ~ arrayLogEntries", arrayLogEntries)
+            if (arrayLogEntries.length > 0) {
+                self.pushArrayEntries(arrayLogEntries)
+                self.filterAssertTitle();
+            }
+            // find prefix
+            let findEntries = self.findEntries(rdqaLog.prefix)
+            //console.log("LOG: ~ findEntries", findEntries)
+            if (findEntries.length === 0) {
+                //return null
+                resolve(null)
+            }
+            else{
+                //console.log(666622)
+                let matches = rdqaLog.getMatchValues(findEntries[0].message)
+                let _ = require('lodash')
+                matches = matches.map((item) => {
+                    return _.trimEnd(item, '"')
+                })
+                resolve(matches)
+            }
+        })
+    }
+
     getLog() {
         // return logEntries
     }
@@ -65,6 +123,7 @@ export default class EntryManager {
             }, 500);
         })
     }
+
     // async function findLog_withAssert(assertMsg, findEntriesLength, timeoutSeconds) {
     //     let times = timeoutSeconds * 2
     //     for(let i=0; i<times;i++){

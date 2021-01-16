@@ -1,0 +1,43 @@
+html,
+body {
+  background-color: black;
+  color: white;
+}
+
+.iptform {
+  border: 2px solid yellow;
+  width: 200px;
+  height: 200px;
+  background-color: #142cb5;
+}
+
+.signInHtm,
+.signUpHtm,
+.forgetPwdHtm {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: rotateY(180deg);
+  transition: all 0.4s linear;
+}
+
+.cssStateChange:hover {
+  background-color: yellowgreen;
+  transition: all 0.4s linear;
+}
+
+#ckbox1:checked + .signInHtm {
+  transform: rotateY(0deg);
+}
+
+#ckbox2:checked + .signUpHtm {
+  transform: rotateY(0deg);
+}
+
+.iptEMAIL {
+  background-color: red;
+}
+.iptEMAIL:valid {
+  background-color: lime;
+}

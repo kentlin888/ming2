@@ -1,30 +1,26 @@
-import * as assertLog from '../../js/test/selenium/assertLog.js'
-import * as pageConfig from '../../js/test/selenium/pages.config.js'
+import pageConfig from '../../js/test/selenium/pages.config.js'
+import RdQaLog from '../../js/lib/RdQaLog.js'
 
+const {ENUM_mdId} = pageConfig
+let mdID = ENUM_mdId.cusModalLogin
 
-let {getTitle} = assertLog.default
-let {ENUM_mdId} = pageConfig.default
+let duplicatedRegisterAccount = new RdQaLog(mdID);
+duplicatedRegisterAccount.setLogFunction((isDuplicated) => {
+    return `${duplicatedRegisterAccount.prefix}${isDuplicated}`
+})
 
+let registerSuccess = new RdQaLog(mdID);
+registerSuccess.setLogFunction((isSuccess) => {
+    return `${registerSuccess.prefix}${isSuccess}`
+})
 
-// let {
-//     getTitle
-// } = require('../../assertLog.js')
-
-//let assertTitle = 'assertLog:'
-// let getTitle = (mdId, arguments_callee_name) => {
-//     return `${assertTitle}[${mdId}-${arguments_callee_name}]  `
-// }
-let mdID = ENUM_mdId.cusModalLogin;//'cusModalLogin'
-
-function duplicatedRegisterAccount(funcName, isDuplicated) {
-    //arguments.callee.name
-    return `${getTitle(mdID, funcName)}${isDuplicated}`
+//---------------Export
+let ExportRdQA = {
+    duplicatedRegisterAccount,
+    registerSuccess,
 }
-
-function registerSuccess(funcName, isSuccess) {
-    return `${getTitle(mdID, funcName)}${isSuccess}`
+//fill name
+for(let keyname in ExportRdQA){
+    ExportRdQA[keyname].name = keyname
 }
-export default {
-    duplicatedRegisterAccount: duplicatedRegisterAccount.bind(null, duplicatedRegisterAccount.name),
-    registerSuccess: registerSuccess.bind(null, registerSuccess.name),
-}
+export default ExportRdQA

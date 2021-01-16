@@ -102,6 +102,7 @@
     "sass": "^1.29.0",
     "selenium-webdriver": "^4.0.0-alpha.8",
     "smoothscroll-polyfill": "^0.4.4",
+    "spritesmith": "^3.4.0",
     "style-loader": "^2.0.0",
     "sweetalert2": "^10.10.4",
     "terser-webpack-plugin": "^5.0.3",

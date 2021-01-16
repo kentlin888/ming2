@@ -24,7 +24,9 @@ issues/*
 jsdoc/*
 node_modules/*
 src/js/firebase/Firebase.js
+src/js/test/
 wtemp/*
+
 
 
 # 該如何清除忽略的檔案？

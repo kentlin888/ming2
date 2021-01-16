@@ -14,15 +14,15 @@ var TYPE = {
 
 
 export const ENUM_TypeOf = {
-    array:'array',
-    null:'null',
-    objectClass:'objectClass',
-    objectPlain:'objectPlain',
-    RegExp:'RegExp',
-    Date:'Date',
-    numberNaN:'numberNaN',
-    function:'function',
-    number:'number',// defaltTypes/others
+    array: 'array',
+    null: 'null',
+    objectClass: 'objectClass',
+    objectPlain: 'objectPlain',
+    RegExp: 'RegExp',
+    Date: 'Date',
+    numberNaN: 'numberNaN',
+    function: 'function',
+    number: 'number', // defaltTypes/others
 }
 export function TypeOf(in_Object) {
     if (typeof in_Object === 'object') {
@@ -34,9 +34,9 @@ export function TypeOf(in_Object) {
             return ENUM_TypeOf.null
         } else if (Object.prototype.toString.call(in_Object) === '[object Object]') {
             //(variable1.constructor.prototype instanceof Object)//class == true, object == false
-            let objectType=(in_Object.constructor.prototype instanceof Object)
-                ?ENUM_TypeOf.objectClass
-                :ENUM_TypeOf.objectPlain;
+            let objectType = (in_Object.constructor.prototype instanceof Object) ?
+                ENUM_TypeOf.objectClass :
+                ENUM_TypeOf.objectPlain;
             return objectType;
             //return 'object';
         } else if (Object.prototype.toString.call(in_Object) === '[object RegExp]') {
@@ -49,7 +49,7 @@ export function TypeOf(in_Object) {
             return ENUM_TypeOf.numberNaN
         } else
             return ENUM_TypeOf.number
-    } else if(typeof in_Object === 'function'){
+    } else if (typeof in_Object === 'function') {
         return ENUM_TypeOf.function
     } else
         return typeof in_Object;
@@ -73,6 +73,7 @@ function CheckVarExist(in_Object) {
     //看下圖
     //2020-01-11-14-11-32.png
 }
+
 function isDate(value) {
     switch (typeof value) {
         case 'number':
@@ -83,8 +84,8 @@ function isDate(value) {
             if (value instanceof Date) {
                 return !isNaN(value.getTime());
             }
-        default:
-            return false;
+            default:
+                return false;
     }
 }
 // export {
@@ -148,13 +149,14 @@ function getDateTimeFormat() {
     }).format(nn))
 }
 
-function converter_objectPlain(propValue){
+function converter_objectPlain(propValue) {
     //let value = target[prop];
-    if(TypeOf(propValue) == ENUM_TypeOf.objectClass)
-        propValue = Object.assign({},propValue)
+    if (TypeOf(propValue) == ENUM_TypeOf.objectClass)
+        propValue = Object.assign({}, propValue)
 }
-function objectMapValue(objValue){
-    return Object.assign({},objValue)
+
+function objectMapValue(objValue) {
+    return Object.assign({}, objValue)
 }
 
 /**
@@ -163,9 +165,9 @@ function objectMapValue(objValue){
  * @returns {object} - type is objectPlain
  */
 export function getPlainObject(rootNode) {
-    recursiveToPlainObject(rootNode)//process all children
+    recursiveToPlainObject(rootNode) //process all children
     //process rootNode then return
-    if(TypeOf(rootNode)==ENUM_TypeOf.objectClass)
+    if (TypeOf(rootNode) == ENUM_TypeOf.objectClass)
         rootNode = Object.assign({}, rootNode)
     return rootNode //plain object
 }
@@ -176,24 +178,24 @@ export function recursiveToPlainObject(leafNode) {
         let value = leafNode[keyName]
         if (TypeOf(value) == ENUM_TypeOf.objectClass ||
             TypeOf(value) == ENUM_TypeOf.objectPlain) {
-                recursiveToPlainObject(value)
+            recursiveToPlainObject(value)
             //if(converter) converter(leafNode[keyName]);
-            if(TypeOf(value) == ENUM_TypeOf.objectClass)
-                leafNode[keyName] = objectMapValue(value)//Object.assign({},value)
+            if (TypeOf(value) == ENUM_TypeOf.objectClass)
+                leafNode[keyName] = objectMapValue(value) //Object.assign({},value)
         } else if (TypeOf(value) == ENUM_TypeOf.array) {
 
-            for(let i = 0;i<value.length;i++){
+            for (let i = 0; i < value.length; i++) {
                 let item = value[i]
                 if (TypeOf(item) == ENUM_TypeOf.objectClass ||
                     TypeOf(item) == ENUM_TypeOf.objectPlain) {
-                        recursiveToPlainObject(item)
+                    recursiveToPlainObject(item)
                     //if(converter) converter(value[i]);
-                    if(TypeOf(item) == ENUM_TypeOf.objectClass)
-                        value[i] = objectMapValue(item)//Object.assign({},item)
+                    if (TypeOf(item) == ENUM_TypeOf.objectClass)
+                        value[i] = objectMapValue(item) //Object.assign({},item)
                 }
             }
             // value.forEach((item) => {
-                
+
             //     // else if (TypeOf(item) == ENUM_TypeOf.function) {
             //     //     delete leafNode[keyName]
             //     // }
@@ -216,8 +218,8 @@ export function recursiveToPlainObject(leafNode) {
 //     // isDate,
 //     // CheckVarExist
 // }
-export function getRandomString(charCount){
-    let uuid = Math.random().toString(36).substring(2, 2+charCount) // 36 carry bit, ignore '0.', get 8 char
+export function getRandomString(charCount) {
+    let uuid = Math.random().toString(36).substring(2, 2 + charCount) // 36 carry bit, ignore '0.', get 8 char
     return uuid
 }
 export function getMatches(content, regex) {
@@ -230,4 +232,29 @@ export function getMatches(content, regex) {
         matches.push(match[displayIndex]);
     }
     return matches;
+}
+export function getFunctionParameters(func) {
+    let funcString = func.toString();//'function cc(a1, a2) {}'
+    //console.log("LOG: ~ file: dataKits.js ~ line 238 ~ getFunctionParameters ~ funcString", funcString)
+    let pattern = 'function.*\\((?<name>.[^\\(]*)\\).*'
+    //reg = new RegExp("af=1(?<name>.[^1]*)1", "g")
+    let reg = new RegExp(pattern, 'g')
+
+    let matches = getMatches(funcString, reg)
+    // possible is (p1, p2) => {...}
+    if(matches.length===0){
+        pattern = '.*\\((?<name>.[^\\(]*)\\).*=>.*'
+        reg = new RegExp(pattern, 'g')
+        matches = getMatches(funcString, reg)
+    }
+    
+    if(matches.length===0)
+        return [];
+    else{
+        let parameters = matches[0].split(',')
+        parameters = parameters.map((item) => {
+            return item.trim();
+        })
+        return parameters
+    }
 }

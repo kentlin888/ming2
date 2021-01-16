@@ -78,9 +78,12 @@ function findElement() {
 }
 
 async function until_assert_elementTextIs(matchText, timeout) {
+    
     let elem = (await this.findElement()) //login.spanDisplayEmail.findElement())
     let condition = until.elementTextIs(elem, matchText) //'ice4kimo@yahoo.com.tw')
-    await this.driver.wait(condition, timeout);
+    console.log('until_assert_elementTextIs (wait...) -> ', matchText)
+    await this.driver.wait(condition, timeout)
+    //await this.driver.wait(() => documentInitialised(), 10000);
     await this.driver.sleep(1000);
     return assert(await elem.getText() === matchText, `assert text->${matchText}`) //'ice4kimo@yahoo.com.tw')
 }
@@ -88,6 +91,7 @@ async function until_assert_elementIsVisible(timeout) {
     /**@type {webdriver.WebElement} */
     let elem = (await this.findElement()) //login.spanDisplayEmail.findElement())
     let condition = await until.elementIsVisible(elem) //'ice4kimo@yahoo.com.tw')
+    console.log('until_assert_elementIsVisible (wait...)')
     await this.driver.wait(condition, timeout);
     await this.driver.sleep(1000);
     return assert(await elem.isDisplayed() === true, `assert isDisplayed->${this}`) //'ice4kimo@yahoo.com.tw')
