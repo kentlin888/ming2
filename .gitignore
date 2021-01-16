@@ -24,7 +24,7 @@ issues/*
 jsdoc/*
 node_modules/*
 src/js/firebase/Firebase.js
-src/js/test/
+src/js/test/*
 wtemp/*
 
 
