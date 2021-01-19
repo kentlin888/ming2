@@ -1,7 +1,5 @@
-import pageConfig from '../../test/selenium/pages.config.js'
-import RdQaLog from '../../lib/RdQaLog.js'
 
-const {ENUM_mdId} = pageConfig
+import RdQaLog,{ENUM_mdId} from '../../lib/RdQaLog.js'
 let mdID = ENUM_mdId.PopInvoice
 
 let addNewOrderId_ok = new RdQaLog(mdID);

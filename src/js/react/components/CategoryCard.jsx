@@ -11,7 +11,7 @@ import {Map_ProductCategory, ProductInfo} from '../../dataDefine/index.js'
 class CategoryCard extends React.Component {
     // st
     static propTypes = {
-        arrayGroupedCategories: PropTypes.object
+        groupedCategory: PropTypes.object
     }
     constructor(/**@type {any}*/props) {
         super(props)
@@ -25,10 +25,9 @@ class CategoryCard extends React.Component {
 
     }
     render() {
-        const { arrayGroupedCategories } = this.props
-        
-        const { arrayGroupedItems } = arrayGroupedCategories
-        const { ref } = arrayGroupedCategories
+        const { groupedCategory } = this.props
+        const { arrayGroupedItems } = groupedCategory
+        const { ref } = groupedCategory
         //console.log(this.props)
         //console.log(arrayGroupedItems)
         //const { productList } = this.props
@@ -44,9 +43,9 @@ class CategoryCard extends React.Component {
             <React.Fragment>
                 
                 <div className="b-flexCenter">
-                    <div className="CategoryCard" id={`category-${this.props.arrayGroupedCategories.category}`} ref={ref}>
+                    <div className="CategoryCard" id={`category-${this.props.groupedCategory.category}`} ref={ref}>
                         {/* <section class="bd4 sec1"> */}
-                        <header className="headerTitle">{this.props.arrayGroupedCategories.categoryZhTW}</header>
+                        <header className="headerTitle">{this.props.groupedCategory.categoryZhTW}</header>
                         {/* <header class="headerTitle">{this.props.arrayGroupedCategories.category}</header> */}
                         <div className="row">
                             {/* <div>{this.props.arrayGroupedCategories.category}</div><br></br> */}

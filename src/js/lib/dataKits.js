@@ -258,3 +258,49 @@ export function getFunctionParameters(func) {
         return parameters
     }
 }
+
+export async function sleep(interval) {
+    return new Promise(async (resolve) => {
+        await setTimeout(() => {
+            //console.log(`sleep(${interval})....`)
+            resolve();
+        }, interval);
+    })
+}
+/**
+ * 
+ * @param {any} pmsMethod - (param is Promise method) return null means keep waiting...
+ * @param {number} timeout - 5000 = 5 seconds
+ * @param {number} interval - 500 = 0.5 seconds
+ */
+export async function waitUntil(pmsMethod, timeout, interval) {
+    console.log("LOG: ~ file: dataKits.js ~ line 271 ~ waitUntil ~ pmsMethod", pmsMethod)
+    let times = Math.ceil(timeout / interval);
+        for (let i = 0; i < times; i++) {
+            console.log('i-->', i)
+            let result = await pmsMethod();
+            if (result !== null) {
+                //resolve(result)
+                return result
+            }else{
+                //wait 500
+                await sleep(interval)
+            }
+        }
+        //resolve(null); //finally not found
+        return null
+    // return new Promise(async(resolve) => {
+    //     let times = Math.ceil(timeout / interval);
+    //     for (let i = 0; i < times; i++) {
+    //         // console.log('i-->', i)
+    //         let result = await pmsMethod();
+    //         if (result !== null) {
+    //             resolve(result)
+    //         }else{
+    //             //wait 500
+    //             await sleep(interval)
+    //         }
+    //     }
+    //     resolve(null); //finally not found
+    // })
+}

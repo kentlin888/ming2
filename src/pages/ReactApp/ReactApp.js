@@ -67,7 +67,8 @@ const store = createStore(
     rootReducer,
     composeWithDevTools(applyMiddleware(...middlewares))
 );
-
+window.app.store = store;
+//store.dispatch({})
 let divRoot = document.querySelector("#root");
 
 

@@ -131,6 +131,7 @@ window.app = {
     openModalShopCart: null,
     userData: null,
     history: null,
+    store:null,
     switchIndexPage: switchIndexPage,
     arrayGroupedCategories: null,
     arrayProductInfo: null,
@@ -143,10 +144,13 @@ window.app = new Proxy(window.app, {
         switch (prop) {
             case 'userData':
                 if(value===null){
+                    console.log('window.app.userData -->', value)
                     proxyUserMenuDropdown.isLogin = false;
                     proxyUserMenuDropdown.loginName = ''
                 }
                 else{
+                    console.log('window.app.userData -->', value)
+                    //navbarCollapse();
                     let newUserData = value;//target[prop];
                     proxyUserMenuDropdown.isLogin = true;
                     proxyUserMenuDropdown.loginName = newUserData.email
@@ -510,6 +514,7 @@ if (!proxyMainPageUI.cusModalLogin) {
 let pathHtml_userProfile = '../../webcomponents/cusModalUserProfile3/cusModalUserProfile.htm';
 aMyProfile.addEventListener('click', (e) => {
     e.preventDefault();
+    navbarCollapse();
     let newTagName = "cus-modal-user-profile";
     //let login_Element = document.querySelector(newTagName);
     if (proxyMainPageUI.cusModalUserProfile)
@@ -554,6 +559,13 @@ let array_MenuHrefs = [...all_MenuHref].filter((item) => {
     let href = item.getAttribute('href')
     return href !== "#" // 總共有5個
 })
+
+function navbarCollapse() {
+    $('.navbar-collapse').collapse('hide');
+    // $('.navbar-nav>li>a').on('click', function(){
+    //     $('.navbar-collapse').collapse('hide');
+    // });
+}
 // add nav item click event
 // e.preventDefault()->ignore default scroll behavior, need to change react page?
 array_MenuHrefs.forEach(function (element) {
@@ -562,14 +574,17 @@ array_MenuHrefs.forEach(function (element) {
         case '#page-react':
             element.addEventListener('click', (e) => {
                 e.preventDefault()
+                navbarCollapse();
                 //proxyMainPageUI.isReactPage = true;
                 //proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ProductListSearch;
+                
                 window.app.switchIndexPage(ENUM_switchIndexPage.ProductListSearch)
             });
             break;
         case '#history':
             element.addEventListener('click', (e) => {
                 e.preventDefault()
+                navbarCollapse();
                 proxyMainPageUI.isReactPage = false;
                 proxyMainPageUI.scrollToHrefId = ENUM_static_scroll_href_Id.history
             });
@@ -577,6 +592,7 @@ array_MenuHrefs.forEach(function (element) {
         case '#news':
             element.addEventListener('click', (e) => {
                 e.preventDefault()
+                navbarCollapse();
                 proxyMainPageUI.isReactPage = false;
                 proxyMainPageUI.scrollToHrefId = ENUM_static_scroll_href_Id.news
             });
@@ -584,6 +600,7 @@ array_MenuHrefs.forEach(function (element) {
         case '#qanda':
             element.addEventListener('click', (e) => {
                 e.preventDefault()
+                navbarCollapse();
                 proxyMainPageUI.isReactPage = false;
                 proxyMainPageUI.scrollToHrefId = ENUM_static_scroll_href_Id.qanda
             });
@@ -591,6 +608,7 @@ array_MenuHrefs.forEach(function (element) {
         case '#contactus':
             element.addEventListener('click', (e) => {
                 e.preventDefault()
+                navbarCollapse();
                 proxyMainPageUI.isReactPage = false;
                 proxyMainPageUI.scrollToHrefId = ENUM_static_scroll_href_Id.contactus
             });
@@ -608,9 +626,12 @@ liLogin.addEventListener('click', (e) => {
 //------------------- aLogout
 aLogout.addEventListener('click', (e) => {
     e.preventDefault()
+    navbarCollapse();
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
         window.app.userData = null;
+        window.app.switchIndexPage(ENUM_switchIndexPage.ProductListSearch);
+        proxyMainPageUI.isReactPage = false;
     }).catch(function ( /**@type {any}*/ error) {
         // An error happened.
     });
@@ -618,6 +639,7 @@ aLogout.addEventListener('click', (e) => {
 //------------------- aMyOrder
 aMyOrder.addEventListener('click', (e) => {
     e.preventDefault()
+    navbarCollapse();
     window.app.switchIndexPage(ENUM_switchIndexPage.ViewOrders);
     // proxyMainPageUI.isReactPage = true
     // proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ViewOrders

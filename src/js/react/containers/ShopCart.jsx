@@ -291,5 +291,5 @@ const mapDispatchToProps = (/**@type {any}*/dispatch) => {
         dispatch: dispatch
     }
 }
-
+// hoc
 export default connect(mapStateToProps, mapDispatchToProps)(ShopCart)

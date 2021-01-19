@@ -8,6 +8,7 @@ interface $ {
 interface JQuery {
     modal: (strShow: string) => void;
     scrollspy:(options:*)=>void;
+    collapse:(strHide: string)=>void;
 }
 interface History {
     push: (url: string) => void;
@@ -67,6 +68,7 @@ declare interface Window {
         /** data is from firebase.auth().currentUser, get from onAuthStateChanged() */
         userData: import('../../js/dataDefine/index.js').UserData;
         history: History; //import('history').default;
+        store:any;
         switchIndexPage:(enum_switchIndexPage:string)=>void;
         arrayGroupedCategories:import('./js/firebase/FirebaseMJS.js').groupedCategory[];
         arrayProductInfo:import('./js/dataDefine/index.js').ProductInfo[];

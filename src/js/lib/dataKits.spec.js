@@ -3,6 +3,8 @@ import {
     getPlainObject,
     getMatches,
     getFunctionParameters,
+    sleep,
+    waitUntil,
 } from '../lib/dataKits.js'
 let _ = require('lodash')
 let chai = require('chai')
@@ -146,5 +148,27 @@ describe('dataKits.spec.js', () => {
         // displayLoginName.log=function cc(a1,a2) {
             
         // }
+    })
+
+    
+    it('waitUntil()',async () => {
+        function getResult() {
+            let i = 0
+            return function () {
+                i++
+                console.log('getlog----', i)
+                if(i===6)
+                    return 'done----'
+                else
+                    return null //not done
+            }
+        }
+        let getResult2 = getResult();
+        let a = await waitUntil(getResult2, 5000, 500)
+        assert(a === 'done----')
+        console.log('-------------')
+        getResult2 = getResult();
+        let b = await waitUntil(getResult2, 2000, 500)
+        assert(b === null)
     })
 })

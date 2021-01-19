@@ -1,7 +1,5 @@
-import pageConfig from '../../js/test/selenium/pages.config.js'
-import RdQaLog from '../../js/lib/RdQaLog.js'
 
-const {ENUM_mdId} = pageConfig
+import RdQaLog,{ENUM_mdId} from '../../js/lib/RdQaLog.js'
 let mdID = ENUM_mdId.cusModalLogin
 
 let duplicatedRegisterAccount = new RdQaLog(mdID);

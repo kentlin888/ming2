@@ -17,12 +17,15 @@ import FirebaseMJS, { FIRESTORE_COLLECTION } from '../../firebase/FirebaseMJS.js
 import PopInvoice from '../components/PopInvoice.jsx'
 import Scrollspy from 'react-scrollspy'
 
+import { waitUntil } from '../../lib/dataKits.js'
+
+import { result } from "lodash";
 /**@enum {string} */
 let ENUM_screenSize = {
     phone: "phone",
     desktop: "desktop"
 }
-export class App extends Component {
+export class ProductListSearch extends Component {
     state = {
         /**@prop {?ENUM_screenSize} */
         screenSize: null,//ENUM_screenSize.desktop,
@@ -40,9 +43,11 @@ export class App extends Component {
     constructor(props) {
         super(props);
         this.refBoxProductListSearch = React.createRef();
+
         this.refShopCart = React.createRef();
         this.refShopcartBox = React.createRef();
         this.refInsideShop = React.createRef();
+
         this.reStickyHeader = React.createRef();
 
         this.refBeef = React.createRef();
@@ -53,42 +58,42 @@ export class App extends Component {
     //     prop: PropTypes.number
     // }
 
-    initLoad = (/**@type {any}*/e) => {
-        function debounce(/**@type {any}*/fun, /**@type {Number} - miliseconds}*/delay) {
-            return /**@this {any} */ function (/**@type {any}*/args) {
-                let that = this
-                let _args = args
-                clearTimeout(fun.id)
-                fun.id = setTimeout(function () {
-                    fun.call(that, _args)
-                }, delay)
-            }
-        }
-        // let inputb = document.getElementById('iptDebounce')
-        // let debounceAjax = debounce((/**@type {any}*/e) => {
-        //     //console.log(e)
-        // }, 500)
-        // inputb.addEventListener('keyup', function (e) {
-        //     debounceAjax(e.target.value)
-        // })
-        //----------------
-        let debounceResize = debounce((/**@type {any}*/e) => {
-            displayWindowSize();
-        }, 500)
+    // initLoad = (/**@type {any}*/e) => {
+    //     function debounce(/**@type {any}*/fun, /**@type {Number} - miliseconds}*/delay) {
+    //         return /**@this {any} */ function (/**@type {any}*/args) {
+    //             let that = this
+    //             let _args = args
+    //             clearTimeout(fun.id)
+    //             fun.id = setTimeout(function () {
+    //                 fun.call(that, _args)
+    //             }, delay)
+    //         }
+    //     }
+    //     // let inputb = document.getElementById('iptDebounce')
+    //     // let debounceAjax = debounce((/**@type {any}*/e) => {
+    //     //     //console.log(e)
+    //     // }, 500)
+    //     // inputb.addEventListener('keyup', function (e) {
+    //     //     debounceAjax(e.target.value)
+    //     // })
+    //     //----------------
+    //     let debounceResize = debounce((/**@type {any}*/e) => {
+    //         displayWindowSize();
+    //     }, 500)
 
-        function displayWindowSize() {
-            // Get width and height of the window excluding scrollbars
-            var w = document.documentElement.clientWidth;
-            var h = document.documentElement.clientHeight;
+    //     function displayWindowSize() {
+    //         // Get width and height of the window excluding scrollbars
+    //         var w = document.documentElement.clientWidth;
+    //         var h = document.documentElement.clientHeight;
 
-            // Display result inside a div element
-            document.getElementById("result").innerHTML = "Width: " + w + ", " + "Height: " + h;
-            let window2 = /** @type {import('../../../js/dataDefine/index.js').ExtendedWindow} */ (window);
-            //console.log(window2.app.viewSize())
-        }
-        window.addEventListener("resize", debounceResize);
-        displayWindowSize();
-    }
+    //         // Display result inside a div element
+    //         document.getElementById("result").innerHTML = "Width: " + w + ", " + "Height: " + h;
+    //         let window2 = /** @type {import('../../../js/dataDefine/index.js').ExtendedWindow} */ (window);
+    //         //console.log(window2.app.viewSize())
+    //     }
+    //     window.addEventListener("resize", debounceResize);
+    //     displayWindowSize();
+    // }
     test1 = () => {
         // let window2 = /** @type {import('../../dataDefine/index.js').ExtendedWindow} */ (window);
         // console.log(window2.app.viewSize())
@@ -126,7 +131,7 @@ export class App extends Component {
         //     this.updateAndNotify();
         //   }
     }
-    componentDidMount() {
+    async componentDidMount() {
         let self = this
         if (!window.app.openModalShopCart)
             window.app.openModalShopCart = () => {
@@ -217,45 +222,66 @@ export class App extends Component {
                     self.setState({ arrayGroupedCategories: arrayGroupedCategories });
                 })
         }
-        setTimeout(() => {
-            reloadState_orderAddress();
-        }, 500);
-        setTimeout(() => {
-            reloadState_orderAddress();
-        }, 5000);
-        function reloadState_orderAddress() {
-            //authUser not Exist
-            if (!window.firebase.auth().currentUser) {
-                console.log('skip reloadState_orderAddress() - authUser not sign in.')
-                return;
-            }
-            console.log(11111)
-            //state.orderAddress already exist
-            if (self.state.orderAddress)
-                return;
-            console.log(22222)
-            //authUser Exist
-            if (window.app.userData) {
-                self.setState({ orderAddress: window.app.userData.userProfile.address })
-                return
-            }
-            console.log(33333)
-            //this.state.orderAddress == null
-            if (!window.app.userData) {
-                let authUser = window.firebase.auth().currentUser
-                let self = this
-                window.firebase.firestore().collection(FIRESTORE_COLLECTION.Users).doc(authUser.uid).get()
-                    .then((snapshot) => {
-                        console.log("LOG: ~ file: ProductListSearch.jsx ~ line 237 ~ .then ~ self", self)
-                        let data = snapshot.data()
-                        if (self)//initial = undefined??
-                            self.setState({ orderAddress: data.userProfile.address })
 
-                    })
-            }
+        function waitAppUserdata() {
+            return new Promise((resolve) => {
+                if (window.app.userData) {
+                    console.log('waitAppUserdata---', 'done')
+                    self.setState({ orderAddress: window.app.userData.userProfile.address })
+                    resolve(true)//end result
+                }
+                else{
+                    console.log('waitAppUserdata---', 'NG..')
+                    resolve(null)//keep waiting
+                }
+                    
+            })
         }
-    }
+        
+        await waitUntil(waitAppUserdata, 15*1000,500)
+        // .then((e) => {
+        // console.log("LOG: ~ file: ProductListSearch.jsx ~ line 237 ~ .then ~ e", e)
+            
+        // })
+        // setTimeout(() => {
+        //     reloadState_orderAddress();
+        // }, 500);
+        // setTimeout(() => {
+        //     reloadState_orderAddress();
+        // }, 5000);
+        // function reloadState_orderAddress() {
+        //     //authUser not Exist
+        //     if (!window.firebase.auth().currentUser) {
+        //         console.log('skip reloadState_orderAddress() - authUser not sign in.')
+        //         return;
+        //     }
+        //     console.log(11111)
+        //     //state.orderAddress already exist
+        //     if (self.state.orderAddress)
+        //         return;
+        //     console.log(22222)
+        //     //authUser Exist
+        //     if (window.app.userData) {
+        //         self.setState({ orderAddress: window.app.userData.userProfile.address })
+        //         return
+        //     }
+        //     console.log(33333)
+        //     //this.state.orderAddress == null
+        //     if (!window.app.userData) {
+        //         let authUser = window.firebase.auth().currentUser
+        //         let self = this
+        //         window.firebase.firestore().collection(FIRESTORE_COLLECTION.Users).doc(authUser.uid).get()
+        //             .then((snapshot) => {
+        //                 console.log("LOG: ~ file: ProductListSearch.jsx ~ line 237 ~ .then ~ self", self)
+        //                 let data = snapshot.data()
+        //                 if (self)//initial = undefined??
+        //                     self.setState({ orderAddress: data.userProfile.address })
 
+        //             })
+        //     }
+        // }
+    }
+    
     // componentWillUnmount(/**@type {any}*/e) {
     //     console.log('component will unmount--', e)
     // }
@@ -311,7 +337,7 @@ export class App extends Component {
     // }
 
     render() {
-        this.state.arrayGroupedCategories
+        //this.state.arrayGroupedCategories
         // console.log("LOG:: App -> render -> this.arrayGroupedCategories5555", this.state.arrayGroupedCategories)
         const { productList } = this.props
         // let userAddress = '';
@@ -335,7 +361,7 @@ export class App extends Component {
                     <section>
                         {/* =============== HEADER ================== */}
                         <div className="boxDeliveryTimeAddress b-flexCenter inputField1 bd4">
-                            <span>運送地址</span>
+                            <span>運送地址{this.state.showbtnBottomCartButton.toString()}</span>
                             {/* <div>{this.state.orderAddress}</div> */}
                             <input type="text" placeholder="個人檔案中可以預設地址" data-testid="plsDeliveryAddress" defaultValue={this.state.orderAddress} onChange={this.handleInputChange}></input>
                         </div>
@@ -345,7 +371,7 @@ export class App extends Component {
                         <ul className="b-flexCenter ulScrollButtons bd3" tabIndex={-1} ref={this.reStickyHeader}>
                             {arrayMap_ProductCategory.map((item, index) => {
                                 return <li className="btnCategory" key={index}>
-                                    
+
                                     {/* <Link to={`/ProductListSearch/#category-${item[0]}`}>{item[1]}</Link>
                                     <a href={`#category-${item[0]}`} >{item[1]}</a> */}
                                     <div data-href={`#${item[0]}`} onClick={this.scrollToCategory}>{item[1]}</div>
@@ -360,11 +386,11 @@ export class App extends Component {
                             })}
                         </Scrollspy> */}
                         {/* ============= Scrollspy ================= */}
-                        
+
                         {/* ============ Category - Product Cards ============== */}
                         <div className="boxCategoryCard bd2">
                             {this.state.arrayGroupedCategories.map((/**@type {any}*/item, /**@type {Number}*/index) => (
-                                <CategoryCard className="listContainer row" forwardRef={this.refBeef} refShopcartBox={this.refShopcartBox} arrayGroupedCategories={item} key={index} dispatch={this.props.dispatch}></CategoryCard>
+                                <CategoryCard className="listContainer row" forwardRef={this.refBeef} refShopcartBox={this.refShopcartBox} groupedCategory={item} key={index} dispatch={this.props.dispatch}></CategoryCard>
                             ))}
                         </div>
                         {/* ============== FOOTER ================ */}
@@ -431,4 +457,4 @@ const mapDispatchToProps = (/**@type {any}*/dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductListSearch);

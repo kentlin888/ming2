@@ -1,6 +1,25 @@
-import assertLog from '../../js/test/selenium/assertLog.js'
+
 import {getMatches, getFunctionParameters} from './dataKits.js'
-const {getTitle} = assertLog
+
+
+export const assertTitle = 'assertLog:'
+export function getTitle(mdID, arguments_callee_name){
+    return `${assertTitle}[${mdID}-${arguments_callee_name}]`
+}
+/**@enum {string} */
+export const ENUM_mdId = {
+    forTest:"forTest",
+    T1:"T1",
+    index:"index",
+    cusModalLogin:"cusModalLogin",
+    cusModalUserProfile:"cusModalUserProfile",
+    ProductListSearch:"ProductListSearch",
+    ShopCart:"ShopCart",
+    ShopItem:"ShopItem",
+    Invoice:"Invoice",
+    ProductCard:"ProductCard",
+    PopInvoice:"PopInvoice",
+}
 
 export default class RdQaLog{
     constructor(mdID){
