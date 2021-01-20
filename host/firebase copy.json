@@ -1,0 +1,34 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 5002
+    },
+    "ui": {
+      "enabled": true
+    },
+    "hosting": {
+      "port": 5003
+    }
+  },
+  "hosting": {
+    "public": "public/ming1",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/pages/index/index.bundle.htm"
+      }
+    ]
+  }
+}

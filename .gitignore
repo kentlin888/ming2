@@ -19,7 +19,7 @@ adminTools/*
 
 dist/*
 docs/*
-host/*
+
 issues/*
 jsdoc/*
 node_modules/*

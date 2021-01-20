@@ -1,0 +1,18 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "OrderInfo",
+      "queryScope": "COLLECTION",
+      "fields": [{
+          "fieldPath": "userId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createDateTime",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

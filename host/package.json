@@ -1,0 +1,19 @@
+{
+    "scripts": {
+        "deployTemp1":"firebase hosting:channel:deploy temp1",        
+        
+        "buildDemo1": "cd .. && npm run demo1Build && cd host",
+        "copyfilesDemo1":"cp -R ../dist/demo1 ./public/",
+
+        "buildMing2": "cd .. && npm run ming2DevBuild && cd host",
+        "copyfiles":"cp -R ../dist/ming2 ./public/",
+        "copyMindMap":"cp -R ../../CV/jsmind ./public/ming2",
+        "deployHost":"firebase deploy --only hosting",
+
+
+        "hosting":"node host.js",
+        "hostDemo1":"node hostDemo1.js",
+        "buildCpHosting":"npm run buildMing2 && npm run copyfiles && npm run hosting",
+        "buildCpHostingDemo1":"npm run buildDemo1 && npm run copyfilesDemo1 && npm run hostDemo1"
+    }
+}
