@@ -367,14 +367,14 @@ export class UserData{
 export class UserProfile {
     /**@type {string} */
     uid = "XXXXXXX"
+    // /**@type {string} */
+    // sendEmail = "XXXXXXX"
     /**@type {string} */
-    sendEmail = "XXXXXXX"
+    name = ""
+    ///**@type {string} */
+    //phoneNumber = "XXXXXXX"
     /**@type {string} */
-    name = "XXXXXXX"
-    /**@type {string} */
-    phoneNumber = "XXXXXXX"
-    /**@type {string} */
-    address = "XXXXXXX"
+    address = ""
     // /**@type {string} */
     // address1 = "XXXXXXX"
     // /**@type {string} */
@@ -383,7 +383,7 @@ export class UserProfile {
     // address3 = "XXXXXXX"
     // /**@type {(1|2|3)} */
     // addressSelectNo = 1
-    /**@function */
+    ///**@function */
     // getSelectedAddress() {
     //     let propName = `address${this.addressSelectNo}`
     //     return this[propName]
