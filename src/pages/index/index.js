@@ -5,6 +5,8 @@ import 'bootstrap'
 //import 'popper.js'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import {load_orderListAsync} from '../../js/react/actions/orderList.js'
+
 //import indexEsm from './index.esm.js'
 import FirebaseMJS, {
     //syncEmailVerified_ToDB,
@@ -46,6 +48,7 @@ require('@babel/polyfill') //for async await syntax
 
 //const Swal = require('sweetalert2')
 import Swal from 'sweetalert2'
+import { ENUM_orderStatus } from '../../js/firebase/Firebase';
 
 //fontawesome.library.add([faUser,faShoppingCart]);
 
@@ -75,6 +78,7 @@ let aMyProfile = document.querySelector('#aMyProfile');
 let aLogout = document.querySelector('#aLogout');
 let spanDisplayEmail = document.querySelector('#spanDisplayEmail');
 let aOpenModalShopcart = document.querySelector('#aOpenModalShopcart');
+let liOpenModalShopcart = document.querySelector('#liOpenModalShopcart');
 
 window.firebase = firebase
 
@@ -133,6 +137,7 @@ window.app = {
     history: null,
     store:null,
     switchIndexPage: switchIndexPage,
+    pageViewOrders:null,
     arrayGroupedCategories: null,
     arrayProductInfo: null,
 }
@@ -165,7 +170,16 @@ window.app = new Proxy(window.app, {
     }
 })
     
-    
+
+window.addEventListener('click',(evt) => {
+    //console.log('click wwwwww')
+    navbarCollapse();
+})
+// let divMenu = document.querySelector('#divMenu')
+// divMenu.addEventListener('click',(evt) => {
+//     evt.stopPropagation()
+//     //console.log('click divMenu')
+// })
 
 function switchIndexPage(enum_switchIndexPage) {
     switch (enum_switchIndexPage) {
@@ -183,6 +197,20 @@ function switchIndexPage(enum_switchIndexPage) {
             break;
         case ENUM_switchIndexPage.ViewOrders:
             proxyMainPageUI.isReactPage = true;
+            
+            //console.log('arrayOrderInfo-->', window.app.pageViewOrders)//.state.arrayOrderInfo
+            if(window.app.pageViewOrders && window.app.pageViewOrders.state.arrayOrderInfo.length===0){
+                let store = window.app.store;
+                let uid = window.app.userData.uid
+                store.dispatch(load_orderListAsync(uid, ENUM_orderStatus.all))
+            }
+
+            
+                //window.app.pageViewOrders.queryOrderStatus(ENUM_orderStatus.all);
+
+            //queryOrderStatus
+
+
             //proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ViewOrders;
             window.app.pushUrl('/ViewOrders'); //ProductListSearch
             setTimeout(() => {
@@ -647,18 +675,48 @@ aMyOrder.addEventListener('click', (e) => {
 });
 
 
-aOpenModalShopcart.addEventListener('click', () => {
+function openShopCart() {
+    let state = window.app.store.getState()
+    let {shopItemList} = state.shopCart
+    //console.log(shopItemList.length)
+    if(shopItemList.length>0){
+        window.app.switchIndexPage(ENUM_switchIndexPage.ProductListSearch)
+        // proxyMainPageUI.isReactPage = true
+        // proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ProductListSearch;
+        setTimeout(() => {
+            if (window.app.openModalShopCart)
+                window.app.openModalShopCart();
+        }, 100);
+    }
+    else{
+        window.Swal.fire({
+            title: '提醒',
+            text: '購物車內沒有物品，請先選購',
+            icon: 'warning',
+        })
+    }
+
+    
+    
+}
+aOpenModalShopcart.addEventListener('click', openShopCart)
+liOpenModalShopcart.addEventListener('click', () => {
+    proxyMainPageUI.isReactPage = true;
     window.app.switchIndexPage(ENUM_switchIndexPage.ProductListSearch)
-    // proxyMainPageUI.isReactPage = true
-    // proxyMainPageUI.reactSwitchPage = ENUM_reactSwitchPage.ProductListSearch;
-    setTimeout(() => {
-        if (window.app.openModalShopCart)
-            window.app.openModalShopCart();
-    }, 100);
 })
+
 //-------------
-$(document).ready(function () {
+$(function () {
     //pageStatic.hide();
     //pageReact.hide();
     proxyMainPageUI.isReactPage = false;
+    //trigger - shop cart count = 0
+    //let aa = countAllItems_Price()
+    window.app.setShopItemCount(0)
+    
 })
+// $(document).ready(function () {
+//     //pageStatic.hide();
+//     //pageReact.hide();
+//     proxyMainPageUI.isReactPage = false;
+// })

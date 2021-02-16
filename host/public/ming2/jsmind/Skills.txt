@@ -1,0 +1,56 @@
+Skills
+	Program
+		.Net
+			Asp.Net
+			WPF
+			LINQ
+			Entity Framework
+			.Net Core
+			xUnit
+			MVVMLight
+			IIS
+		Web
+			Javascript
+				ES6+
+				React
+					Redux
+					Context
+				Mocha
+				Jest
+				webpack
+				Node.js
+			HTML
+				markdown
+			CSS
+				SASS
+				Bootstrap4
+	Automation Testing
+		Selenium
+		Appium
+		Mocha
+		Patrolpapi
+	Database
+		Oracle
+		MSSQL
+		MySQL
+		SQLite
+		NoSQL
+	Mobile Device
+		iOS (swift)
+		Android (java)
+		PWA
+	Mac/Linux
+		.Net Core
+		Electron
+	AI
+		OpenCV
+	Dashboard
+		Stock Related Charts
+		Data table
+	Cloud
+		Firebase
+	Devops
+		Github
+	Tools
+		Visual Studio 2019
+		Visual Studio Code

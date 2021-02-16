@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            background-color: black;
+            color: white;
+        }
+    </style>
+    <style>
+        .old-paper {
+            position: relative;
+            max-width: 850px;
+        }
+
+        .original-image {
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+        }
+
+        .overlay {
+            mix-blend-mode: multiply;
+            position: absolute;
+            display: inline-block;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .overlay img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* =========== */
+        .black-and-white {
+            filter: brightness(70%) contrast(150%) saturate(0%) brightness(150%);
+        }
+
+        /* =========== */
+        .sepia {
+            filter: saturate(0%) sepia(100%) contrast(150%) saturate(150%);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="old-paper">
+        <img class="original-image" src="./mingkee_store.png" />
+        <img class="original-image sepia" src="./mingkee_store.png" />
+        <img class="original-image black-and-white" src="./mingkee_store.png" />
+        <div class="overlay">
+            <!-- <img src="./oldTexture.png"> -->
+            <img src="https://i.imgur.com/4rKVgAQ.png">
+        </div>
+    </div>
+    <!-- <div class="old-paper">
+        <img class="original-image" src="https://i.imgur.com/ouDwClz.jpg" />
+        <div class="overlay">
+            <img src="https://i.imgur.com/4rKVgAQ.png">
+        </div>
+        imgs/2021-02-08-15-09-50.png
+    </div> -->
+</body>
+
+</html>

@@ -60,14 +60,15 @@ const rowStyle = { backgroundColor: '#c8e6c9' };
 //         price: 250
 //     }
 // ]
+let funcCancelOrder = function(){}
 const expandRow = {
     onlyOneExpanding: true,
     className: 'expandingRowBackground',
     renderer: (/**@type {any}*/row) => {
         let orderInfo = row
-        
+        //console.log('------funcCancelOrder-----',funcCancelOrder)
         return <div className="expandedInvoice">
-            <Invoice orderInfo={orderInfo} IsOrderExisted={true}></Invoice>
+            <Invoice orderInfo={orderInfo} IsOrderExisted={true} data-cancelOrder={funcCancelOrder}></Invoice>
         </div>
         
     }
@@ -101,13 +102,19 @@ export default class ViewOrdersItem extends PureComponent {
     
     static propTypes = {
         //OrderInfo[]
-        ['data-arrayOrder']: PropTypes.arrayOf(PropTypes.instanceOf(OrderInfo))
+        ['data-arrayOrder']: PropTypes.arrayOf(PropTypes.instanceOf(OrderInfo)),
+        ['data-cancelOrder']:PropTypes.func,
     }
     static defaultProps = {
         //data: []
     }
+    constructor(props){
+        super(props)
+        funcCancelOrder = props['data-cancelOrder']//function
+    }
     render() {
         console.log('ViewOrdersItem.props-->', this.props)
+        
         return (
             <div>
                 <BootstrapTable

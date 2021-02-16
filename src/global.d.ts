@@ -70,6 +70,7 @@ declare interface Window {
         history: History; //import('history').default;
         store:any;
         switchIndexPage:(enum_switchIndexPage:string)=>void;
+        pageViewOrders:any;
         arrayGroupedCategories:import('./js/firebase/FirebaseMJS.js').groupedCategory[];
         arrayProductInfo:import('./js/dataDefine/index.js').ProductInfo[];
     };

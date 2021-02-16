@@ -244,12 +244,12 @@ export default class cusModalLogin extends HTMLElement {
         this.clearAllInputs();
         if (isShow == true) {
             if (typeof WebpackDefinePlugin !== 'undefined' && WebpackDefinePlugin.devMode) {
-                this.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
-                this.proxyUI.bindIptSigninPWD = '11111111'
-                this.proxyUI.bindIptRegisterEmail = 'ice4kimo@yahoo.com.tw'
-                this.proxyUI.bindIptRegisterPWD1 = '11111111'
-                this.proxyUI.bindIptRegisterPWD2 = '11111111'
-                this.proxyUI.bindIptResentPwdEmail = 'ice4kimo@yahoo.com.tw'
+                // this.proxyUI.bindIptSigninEmail = 'ice4kimo@yahoo.com.tw'
+                // this.proxyUI.bindIptSigninPWD = '11111111'
+                // this.proxyUI.bindIptRegisterEmail = 'ice4kimo@yahoo.com.tw'
+                // this.proxyUI.bindIptRegisterPWD1 = '11111111'
+                // this.proxyUI.bindIptRegisterPWD2 = '11111111'
+                // this.proxyUI.bindIptResentPwdEmail = 'ice4kimo@yahoo.com.tw'
             }
             strShow = 'show';
         } else {

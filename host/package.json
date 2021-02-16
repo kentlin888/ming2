@@ -7,7 +7,7 @@
 
         "buildMing2": "cd .. && npm run ming2DevBuild && cd host",
         "copyfiles":"cp -R ../dist/ming2 ./public/",
-        "copyMindMap":"cp -R ../../CV/jsmind ./public/ming2",
+        "copyMindMap":"cp -R ../../kentcv/jsmind ./public/ming2",
         "deployHost":"firebase deploy --only hosting",
 
 

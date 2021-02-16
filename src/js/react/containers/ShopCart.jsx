@@ -22,6 +22,7 @@ class ShopCart extends Component {
     static propTypes = {
         ['data-orderAddress']: PropTypes.string,
         showInvoicePopModal: PropTypes.func,
+        hideModalShopcart: PropTypes.func,
     }
     state = {
         orderInfo: new OrderInfo(),
@@ -77,7 +78,8 @@ class ShopCart extends Component {
 
     }
     call_ShowInvoicePopModal = async () => {
-        let { totalItemCount } = this.props;
+        let { totalItemCount,hideModalShopcart } = this.props;
+        hideModalShopcart();//close phone shopCart
         if(window.app.userData === null){
             window.Swal.fire({
                 title: '提醒',

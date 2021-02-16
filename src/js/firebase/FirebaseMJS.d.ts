@@ -98,6 +98,8 @@ export default class FirebaseMJS {
      * @param  {{beginEvent: function, endEvent: function}} [options] - callback functions
      */
     addOrderInfo(orderInfo: import("../dataDefine/index.js").OrderInfo, _: import('lodash')): any;
+
+    modifyOrderStatus:(orderId:string, status:ENUM_orderStatus, value:boolean) => Promise<string>;
     /**
      *
      * @param {string} userId

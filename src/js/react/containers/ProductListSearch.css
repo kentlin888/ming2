@@ -201,15 +201,19 @@ body {
 #modalShopcart .modal-content {
   background-color: #0c2138;
 }
+#modalShopcart .titleWhite {
+  color: white;
+}
 
 .bottomBuy {
   margin: 10px;
-  border: red 2px solid;
+  border: 2px solid #beac74;
   height: 40px;
-  background-color: coral;
   position: fixed;
-  color: black;
+  font-weight: 600;
   bottom: -9px;
   left: 0px;
   right: 0px;
+  display: flex;
+  justify-content: space-around;
 }

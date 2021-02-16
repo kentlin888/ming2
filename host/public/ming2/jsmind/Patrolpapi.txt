@@ -1,0 +1,46 @@
+Patrolpapi WPF GUI/Socket Server 12,000
+	CakeDB 37,000
+		Entity Framework
+		LINQ
+		MySQL
+		SQLite
+	CakeTech2 9,000
+		CakeDB補充套件
+	CakeTools 13,000
+		device drivers
+			iOS Driver
+			Android Driver
+			Web Driver
+		OpenCV
+	iOS APP
+		安裝在iOS上的Agent App (by Swift)
+	Android APP
+		安裝在Android上的Agent App (by Java)
+	Mac APP
+		.Net Core mac端Socket server
+		vm_connector_ppp
+	MakeProvision
+		對ios .ipa簽章
+	PPP_ViewModal 12,000
+		MVVM實作
+		MVVMLight
+	PatrolpapiCLI
+		CLI指令，直接操作patrolpapi
+	vm_tools 6000
+		.Net Core跨平台tools
+	vm_tools2 2000
+		.Net Core跨平台tools
+	WebApp_PatrolPapi
+		官方網站
+		Asp.Net
+		IIS Host
+	wpfFixDBDocument2
+		產生EF Entities
+	Installer_ppp
+		安裝程式打包專案
+	UpdatePatrolpapi_Win
+		window更新程式
+	Release_PatrolPP 3100
+		打包並佈署patrolpapi到Server上
+	CakeDashBoard
+		客戶issue追蹤

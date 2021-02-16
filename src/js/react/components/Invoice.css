@@ -107,6 +107,7 @@ body {
 }
 .boxInvoice .tableItems td {
   text-align: center;
+  vertical-align: middle;
 }
 .boxInvoice .tableItems td:nth-child(2) {
   text-align: left;

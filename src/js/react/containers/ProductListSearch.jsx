@@ -52,6 +52,9 @@ export class ProductListSearch extends Component {
 
         this.refBeef = React.createRef();
 
+        //trigger setItemCount() -- shop cart item = 0
+        //console.log('totalItemCount--->', this.props.totalItemCount)
+
         //console.log(this.arrayGroupedCategories)
     }
     // static propTypes = {
@@ -107,7 +110,9 @@ export class ProductListSearch extends Component {
         console.log(this.props)
     }
 
-
+    hideModalShopcart=() => {
+        $('#modalShopcart').modal('hide')
+    }
     componentDidUpdate(/**@type {any}*/prevProps, /**@type {any}*/prevState, /**@type {any}*/snapshot) {
         if (prevState.screenSize != this.state.screenSize) {
             switch (this.state.screenSize) {
@@ -230,18 +235,18 @@ export class ProductListSearch extends Component {
                     self.setState({ orderAddress: window.app.userData.userProfile.address })
                     resolve(true)//end result
                 }
-                else{
+                else {
                     console.log('waitAppUserdata---', 'NG..')
                     resolve(null)//keep waiting
                 }
-                    
+
             })
         }
-        
-        await waitUntil(waitAppUserdata, 15*1000,500)
+
+        await waitUntil(waitAppUserdata, 15 * 1000, 500)
         // .then((e) => {
         // console.log("LOG: ~ file: ProductListSearch.jsx ~ line 237 ~ .then ~ e", e)
-            
+
         // })
         // setTimeout(() => {
         //     reloadState_orderAddress();
@@ -281,7 +286,7 @@ export class ProductListSearch extends Component {
         //     }
         // }
     }
-    
+
     // componentWillUnmount(/**@type {any}*/e) {
     //     console.log('component will unmount--', e)
     // }
@@ -361,7 +366,8 @@ export class ProductListSearch extends Component {
                     <section>
                         {/* =============== HEADER ================== */}
                         <div className="boxDeliveryTimeAddress b-flexCenter inputField1 bd4">
-                            <span>運送地址{this.state.showbtnBottomCartButton.toString()}</span>
+                            <span>運送地址</span>
+                            {/* <span>運送地址{this.state.showbtnBottomCartButton.toString()}</span> */}
                             {/* <div>{this.state.orderAddress}</div> */}
                             <input type="text" placeholder="個人檔案中可以預設地址" data-testid="plsDeliveryAddress" defaultValue={this.state.orderAddress} onChange={this.handleInputChange}></input>
                         </div>
@@ -394,8 +400,17 @@ export class ProductListSearch extends Component {
                             ))}
                         </div>
                         {/* ============== FOOTER ================ */}
-                        <div className={`btn btn-primary d-lg-none bottomBuy ${this.state.showbtnBottomCartButton ? '' : 'displayNone'}`} data-toggle="modal" data-target="#modalShopcart">
-                            {this.props.totalItemCount}項 --- 查看購物車 --- NT$ {this.props.AllItems_Price}
+                        <div className={`btn btn-info d-lg-none bottomBuy ${this.state.showbtnBottomCartButton ? '' : 'displayNone'}`} data-toggle="modal" data-target="#modalShopcart">
+                            <span>
+                                <span>{this.props.totalItemCount}</span>
+                                <span>項</span>
+                            </span>
+                            <span> 查看購物車 </span>
+                            <span>
+                                <span>NT$ </span>
+                                <span>{this.props.AllItems_Price}</span>
+                            </span>
+                            {/* {this.props.totalItemCount}項 --- 查看購物車 --- NT$ {this.props.AllItems_Price} */}
                         </div>
                         {/* Modal */}
                         <div className="modal fade " tabIndex={-1} id="modalShopcart">
@@ -403,7 +418,7 @@ export class ProductListSearch extends Component {
                                 <div className="modal-content">
                                     <div className="modal-header">
                                         {/* <h5 className="modal-title">Modal title</h5> */}
-                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" className="close titleWhite" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -413,10 +428,10 @@ export class ProductListSearch extends Component {
 
                                         </div>
                                     </div>
-                                    <div className="modal-footer">
+                                    {/* <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                                         <button type="button" className="btn btn-primary">Save changes</button>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -427,7 +442,7 @@ export class ProductListSearch extends Component {
                 {/* ============= 2.Aside (RIGHT) ============= */}
                 <aside ref={this.refShopcartBox} className={`boxShopCart bd4 d-none d-lg-block`}>
                     <div ref={this.refShopCart}>
-                        <ShopCart data-orderAddress={this.state.orderAddress} showInvoicePopModal={this.showInvoicePopModal}></ShopCart>
+                        <ShopCart data-orderAddress={this.state.orderAddress} showInvoicePopModal={this.showInvoicePopModal} hideModalShopcart={this.hideModalShopcart}></ShopCart>
                     </div>
                 </aside>
             </main>

@@ -1,4 +1,4 @@
-import FirebaseMJS from '../firebase/FirebaseMJS.js'
+import FirebaseMJS, {ENUM_orderStatus} from '../firebase/FirebaseMJS.js'
 import {
     OrderInfo,
     ShopItemInfo
@@ -167,6 +167,19 @@ describe('Connect1.spec.js', () => {
                 let docData = docSnapShot.data()
                 console.log("LOG: ~ file: Connect1.test.js ~ line 93 ~ .then ~ docData", docData)
             })
+
+    })
+    it('FirebaseMJS.modifyOrderStatus()', () => {
+        let firebaseMJS = new FirebaseMJS(firebase,dataKits);
+        return firebaseMJS.modifyOrderStatus('202102080001', ENUM_orderStatus.canceled, true)
+            .then((msg) => {
+                console.log(msg)
+                //return newOrder.newDocRef.get()
+            })
+            // .then((docSnapShot) => {
+            //     let docData = docSnapShot.data()
+            //     console.log("LOG: ~ file: Connect1.test.js ~ line 93 ~ .then ~ docData", docData)
+            // })
 
     })
     it('FirebaseMJS.getNewOrderInfoId()', () => {

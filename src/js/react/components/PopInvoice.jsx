@@ -128,7 +128,7 @@ export default class PopInvoice extends Component {
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title" id="exampleModalLongTitle">購買明細</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" className="close titleWhite" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">×</span>
                                     </button>
                                 </div>
@@ -144,7 +144,7 @@ export default class PopInvoice extends Component {
                                             </span>
                                         </div>
                                         <div>
-                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">取消</button>
+                                            <button type="button" className="btn btn-secondary mx-3" data-dismiss="modal">取消</button>
                                             <button type="button" className="btn btn-primary" data-testid="popinvoice_btnCheckOutOrder" onClick={this.CheckOutOrder}>訂單確認送出</button>
                                         </div>
                                     </div>

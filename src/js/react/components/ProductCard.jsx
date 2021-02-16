@@ -15,7 +15,7 @@ export default class ProductCard extends PureComponent {
         dispatch: PropTypes.func,
         productInfo: PropTypes.object,
         //ref
-        refShopcartBox:PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        refShopcartBox: PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         //PropTypes.instanceOf(Element)
 
     }
@@ -25,13 +25,13 @@ export default class ProductCard extends PureComponent {
         const { dispatch, refShopcartBox } = props
         this.boundActionCreators = bindActionCreators(shopCart_actions, dispatch)
         //notify parent add click happened.  need to scroll to shopcart bottom.
-        
+
         this.refShopcartBox = refShopcartBox;
 
     }
     btnAddToCart = (/**@type {any}*/e) => {
         const { productInfo, dispatch } = this.props
-        if(window.app.userData === null){
+        if (window.app.userData === null) {
             window.Swal.fire({
                 title: '提醒',
                 text: `請先登入您的帳號,以便開始選購商品`,
@@ -48,18 +48,18 @@ export default class ProductCard extends PureComponent {
                     //console.log("LOG: ~ file: cusModalLogin.js ~ line 311 ~ .then ~ htmlElement", htmlElement)
                 }
             })
-        }else{
+        } else {
             //alredy login
             this.boundActionCreators.add_shopCart(1, productInfo);
             setTimeout(() => {
-            
-                this.refShopcartBox.current.scroll(0,this.refShopcartBox.current.scrollHeight)
+
+                this.refShopcartBox.current.scroll(0, this.refShopcartBox.current.scrollHeight)
             }, 500);
         }
     }
     render() {
         /**@type {ProductInfo} */
-        let productInfo= this.props.productInfo
+        let productInfo = this.props.productInfo
         //const { productInfo } = this.props
         return (
             <React.Fragment>
@@ -68,14 +68,18 @@ export default class ProductCard extends PureComponent {
                         <figcaption className="b-textCenter">
                             <div >{productInfo.name}</div>
                         </figcaption>
-                        <div className="imgContainer bd2">
-                            <img className="imgFood"
-                                src={productInfo.imgUrl}
-                                // src={imgProduct.default}
-                                alt="image not found"
-                            />
+                        <div >
+                            <a href={productInfo.imgUrl} className="imgContainer bd2">
+                                <img className="imgFood"
+                                    src={productInfo.imgUrl}
+                                    // src={imgProduct.default}
+                                    alt="image not found"
+                                />
+                            </a>
+
+
                         </div>
-                        
+
 
                     </figure>
                     <div className="priceBottom bd3">
@@ -86,7 +90,7 @@ export default class ProductCard extends PureComponent {
                     </div>
                     <hr className="hrDot" />
                 </li>
-                
+
             </React.Fragment>
         );
     }

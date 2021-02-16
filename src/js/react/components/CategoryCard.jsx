@@ -51,7 +51,9 @@ class CategoryCard extends React.Component {
                             {/* <div>{this.props.arrayGroupedCategories.category}</div><br></br> */}
                             {/* {arrayGroupedItems.map((product, index)=>(<div className="productCard" key={index}>{product.name}, {product.price}, {product.imgFileName} </div>))} */}
                             {/* {arrayGroupedItems.map((productInfo, index) => (<ProductCard className="productCard" id={`${this.UID('productCard')}-${index}`} productInfo={productInfo} key={index} dispatch={this.props.dispatch} />))} */}
-                            <ul id="ulCards" className="bd2 b-ulStyleNone b-flexStart">
+                            {/* <ul id="ulCards" className="bd3 p-1 b-ulStyleNone b-flexStart"> */}
+                            <ul id="ulCards" className="bd3 p-1 b-ulStyleNone mx-auto mx-sm-0 d-sm-flex justify-content-start flex-wrap">
+                            {/* justify-content-sm-center justify-content-md-center */}
                                 {/* <li id="foodCard" class="bd1 food">
                             <div>百頁豆腐</div>
                             <img class="imgFood" src="noodle1.png" alt="" />

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './Invoice.css'
 import { OrderInfo, ShopItemInfo } from '../../dataDefine/index.js'
 import PropTypes from 'prop-types'
+import {ENUM_orderStatus} from '../../firebase/FirebaseMJS.js'
 
 class InvoiceShopItem extends Component {
     static propTypes = {
@@ -10,10 +11,11 @@ class InvoiceShopItem extends Component {
     render() {
         /**@type {ShopItemInfo} */
         let shopItemInfo = this.props.shopItemInfo
+        let imgUrl = shopItemInfo._productInfo.imgUrl
         if (shopItemInfo._productInfo === null)
             throw new Error('shopItemInfo._productInfo is null! try method OrderInfo.fillShopItem()')
         return <tr>
-            <td><div className="imgContainer bd2"><img src={shopItemInfo._productInfo.imgUrl} /></div></td>
+            <td><div className="imgContainer bd2"><a href={imgUrl}><img src={imgUrl} /></a></div></td>
             <td><div className="rowProductName" data-testid="invoiceShopItem_prodName">{shopItemInfo._productInfo.name}</div></td>
             <td data-testid="invoiceShopItem_amount">{shopItemInfo.amount}</td>
             <td data-testid="invoiceShopItem_price">{shopItemInfo.price}</td>
@@ -26,15 +28,30 @@ export default class Invoice extends Component {
     static propTypes = {
         orderInfo: PropTypes.any,//PropTypes.instanceOf(OrderInfo)
         IsOrderExisted: PropTypes.bool,
+        ['data-cancelOrder']:PropTypes.func,
         // userData:PropTypes.instanceOf(OrderInfo),
         // orderAddress:PropTypes.string,
         // totalPrice:PropTypes.number,
 
     }
+
+    // cancelOrder=() => {
+        
+    //     //let firebaseMJS = new FirebaseMJS(firebase,dataKits);
+        
+    //     return window.FirebaseMJS.modifyOrderStatus('202102080002', ENUM_orderStatus.canceled, true)
+    //         .then((msg) => {
+    //             console.log(msg)
+    //             //return newOrder.newDocRef.get()
+    //         })
+    // }
     render() {
         let { IsOrderExisted } = this.props;
-        let { userData, orderAddress, totalPrice, orderId, sOrderStatus, shopItemList } = this.props.orderInfo
+        let { userData, orderAddress, totalPrice, orderId, sOrderStatus, orderStatus, shopItemList } = this.props.orderInfo
+        let IsShowBtn_CancelOrder = (IsOrderExisted && orderStatus.isCanceled===false)
+        let cancelOrder = this.props['data-cancelOrder']
         console.log("LOG: ~ file: Invoice.jsx ~ line 28 ~ Invoice ~ render ~ shopItemList", shopItemList)
+        //console.log("LOG: ~ file: Invoice.jsx ~ line 28 ~ Invoice ~ render ~ orderInfo", orderStatus.isCanceled)
         let jsdtCreateDateTime_server = (this.props.orderInfo.jsdtCreateDateTime_server) ? this.props.orderInfo.jsdtCreateDateTime_server.toLocaleString() : 'XXXXX';
         return (
             <div className="boxInvoice b-flexCenter">
@@ -61,7 +78,9 @@ export default class Invoice extends Component {
                             <td>
                                 <span><span>電話：&nbsp;</span><span data-testid="invoice_phoneNumber">{userData.phoneNumber}</span></span>
                             </td>
-                            <td></td>
+                            <td>
+                                <div className={`btn btn-danger ${(IsShowBtn_CancelOrder) ? '' : 'd-none'}`} onClick={function(){cancelOrder(orderId)}}>取消訂單</div>
+                            </td>
                         </tr>
                         <tr>
                             <td>

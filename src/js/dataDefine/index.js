@@ -180,11 +180,11 @@ export const LogType = {
     }
     /**@property {string} */
     get sOrderStatus() {
-        let rtnStatus = "訂單成立,尚未付款"
+        let rtnStatus = "訂單成立,等待出貨"
         if (this.orderStatus.isPaid === true)
             rtnStatus = "已付款"
         if (this.orderStatus.isDelivery === true)
-            rtnStatus = "已寄出"
+            rtnStatus = "已出貨"
         if (this.orderStatus.isCanceled === true)
             rtnStatus = "已取消"
         if (this.orderStatus.isCompleted === true)

@@ -10,7 +10,7 @@
     "jest": "jest ./src/pages/demo1/T1.jsx.test.js --testNamePattern \"t1 demo\" ",
     "babeljsx": "babel --watch --presets @babel/preset-env --presets @babel/preset-react  ./wtemp/src/ --out-dir ./wtemp/out/",
     "ming2DevBuild": "webpack --mode development --env NODE_ENV=development --env BUILD_SITE=ming --config ./webpack.config.js",
-    "ming2DevServer": "webpack-dev-server --mode development --env.NODE_ENV=development --env.BUILD_SITE=ming --config ./webpack.config.js",
+    "ming2DevServer": "webpack serve --mode development --env NODE_ENV=development --env BUILD_SITE=ming --config ./webpack.config.js",
     "ming2ProdBuild": "webpack --mode production --env NODE_ENV=production --env BUILD_SITE=ming --config ./webpack.config.js",
     "ming2ProdServer": "webpack-dev-server --mode production --env.NODE_ENV=production --env.BUILD_SITE=ming --config ./webpack.config.js",
     "demo1T1": "webpack-dev-server --mode development --env.NODE_ENV=development --env.BUILD_SITE=demo1 --env.ENUM_AppPage=T1 --config ./webpack.config.js",

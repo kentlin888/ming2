@@ -188,7 +188,7 @@ let mind = {
 
     {
         "id": "6c6d340e635c5338",
-        "topic": "Vanilla javascript",
+        "topic": "ES6+",
         "expanded": true,
         "parentid": "6c6caea06e4c1c57"
     }, {

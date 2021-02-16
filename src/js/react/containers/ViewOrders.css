@@ -72,6 +72,9 @@ body {
   box-shadow: none;
 }
 
+.boxViewOrders {
+  margin-top: 100px;
+}
 .boxViewOrders .boxCategoryButtons {
   width: 100%;
 }

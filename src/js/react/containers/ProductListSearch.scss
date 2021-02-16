@@ -221,20 +221,27 @@ $colorGold:base.$colorGold;
     .modal-content{
         background-color: lighten($color: $colorRoyalBlue, $amount: 7%);
     }
+    .titleWhite {
+        color: base.$colorTitle2;
+    }
 
 }
 // =================== bottomBuy
 .bottomBuy {
     margin: 10px;
-    border: red 2px solid;
+    border: 2px solid $colorGold;
     height: 40px;
-    background-color: coral;
+    // background-color: coral;
     position: fixed;
-    color: black;
-
+    // color: black;
+    font-weight: 600;
     bottom: -9px;
     left: 0px;
     right: 0px;
+
+    display: flex;
+    justify-content: space-around;
+    
 }
 
 
