@@ -1,0 +1,32 @@
+*{
+    box-sizing: border-box;
+}
+html,body{
+    background-color: black;
+    color: white;
+}
+
+.bodyBox{
+    width: 99vw;
+    height: 97vh;
+
+    display: flex;
+    padding: 10px;
+    // justify-content: center;
+    // align-items: center;
+}
+.leftMenu{
+    //display: inline-block;
+    //margin:5px; 
+    height: 100%;
+    width: 200px;
+    //float: left;
+}
+.centerBox{
+    //margin:5px;
+    //display: inline-block;
+    height: 100%;
+    width: 100%;
+    //margin-left: 200px;
+    flex-grow: 1;
+}

@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: black;
+  color: white;
+}
+
+.bodyBox {
+  width: 99vw;
+  height: 97vh;
+  display: flex;
+  padding: 10px;
+}
+
+.leftMenu {
+  height: 100%;
+  width: 200px;
+}
+
+.centerBox {
+  height: 100%;
+  width: 100%;
+  flex-grow: 1;
+}

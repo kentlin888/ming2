@@ -1,0 +1,140 @@
+[
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///../node_modules/react-dom/cjs/react-dom.development.js 24993:16 \"%cDownload the React DevTools for a better development experience: https://fb.me/react-devtools\" \"font-weight:bold\"",
+        "timestamp": 1609388427886,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./pages/ReactApp/ReactApp.js 74:8 \"development\"",
+        "timestamp": 1609388427924,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/containers/ProductListSearch.jsx 448:14 \"LOG: ~ file: ProductListSearch.jsx ~ line 423 ~ render ~ arrayMap_ProductCategory\" Array(2)",
+        "timestamp": 1609388427944,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/components/Invoice.jsx 158:14 \"LOG: ~ file: Invoice.jsx ~ line 28 ~ Invoice ~ render ~ shopItemList\" Array(0)",
+        "timestamp": 1609388427948,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/containers/ShopCart.jsx 130:12 \"LOG: ~ file: ShopCart.jsx ~ line 27 ~ ShopCart ~ constructor ~ this.boundActionCreators\" Object",
+        "timestamp": 1609388427951,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/components/Invoice.jsx 158:14 \"LOG: ~ file: Invoice.jsx ~ line 28 ~ Invoice ~ render ~ shopItemList\" Array(0)",
+        "timestamp": 1609388427952,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/containers/ProductListSearch.jsx 448:14 \"LOG: ~ file: ProductListSearch.jsx ~ line 423 ~ render ~ arrayMap_ProductCategory\" Array(2)",
+        "timestamp": 1609388428043,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/components/Invoice.jsx 158:14 \"LOG: ~ file: Invoice.jsx ~ line 28 ~ Invoice ~ render ~ shopItemList\" Array(0)",
+        "timestamp": 1609388428044,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./pages/index/index.js 235:16 \"assertLog:[index-loginSuccess]false\"",
+        "timestamp": 1609388428081,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./pages/index/index.js 240:16 \"assertLog:[index-displayLoginName]null\"",
+        "timestamp": 1609388428081,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./pages/index/index.js 385:12 \"No user is signed in...\"",
+        "timestamp": 1609388428081,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/firebase/FirebaseMJS.js 700:14 \"LOG: ~ file: FirebaseMJS.js ~ line 507 ~ FirebaseMJS ~ groupedData ~ groupedData\" Array(5)",
+        "timestamp": 1609388428364,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/containers/ProductListSearch.jsx 375:18 \"SET window.app.arrayGroupedCategories ---->\" Array(5)",
+        "timestamp": 1609388428364,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/containers/ProductListSearch.jsx 448:14 \"LOG: ~ file: ProductListSearch.jsx ~ line 423 ~ render ~ arrayMap_ProductCategory\" Array(2)",
+        "timestamp": 1609388428365,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/components/Invoice.jsx 158:14 \"LOG: ~ file: Invoice.jsx ~ line 28 ~ Invoice ~ render ~ shopItemList\" Array(0)",
+        "timestamp": 1609388428366,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///../node_modules/webpack-dev-server/client/index.js?http://localhost:9006 52:8 \"[WDS] Live Reloading enabled.\"",
+        "timestamp": 1609388428396,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/containers/ProductListSearch.jsx 391:18 \"skip reloadState_orderAddress() - authUser not sign in.\"",
+        "timestamp": 1609388428546,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/containers/ProductListSearch.jsx 448:14 \"LOG: ~ file: ProductListSearch.jsx ~ line 423 ~ render ~ arrayMap_ProductCategory\" Array(2)",
+        "timestamp": 1609388428562,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/components/Invoice.jsx 158:14 \"LOG: ~ file: Invoice.jsx ~ line 28 ~ Invoice ~ render ~ shopItemList\" Array(0)",
+        "timestamp": 1609388428562,
+        "type": ""
+    },
+    {
+        "level": "SEVERE",
+        "message": "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAkKicYbDRQacOaN5uxceuBrfcT_8qukJw - Failed to load resource: the server responded with a status of 400 ()",
+        "timestamp": 1609388432420,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./webcomponents/cusModalLogin3/cusModalLogin.js 496:10 \"LOG:: cusModalLogin -> getErrorMessageZHTW -> errCode\" \"auth/email-already-in-use\"",
+        "timestamp": 1609388432420,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./webcomponents/cusModalLogin3/cusModalLogin.js 394:20 \"assertLog:[cusModalLogin-duplicatedRegisterAccount]  true\"",
+        "timestamp": 1609388432420,
+        "type": ""
+    },
+    {
+        "level": "INFO",
+        "message": "webpack-internal:///./js/react/containers/ProductListSearch.jsx 391:18 \"skip reloadState_orderAddress() - authUser not sign in.\"",
+        "timestamp": 1609388433952,
+        "type": ""
+    }
+]

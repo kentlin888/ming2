@@ -155,6 +155,14 @@ module.exports = (env, options) => {
                     // publicPath: '',
                 },
                 plugins: [
+                    new MiniCssExtractPlugin({
+                        filename: 'assets/[name].[hash].css',
+                        //outputPath: 'assets',
+                        ignoreOrder: true,
+                        //publicPath:'../../assets/',
+                        //filename: ({ chunk }) => `${chunk.name.replace('/js/', '/css/')}.css`,
+                        //chunkFilename: '[id].[contenthash].css',
+                    }),
                     new HtmlWebpackPlugin({
                         //template: path.join(__dirname, 'src','pages','ConsoleApp', 'ConsoleApp.htm'),
                         template: './pages/ConsoleApp/ConsoleApp.htm', //path.join(__dirname, 'src', 'index.htm'),
