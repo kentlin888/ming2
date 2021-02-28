@@ -4,4 +4,4 @@
 https://ming2-dad1d.web.app/  
 
 ## 使用技術範圍
-https://ming2-dad1d.web.app/jsmind/WebtechMindmap.html  
+https://kentcv-d1458.web.app/WebtechMindmap.html  
