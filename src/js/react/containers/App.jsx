@@ -91,7 +91,7 @@ export default class App extends PureComponent {
                             }}
                         />
                         <Route path="/ProductListSearch">
-                            <ProductListSearch />
+                            <ProductListSearch></ProductListSearch>
                         </Route>
                         <Route path="/ViewOrders">
                             <ViewOrders />
